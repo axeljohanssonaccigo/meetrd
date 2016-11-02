@@ -1,0 +1,16 @@
+#AuthUserFile /www/webvol5/ls/qzzpq2symx7mo7w/meetrd.se/public_html/.htpasswd
+#AuthName "Sidan uppdateras, kom tillbaka lite senare tack. (15/12/02)"
+#AuthType Basic
+#Require valid-user
+
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /meetrd
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /meetrd/index.php [L]
+</IfModule>
+
+# END WordPress
