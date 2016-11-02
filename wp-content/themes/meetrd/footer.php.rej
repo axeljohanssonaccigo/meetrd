@@ -1,0 +1,25 @@
+diff a/wp-content/themes/meetrd/footer.php b/wp-content/themes/meetrd/footer.php	(rejected hunks)
+@@ -15,14 +15,16 @@
+ 
+ 	<footer id="colophon" class="site-footer row" role="contentinfo">
+ 		<div class="site-info">
+-			<div class="meetrd-footer-container">
+-		
+-				<?php wp_nav_menu(array( 'theme_location' => 'meetrd-footer'));  ?>
+-				 
+-				<span class="sep">  
+-				Powered by <a href="http://www.accigo.se" target="_blank">Accigo AB</a>
+-				</span>
++			<div class="meetrd-footer">
++
++					<a href="#">Kontakt</a>
++					<a href="#">FAQ</a>
++					<a href="#">Regler</a>
++					<a href="#">Policies och försäkringar</a>
++			<!-- <a href="<?php echo esc_url( __( 'http://www.accigo.se/', 'meetrd' ) ); ?>"><?php printf( esc_html__( 'Powered by %s', 'meetrd' ), 'Accigo' ); ?></a>
++			<span class="sep"> | </span> -->
+ 			</div>
++			
+ 		</div>
+ 		
+ 	</footer>

@@ -1,0 +1,57 @@
+#loginform{
+	border-radius: 0 !important;
+	font-family: Circular, 'Helvetica Neue', Helvetica, Arial, sans-serif!important;
+	color: rgb(84, 84, 84) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow:  0 5px 15px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow:  0 5px 15px rgba(0, 0, 0, 0.5);
+}
+#lostpasswordform{
+    border-radius: 0 !important;
+    
+}
+    #lostpasswordform input[type="text"],
+    #loginform input[type="text"], 
+    #loginform input[type="password"]{
+    	padding-left: 10px;
+    	padding-right: 10px;
+    	background: #fff;
+    }
+    #simplemodal-login-container .user_login,
+    #simplemodal-login-container .user_email {width:100% !important;}
+    #simplemodal-login-container form label {color: rgb(84, 84, 84) !important;}
+
+
+    #loginform input[type="checkbox"]{
+    	border:1px solid #b4b9be;
+    	background:#fff;
+    	color:#555;
+    	clear:none;
+    	cursor:pointer;
+    	display:inline-block;
+    	line-height:0;
+    	height:15px;
+    	margin:-4px 4px 0 0;
+    	outline:0;
+    	padding:0!important;
+    	text-align:center;
+    	vertical-align:middle;
+    	width:15px;
+    	min-width:16px;
+    	-webkit-appearance:checkbx;
+    	-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,.1);
+    	box-shadow:inset 0 1px 2px rgba(0,0,0,.1);
+    	-webkit-transition:.05s border-color ease-in-out;
+    	transition:.05s border-color ease-in-out
+    }
+    #loginform input[type=checkbox]:checked:before{
+
+    }
+    #loginform .button-container{
+    	margin-top: 20px;
+    	margin-bottom: 10px;
+    }
+/*#loginform input[type=checkbox]:checked:before{content:'\f147';margin:-3px 0 0 -4px;}
+#loginform input[type=checkbox]:checked:before{margin:-3px -5px}
+#loginform input[type=checkbox]:checked:before{float:left;display:inline-block;vertical-align:middle;width:16px;speak:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+#loginform input[type=checkbox]:checked:before{width:16px;margin:-3px 0 0 -4px}*/

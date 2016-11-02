@@ -1,0 +1,416 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Carousel Horizontal Posts Content Slider v3.2.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2015-01-15 22:38-0300\n"
+"Last-Translator: Mauro Mascarenhas <mauro.mascarenhas@nintersoft.ml>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Textdomain-Support: yes\n"
+"Language: pt_BR\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ carousel-horizontal-posts-content-slider
+# @ wa_chpcs_txt
+#: chpcs.php:512 chpcs.php:513 classes/class-chpcs-widget.php:5
+msgid "CHPC Slider"
+msgstr "Apresentador CHPC"
+
+# @ wp_widget_plugin
+#: classes/class-chpcs-widget.php:20
+msgid "Widget Title"
+msgstr "Título do widget"
+
+# @ wa-chpcs-txt
+#: chpcs.php:541
+msgid "Auto scroll"
+msgstr "Deslizar automaticamente"
+
+# @ wa-chpcs-txt
+#: chpcs.php:543
+msgid "Circular"
+msgstr "Circular"
+
+# @ wa-chpcs-txt
+#: chpcs.php:547
+msgid "Read more text"
+msgstr "Texto 'Leia mais'"
+
+# @ wa-chpcs-txt
+#: chpcs.php:551
+msgid "Number of posts"
+msgstr "Número de publicações"
+
+# @ wa-chpcs-txt
+#: chpcs.php:553
+msgid "Posts order"
+msgstr "Ordem das publicações"
+
+# @ wa-chpcs-txt
+#: chpcs.php:555
+msgid "Posts orderby"
+msgstr "Classificar publicações por"
+
+# @ wa-chpcs-txt
+#: chpcs.php:557
+msgid "Transition effect"
+msgstr "Efeito de transição"
+
+# @ wa-chpcs-txt
+#: chpcs.php:559
+msgid "Easing effect"
+msgstr "Efeito de facilitamento"
+
+# @ wa-chpcs-txt
+#: chpcs.php:605
+msgid "Loading place"
+msgstr "Local de leitura"
+
+# @ wa-chpcs-txt
+#: chpcs.php:607
+msgid "Deactivation"
+msgstr "Desativamento"
+
+# @ wa-chpcs-txt
+#: chpcs.php:853
+msgid "Select where all the scripts should be placed."
+msgstr "Selecione onde todos os scripts devem ser colocados."
+
+# @ wa-chpcs-txt
+#: chpcs.php:955
+msgid "Determines whether the carousel should be auto scroll."
+msgstr "Determina onde o carrossel deve deslizar automaticamente."
+
+# @ wa-chpcs-txt
+#: chpcs.php:973
+msgid "Determines whether the carousel should be circular."
+msgstr "Determina onde o carrossel deve ser circular."
+
+# @ wa-chpcs-txt
+#: chpcs.php:987
+msgid "Number of posts to be displayed on the slider"
+msgstr "Número de publicações a serem mostradas no apresentador"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1076
+msgid "Limit the no of words in excerpt"
+msgstr "Limite de palavras no excerto"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1135
+msgid "Delete settings on plugin deactivation."
+msgstr "Excluir configurações na desativação do plug-in"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1144 chpcs.php:1152
+msgid "Carousel horizontal posts content slider"
+msgstr "Apresentador de publicações carrossel horizontal"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1154
+msgid "Configuration: "
+msgstr "Configuração: "
+
+# @ wa-chpcs-txt
+#: chpcs.php:1154
+msgid "Plugin URL"
+msgstr "URL do plug-in"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1154
+msgid "Plugin URI"
+msgstr "URL do plug-in"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1156
+msgid "Do you like this plugin?"
+msgstr "Você gosta deste plug-in?"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1157
+msgid "Please, "
+msgstr "Por favor, "
+
+# @ wa-chpcs-txt
+#: chpcs.php:1157
+msgid "rate it"
+msgstr "classifique-o"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1157
+msgid "on WordPress.org"
+msgstr "no WordPress.org"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1175
+msgid "Reset to defaults"
+msgstr "Restaurar padrões"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1184
+msgid "Enable"
+msgstr "Ativar"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1185
+msgid "Disable"
+msgstr "Desativar"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1189
+msgid "Header"
+msgstr "Cabeçalho"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1190
+msgid "Footer"
+msgstr "Rodapé"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1290
+msgid "Settings restored to defaults."
+msgstr "Configurações padrões restauradas."
+
+# @ wa-chpcs-txt
+#: chpcs.php:527
+msgid "Show featured image"
+msgstr "Mostrar imagem de destaque"
+
+# @ wa-chpcs-txt
+#: chpcs.php:529
+msgid "Show direction arrows"
+msgstr "Mostrar setas de direção"
+
+# @ wa-chpcs-txt
+#: chpcs.php:531
+msgid "Show read more text"
+msgstr "Mostrar texto 'leia mais'"
+
+# @ wa-chpcs-txt
+#: chpcs.php:533
+msgid "Show title"
+msgstr "Mostrar título"
+
+# @ wa-chpcs-txt
+#: chpcs.php:535
+msgid "Show excerpt"
+msgstr "Mostrar excerto"
+
+# @ wa-chpcs-txt
+#: chpcs.php:537
+msgid "Show pagination"
+msgstr "Mostrar paginação"
+
+# @ wa-chpcs-txt
+#: chpcs.php:539
+msgid "Featured image size"
+msgstr "Tamanho da imagem em destaque"
+
+# @ wa-chpcs-txt
+#: chpcs.php:545
+msgid "Excerpt length"
+msgstr "Tamanho do excerto"
+
+# @ wa-chpcs-txt
+#: chpcs.php:549
+msgid "Categories/Terms"
+msgstr "Categorias/Termos"
+
+# @ wa-chpcs-txt
+#: chpcs.php:561
+msgid "Timeout between elements"
+msgstr "Tempo entre elementos"
+
+# @ wa-chpcs-txt
+#: chpcs.php:563
+msgid "Infinite"
+msgstr "Infinito"
+
+# @ wa-chpcs-txt
+#: chpcs.php:565
+msgid "Align the items in Slider"
+msgstr "Alinhamento dos itens no apresentador"
+
+# @ wa-chpcs-txt
+#: chpcs.php:567
+msgid "General width of items"
+msgstr "Largura geral dos itens"
+
+# @ wa-chpcs-txt
+#: chpcs.php:569
+msgid "General height of items"
+msgstr "Altura geral dos itens"
+
+# @ wa-chpcs-txt
+#: chpcs.php:571
+msgid "Pick text in excerpt field"
+msgstr "Pegue o texto no campo de excerto"
+
+# @ wa-chpcs-txt
+#: chpcs.php:573
+msgid "Touch Swipe"
+msgstr "Deslize de toque"
+
+# @ wa-chpcs-txt
+#: chpcs.php:575
+msgid "CSS3 Transtitions"
+msgstr "Transições CSS3"
+
+# @ wa-chpcs-txt
+#: chpcs.php:577
+msgid "Direction to scroll the carousel"
+msgstr "Direção para deslizar o carrossel"
+
+# @ wa-chpcs-txt
+#: chpcs.php:579
+msgid "Direction arrows colour"
+msgstr "Cor das setas de direção"
+
+# @ wa-chpcs-txt
+#: chpcs.php:581
+msgid "Direction arrows background colour"
+msgstr "Cor do plano de fundo das setas de direção"
+
+# @ wa-chpcs-txt
+#: chpcs.php:583
+msgid "Direction arrows hover colour"
+msgstr "Cor de mouse posto das setas de direção"
+
+# @ wa-chpcs-txt
+#: chpcs.php:585
+msgid "Size of direction arrows"
+msgstr "Tamanho das setas de direção"
+
+# @ wa-chpcs-txt
+#: chpcs.php:587
+msgid "Default image URL"
+msgstr "URL padrão da imagem"
+
+# @ wa-chpcs-txt
+#: chpcs.php:589
+msgid "Custom styles"
+msgstr "Estilos personalizados"
+
+# @ wa-chpcs-txt
+#: chpcs.php:597
+msgid "Load jQuery"
+msgstr "Carregar jQuery"
+
+# @ wa-chpcs-txt
+#: chpcs.php:599
+msgid "Load transit"
+msgstr "Carregar trânsito"
+
+# @ wa-chpcs-txt
+#: chpcs.php:601
+msgid "Load caroufredsel"
+msgstr "Carregar caroufredsel"
+
+# @ wa-chpcs-txt
+#: chpcs.php:603
+msgid "Load TouchSwipe"
+msgstr "Carregar Deslize ao toque"
+
+# @ wa-chpcs-txt
+#: chpcs.php:650
+msgid "e.g. 32"
+msgstr "ex.: 32"
+
+# @ wa-chpcs-txt
+#: chpcs.php:695
+msgid "Width of one item in the carousel(PX). e.g. 180"
+msgstr "Largura de um item no carrossel em px. Ex.: 180"
+
+# @ wa-chpcs-txt
+#: chpcs.php:705
+msgid "Height of one item in the carousel(PX). e.g. 240"
+msgstr "Altura de um item no carrossel em px. Ex.: 240"
+
+# @ wa-chpcs-txt
+#: chpcs.php:715
+msgid "Set the time between transitions. Only applies if Auto scroll enabled."
+msgstr ""
+"Definir tempo entre transições. Aplica-se apenas se o deslize automático do "
+"carrossel estiver habilitado."
+
+# @ wa-chpcs-txt
+#: chpcs.php:731
+msgid ""
+"Transition effect will be used CSS3 or hardware acceleration. Uses jquery."
+"transit plugin."
+msgstr ""
+"No efeito de transição será usado CSS3 ou aceleração de hardware. Utiliza o "
+"plug-in jquery.transit."
+
+# @ wa-chpcs-txt
+#: chpcs.php:745
+msgid ""
+"If enabled, text will be picked from excerpt field instead of post content "
+"area."
+msgstr ""
+"Se estiver ativado, o texto será pego do campo de excerto ao invés da área "
+"de conteúdo do post."
+
+# @ wa-chpcs-txt
+#: chpcs.php:760
+msgid ""
+"A carousel scrolled by swiping (or dragging on non-touch-devices). Uses "
+"touchSwipe plugin."
+msgstr ""
+"Um deslize do carrossel ao deslizar (ou arrastar em dispositivos não "
+"sensíveis ao toque). Usa o plug-in touchSwipe."
+
+# @ wa-chpcs-txt
+#: chpcs.php:775 chpcs.php:789 chpcs.php:804 chpcs.php:819
+msgid ""
+"Disable this option, if this script has already loaded on your web site."
+msgstr ""
+"Desative esta opção se este script já estiver carregado em seu website."
+
+# @ wa-chpcs-txt
+#: chpcs.php:836
+msgid "Determines whether the carousel should be infinite."
+msgstr "Determina onde o carrossel deve ser infinito."
+
+# @ wa-chpcs-txt
+#: chpcs.php:1045
+msgid ""
+"Please, hold down the control or command button to select multiple options."
+msgstr ""
+"Por favor, segure o controle ou botão de comando para selecionar múltiplas "
+"opções."
+
+# @ wa-chpcs-txt
+#: chpcs.php:1063
+msgid "custom styles or override existing styles to meet your requirements."
+msgstr ""
+"Estilos personalizados ou sobrescrever estilos para conhecer seus "
+"requisitos."
+
+# @ wa-chpcs-txt
+#: chpcs.php:1088
+msgid "Custom default image URL."
+msgstr "URL padrão da imagem personalizada."
+
+# @ wa-chpcs-txt
+#: chpcs.php:1195
+msgid "General"
+msgstr "Geral"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1201
+msgid "Advanced"
+msgstr "Avançado"
+
+# @ wa-chpcs-txt
+#: chpcs.php:1296
+msgid "Settings of were restored to defaults."
+msgstr "As configurações foram restauradas ao padrão."
