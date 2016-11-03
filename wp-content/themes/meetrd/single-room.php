@@ -290,9 +290,15 @@ if (userIsLoggedIn) {
             <h4><i class="fa fa-location-arrow fa-lg"></i>&nbsp;{{currentRoom.address}}</h4>
           </div>
 
-          <div id="single-map-container" class="col-xs-12">
+          <!-- <div id="single-map-container" class="col-xs-12">
             <div id="single-map-canvas" style="width: 100%; height:300px;"></div>
           </div>
+           -->
+           <div class="col-xs-12">
+
+
+           <angular-google-maps rooms-on-map="roomsOnMap" center="" zoom="13"></angular-google-maps>
+ </div>
           <div class="separator"></div>
           <!-- other info -->
 

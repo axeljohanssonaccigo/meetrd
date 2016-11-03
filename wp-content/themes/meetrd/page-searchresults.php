@@ -6,14 +6,14 @@
  */
 $custom_fields = get_post_custom();
 $page_id = get_the_id();
-get_header(); 
+get_header();
 
 #Get all hosts
 $args = array(
 	'role' => 'meetrdhost',
-	); 
+	);
 $all_hosts = get_users($args);
-for ($i=0; $i < count($all_hosts); $i++) { 
+for ($i=0; $i < count($all_hosts); $i++) {
 	#($all_hosts[$i]['ID']);
 	$temp = (array)$all_hosts[$i];
 	$host_meta = get_user_meta($temp['ID']);
@@ -38,11 +38,11 @@ console.log(allHosts);
 						<form name="updateSearchForm" ng-submit="search(query)">
 							<div class="col-xs-12 col-sm-4">
 								<datepicker  date-min-limit="{{datePickerSettings.minDate}}" date-format="{{datePickerSettings.pattern}}" button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
-									<input type="text" autocomplete="off" placeholder="När är mötet?"  ng-model="query.date" name="date" class="form-control"/> 
+									<input type="text" autocomplete="off" placeholder="När är mötet?"  ng-model="query.date" name="date" class="form-control"/>
 								</datepicker>
 							</div>
 							<div class="col-xs-12 col-sm-4">
-								<input type="number" min="1" placeholder="Antal personer" ng-model="query.nrOfPeople" name="nrOfPeople" class="form-control"/> 
+								<input type="number" min="1" placeholder="Antal personer" ng-model="query.nrOfPeople" name="nrOfPeople" class="form-control"/>
 							</div>
 							<div class="col-xs-12 col-sm-4" >
 								<button type="submit" class="col-xs-12 btn btn-primary btn-search" ng-disabled="!updateSearchForm.$dirty">
@@ -51,7 +51,7 @@ console.log(allHosts);
 							</div>
 						</form>
 					</div>
-				</div>	
+				</div>
 			</div>
 		</div>
 
@@ -65,14 +65,14 @@ console.log(allHosts);
 			<!-- <h2>Var god vänta...</h2> -->
 		</div>
 
-		
+
 		<!-- HOST INFO -->
 		<div class="container white-section" ng-if="roomsForHostLoaded">
 			<div class="">
 				<div class="row">
 					<div class="host-info-container clearfix" id="host-info-container">
 						<div class="host-logo-container clearfix">
-							
+
 							<div class="col-xs-12 align-center">
 								<a href="{{currentHost.data.user_url}}" target="_blank"><img src="{{currentHost.logotype}}"/></a>
 							</div>
@@ -81,14 +81,14 @@ console.log(allHosts);
 						<div class="col-xs-12 no-padding" ng-show="isHostPage">
 							<div class="col-xs-12 host-biography-container hidden-xs hidden-sm visible-md visible-lg">
 								<span class="preserve-paragraphs">{{currentHost.biography}}
-									
+
 									För mer information, besök vår <a target="_blank" href="{{currentHost.data.user_url}}">hemsida</a>.
 
 								</span>
 							</div>
 							<div class="col-xs-12 host-biography-container visible-xs visible-sm hidden-md hidden-lg">
 								<span ng-hide="showMoreInfo" class="preserve-paragraphs">{{currentHost.biography.slice(0,hostBiographyBreakpoint)}}... <span class="more-info-link link-color" ng-hide="showMoreInfo" ng-click="showMoreInfo = !showMoreInfo">Läs mer</span></span>
-								<span ng-show="showMoreInfo" class="preserve-paragraphs">{{currentHost.biography}} 
+								<span ng-show="showMoreInfo" class="preserve-paragraphs">{{currentHost.biography}}
 
 									För mer information, besök vår <a target="_blank" href="{{currentHost.data.user_url}}">hemsida</a>.
 
@@ -124,29 +124,27 @@ console.log(allHosts);
 
 			<!-- SEARCH RESULT -->
 
-			<div class="row off-white-section" ng-if="allRoomsLoaded || roomsForHostLoaded">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="container">
-							<div class="row">
-							<div class="search-result-container col-xs-12">
+			<div class="off-white-section" ng-if="allRoomsLoaded || roomsForHostLoaded">				<div class="container-fluid">
+						<div class="container search-result-container ">
+
+
 			<!--					<div class="filter-rooms-container clearfix" ng-hide="isHostPage">
 
 									<input type="text" name="filterSearch" class="form-control col-xs-12" placeholder="Filtera sökresultatet..." ng-model="roomFilter"></input>
 
 								</div> -->
-								<div class="filter-rooms-container clearfix" ng-show="isHostPage">
+								<div class="filter-rooms-container clearfix" ng-if="isHostPage">
 									<input type="text" name="filterSearch" class="form-control col-xs-12" placeholder="Filtrera {{currentHost.nickname}}s rum" ng-model="roomFilter"></input>
 								</div>
 								<!--<div ng-repeat="room in filteredRooms = (allRooms | filter:roomMatchesSearchQuery():true)" class="room col-xs-12">-->
-								
+
 								<div ng-repeat="room in filteredRooms | filter:roomFilter  | orderBy: 'nrOfPeople'" class="search-result-room-container col-sm-4 clearfix" >
-									
+
 									<div class="search-result-room-photo-container" ng-click="goToRoom(room.url, query.date)">
 										<a href="">
 											<img src="{{room.photo}}">
 											<div class="search-result-price-tag">
-												<i class="fa fa-users"></i>{{" " + room.nrOfPeople}} personer						
+												<i class="fa fa-users"></i>{{" " + room.nrOfPeople}} personer
 												<br>
 												<span ng-show="room.price > 0">{{room.price}} kr / timme</span>
 												<span ng-show="room.price === 0">GRATIS</span>
@@ -155,8 +153,8 @@ console.log(allHosts);
 
 									</div>
 									<div class="search-result-room-title">
-										<div class="col-xs-12 no-padding"><h1 ng-click="goToHostPage(room.hostId)"><a href="">{{getHostFromHostId(room.hostId).nickname}}</a></h1>
-											{{room.area}}
+										<div class="col-xs-12 no-padding">											<h1 ng-click="goToHostPage(room.hostId)"><a href="">{{getHostFromHostId(room.hostId).nickname}}</a></h1>
+											<!-- <span class="visible-xs hidden-sm visible-md visible-lg">{{room.area}}</span>											<span class="hidden-xs visible-sm hidden-md hidden-lg">{{room.area}}</span> -->											<span class="hidden-sm hidden-md">{{room.area}}</span>											<span class="hidden-xs hidden-lg block-display">{{room.area}}</span>
 									<!--		<div ng-repeat="star in hostRatingRange" class="rating-star" ng-hide="isHostPage">
 												<i class="fa fa-star" ng-if="star <= getHostFromHostId(room.hostId).rating"></i>
 												<i class="fa fa-star-o" ng-if="star > getHostFromHostId(room.hostId).rating"></i>
@@ -168,32 +166,13 @@ console.log(allHosts);
 									</div>
 									<div class="col-xs-12 show-more-rooms-container no-padding"  ng-click="showMoreRooms()">
 										<div class="shows-x-rooms bold pull-left" ng-show="!isHostPage">Visar {{nrOfRoomsShown.value}} av {{queriedRooms.length}} sökträffar</div>
-										
+
 										<span ng-hide="queriedRooms.length === nrOfRoomsShown.value" class="pull-right btn btn-primary">Visa fler rum</span>
-									</div>
-
-								</div>
-				<!--				<div class="col-md-6 clearfix hidden-xs hidden-sm" >
-									<div class=" map-outer-container">
-										<div id="map-container" ng-if="allRoomsLoaded || roomsForHostLoaded">
-											<div id="map-canvas" ></div>
-										</div>
-									</div> 
-								</div>
-							</div> -->
-						</div>
-					</div>
-
-
-
-					</div>
-					
-					<?php get_footer(); ?>
+									</div>									<!-- <angular-google-maps rooms-on-map="allRooms"></angular-google-maps> -->
+
+					</div>					<?php get_footer(); ?>
 				</div>
 
 
 			</main><!-- #main -->
 		</div><!-- #primary -->
-
-
-

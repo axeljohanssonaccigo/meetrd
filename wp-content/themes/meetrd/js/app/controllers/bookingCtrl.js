@@ -1,4 +1,4 @@
-var bookingApp = angular.module('bookingApp', ['720kb.datepicker', 'ui.bootstrap.popover']);
+var bookingApp = angular.module('bookingApp', ['720kb.datepicker', 'ui.bootstrap.popover', 'angularGoogleMapsDir']);
 
 bookingApp.controller('bookingCtrl', function($scope, bookingSvc, $uibPosition) {
 	//Simplemodal login adds amp; to the url, strip the url of this and reload once.
@@ -67,6 +67,7 @@ bookingApp.controller('bookingCtrl', function($scope, bookingSvc, $uibPosition) 
 	$scope.roomImgHeightIsSet = false;
 	$scope.mailsAreDone = false;
 	$scope.userIsGuest = false;
+	$scope.roomsOnMap = [];
 
 	//Check for window size
 	if ($scope.windowWidth < $scope.mobileBreakpoint) {
@@ -219,6 +220,8 @@ bookingApp.controller('bookingCtrl', function($scope, bookingSvc, $uibPosition) 
 
     		};
 
+				$scope.roomsOnMap.push($scope.currentRoom);
+
     		if ('description' in hostMetaData) {
 			//Replace the "" that is added when getting the description.
 			//Replace all ; by , since the opposite is done when updating. The url does not take commas.
@@ -351,10 +354,7 @@ function OnFirstLoad() {
 		document.addEventListener('scroll', scrollEvent, false);
 	}
 };
-jQuery(document).ready(function () {
-	OnFirstLoad();
-	$scope.pageIsLoaded = true;
-});
+
 
 	//Sets the isChecked prop for each checkbox option
 	$scope.setCheckboxValues = function(checkboxArray, funnyObject){
@@ -476,10 +476,7 @@ jQuery(document).ready(function () {
 		"phone": "",
 		"billingAddress": ""
 	};
-	$scope.map = {
-		width: 500,
-		height: 100
-	};
+
 	$scope.passwordsMatch = function(){
 		return $scope.newUser.password === $scope.newUser.password2;
 	};
@@ -538,62 +535,6 @@ jQuery(document).ready(function () {
 			$scope.currentBooking.billingAddress = $scope.userInfo.billingAddress;
 		}
 	};
-
-
-
-	//Initiate the map
-
-	$scope.initMap = function(coordinates){
-		var locations = [
-		[coordinates.title, coordinates.latitude, coordinates.longitude, 4]]
-		var map = new google.maps.Map(document.getElementById("single-map-canvas"), {
-			zoom: 13,
-			center: new google.maps.LatLng(coordinates.latitude, coordinates.longitude),
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-
-		});
-
-		var infowindow = new google.maps.InfoWindow();
-		var marker, i;
-
-		for (i = 0; i < locations.length; i++) {
-			marker = new google.maps.Marker({
-				position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-				map: map
-			});
-
-			google.maps.event.addListener(marker, 'click', (function(marker, i) {
-				return function() {
-					infowindow.setContent(locations[i][0]);
-					infowindow.open(map, marker);
-				}
-			})(marker, i));
-		}
-
-	};
-
-
-	//Gets the coordinates for a given address. Then initiates the map after the coordiantes hav been fetched.
-	$scope.getCoordinatesForRoom = function(room){
-		var coordinates = {
-			"address": room.address,
-			"title": room.title};
-			var geocoder = new google.maps.Geocoder();
-			geocoder.geocode( { 'address': coordinates.address}, function(results, status) {
-
-				if (status == google.maps.GeocoderStatus.OK) {
-					coordinates['latitude'] = results[0].geometry.location.lat();
-					coordinates['longitude'] = results[0].geometry.location.lng();
-					setTimeout(function(){
-						$scope.initMap(coordinates);
-					}, 1000);
-
-				}
-
-			});
-
-		};
-		$scope.getCoordinatesForRoom($scope.currentRoom);
 
 	//Sorting functions
 	function numOrdA(a, b){ return (a-b); };
@@ -856,11 +797,7 @@ setTimeout(function(){
 							console.log('Error in updateBooking!');
 							$scope.bookingWasConfirmed = false;
 							$scope.bookingMessageToUser = "Det uppstod ett fel i  din bokning. Kontakta Meetrd på support@meetrd.se";
-
-
 						});
-
-
 					});
 				}
 				else {
@@ -1126,11 +1063,13 @@ $scope.registerUser = function(){
 			var dateQuery = '/?date=' + date;
         	//Splt removes all the query params, adding the current date to the url and then reload the room.
         	window.location.href = window.location.href.split("?")[0] + dateQuery;
-
-
         };
-
-
     };
+
+		//Document ready
+		jQuery(document).ready(function(){
+			OnFirstLoad();
+			$scope.$apply($scope.pageIsLoaded = true);
+		});
 
 });

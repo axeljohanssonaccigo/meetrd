@@ -108,7 +108,7 @@ add_action( 'widgets_init', 'meetrd_widgets_init' );
  * Enqueue scripts and styles.
  */
 function meetrd_scripts() {
-
+$version = 1.22;
 	//Scripts and styles used on all pages
 	//Scripts
 	//angular
@@ -133,7 +133,7 @@ function meetrd_scripts() {
 
 	//Styles
 	wp_enqueue_style('parallax-custom-style', get_template_directory_uri() . '/layouts/parallax.css' );
-	wp_enqueue_style('meetrd-custom-style', get_template_directory_uri() . '/layouts/meetrd-custom-style.css' );
+	wp_enqueue_style('meetrd-custom-style', get_template_directory_uri() . '/layouts/meetrd-custom-style.css', array(), $version, false );
 	//bootstrap
 	wp_enqueue_style('simplemodal-login-meetrd', get_template_directory_uri() . '/layouts/simplemodal-login-meetrd.css' );
 	wp_enqueue_style('bootstrap-css', get_template_directory_uri() . '/assets/bootstrap-3.3.5-dist/css/bootstrap.css' );
@@ -144,7 +144,7 @@ function meetrd_scripts() {
 
 	$page_template = basename(get_page_template());
 
-	$version = 1.21;
+
 
 	//Specific scripts for certain pages
 	if ($page_template == 'page-start.php') {
@@ -164,15 +164,15 @@ function meetrd_scripts() {
 		wp_enqueue_script( 'angular-datepicker-js', get_template_directory_uri() . '/assets/angular-datepicker-master/src/js/angular-datepicker.js');
 		wp_enqueue_style('angular-datepicker-css', get_template_directory_uri() . '/assets/angular-datepicker-master/src/css/angular-datepicker.css' );
 		//Google maps
-				wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBGqEqZZk9N4I2ck5kN7tfXkoVOGfB8598');
+				wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBGqEqZZk9N4I2ck5kN7tfXkoVOGfB8598');		wp_enqueue_script( 'angularGoogleMapsDir', get_template_directory_uri() . '/js/app/directives/angularGoogleMapsDir.js', array(), $version, false);
+				
 	}
 	//Single-room.php
 	else if (is_single()) {
 		//booking app
 		wp_enqueue_script( 'bookingCtrl', get_template_directory_uri() . '/js/app/controllers/bookingCtrl.js', array(), $version, false);
-		wp_enqueue_script( 'bookingSvc', get_template_directory_uri() . '/js/app/services/bookingSvc.js', array(), $version, false);
-		//Google maps
-		wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBGqEqZZk9N4I2ck5kN7tfXkoVOGfB8598');
+		wp_enqueue_script( 'bookingSvc', get_template_directory_uri() . '/js/app/services/bookingSvc.js', array(), $version, false);		//Google maps
+		wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBGqEqZZk9N4I2ck5kN7tfXkoVOGfB8598');		wp_enqueue_script( 'angularGoogleMapsDir', get_template_directory_uri() . '/js/app/directives/angularGoogleMapsDir.js', array(), $version, false);
 		//Date picker
 		wp_enqueue_script( 'angular-datepicker-js', get_template_directory_uri() . '/assets/angular-datepicker-master/src/js/angular-datepicker.js');
 		wp_enqueue_style('angular-datepicker-css', get_template_directory_uri() . '/assets/angular-datepicker-master/src/css/angular-datepicker.css' );
@@ -217,7 +217,7 @@ if ( (isset($_GET['action']) && $_GET['action'] != 'logout') || (isset($_POST['l
 function my_login_logo() { ?>
 <style type="text/css">
 .login h1 a {
-	background-image: url(<?php echo get_template_directory_uri(); ?>/layouts/Images/meetrd-logo-h80px.png);
+	background-image: url(<?php echo get_home_url(); ?>/wp-content/uploads/2016/06/Meetred-Logo.SE_.png);
 	padding-bottom: 10px;
 	background-size: 250px;
 	width: 250px;

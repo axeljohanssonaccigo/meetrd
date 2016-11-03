@@ -21,7 +21,7 @@ h3 {font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;font-weigh
 h4 {font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;font-weight: 300;}
 h5 {font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;font-weight: 300;}
 a {
-	font-family: "Oswald", Open Sans, Helvetica, sans-serif!important; 
+	font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;
 	font-weight: 400;
 	text-decoration: none;
 	color: #000 !important;
@@ -51,12 +51,12 @@ img {
 	text-shadow: none!important;
 }
 .btn-meetrd{
-	background-color: rgba(255,255,255, 0.3) !important; 
+	background-color: rgba(255,255,255, 0.3) !important;
 	border: 1px solid #fff !important;
 	color: #fff !important;
 }
 .btn-meetrd:hover{
-	background-color: rgba(255,255,255, 0.4) !important; 
+	background-color: rgba(255,255,255, 0.4) !important;
 }
 input{
 	border-radius: 0 !important;
@@ -96,7 +96,7 @@ datepicker::-webkit-input-placeholder {
 	margin: 5px 0;
 }
 .input-container label {
-	
+
 }
 
 input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
@@ -125,7 +125,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .loader-container{
 	margin-top: 5%;
 	text-align: center;
-	
+
 }
 .loader-container img {
 	width: 10%;
@@ -172,7 +172,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 	z-index: 10000;
 	width: 100%;
 	background-color: rgb(250,250,250);
-	
+
 	border-bottom: 1px solid #ccc;
 }
 
@@ -186,6 +186,9 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .modal-title{
 	text-align: center;
 }
+.block-display{
+	display: block !important;
+}
 
 
 /* HEADER.php */
@@ -198,7 +201,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .site-branding{
 }
 .nav .nav-tabs li:hover{
-	
+
 }
 #start-page-img-container{
 	width: 100%; position: absolute; left: 0;
@@ -502,12 +505,12 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 }
 
 /*@media(min-width: 1200px){
-	.single-room-img { 
-    width: 100%; 
-    height: 650px; 
-    overflow: hidden; 
+	.single-room-img {
+    width: 100%;
+    height: 650px;
+    overflow: hidden;
 	}
-	.single-room-img img { 
+	.single-room-img img {
     width: 100%;
     position:relative;
   	top:-400px
@@ -735,7 +738,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 	}
 	.search-result-container{
 		margin: 20px 0;
-		
+
 	}
 
 	.search-result-room-container{
@@ -808,7 +811,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 		max-width: 250px;
 		height: auto;
 		max-height: 120px;
-		
+
 	}
 	.host-logo-container{
 		margin-bottom: 20px;
@@ -850,7 +853,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 
 	}
 	#map-canvas{
-		width: 100%; 
+		width: 100%;
 		height:505px;
 	}
 	.compressed-map {
@@ -947,7 +950,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 		margin-bottom: 12px;
 	}
 	.booking-brief-info{
-		
+
 	}
 	.more-info-info-link{
 		cursor: pointer;
@@ -959,7 +962,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 	}
 	.booking-detailed-info-container{
 
-		
+
 	}
 	.booking-detailed-info{
 		background-color: rgb(250,250,250) !important;
@@ -1202,10 +1205,20 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 
 												}
 
-	/* Hej Axel! Under hÃ¤r ligger alla @media nu. Det finns inga dubletter lÃ¤ngre, 
-	sÃ¥ skapa inga nya ovanfÃ¶r denna linje och Ã¥teranvÃ¤nd de som finns. ;-)
 
-Responsive Views */
+.owl-lazy{
+	min-height: 150px !important;
+	max-height: 150px !important;
+	height: 150px !important;
+
+}
+.room-info-container #gmaps {
+	width: 100%;
+height: 350px;
+margin-bottom: 10px;
+
+}
+/* Responsive Views */
 
 
 
@@ -1230,7 +1243,7 @@ Responsive Views */
 		margin-right: 10px;
 		font-size: 18px;
 	}
-	   
+
 	.status-container{
 		font-size: 20px;
 	}
@@ -1269,7 +1282,7 @@ Responsive Views */
 		margin-right: 5px;
 		font-size: 14px;
 	}
-	
+
 	.status-container h3{
 		font-size: 16px;
 	}
@@ -1278,7 +1291,7 @@ Responsive Views */
 		border-radius: 0;
 	}
 	.host-rooms-photo-container img{
-		
+
 	}
 	.blog-post-container img{
 	}
@@ -1318,6 +1331,11 @@ Responsive Views */
 		padding-right: 0px!important;
 		padding-left: 0px!important;
 	}
+	.search-result-room-photo-container img{
+
+     max-height: 450px;
+	}
+
 	.user h1 {
 		margin-bottom: 10px;
    		margin-top: 20px;
@@ -1331,7 +1349,7 @@ Responsive Views */
 
 @media(max-width: 990px){
 	#page{
-		
+
 	}
 	.page-php-container{
 		width: 100%;
@@ -1342,12 +1360,13 @@ Responsive Views */
 		margin-right: 5px;
 		font-size: 14px;
 		opacity: 0.6;
-	} 
-	
+	}
+
 	.search-result-room-container {
 		padding-right: 10px;
 		padding-left: 0px!important;
 	}
+
 	.sticky{
 		position: fixed !important;
 		top: 91px;
@@ -1359,7 +1378,7 @@ Responsive Views */
 		overflow-y:scroll;
 		overflow-x:hidden;
 		bottom: 0;
-		
+
 	}
 	.room-price-container {height:50px; padding-top:10px; background-color:#325D88; }
 	.room-price-container .price-definition i { font-size: 30px;vertical-align: top;margin-left:10px;}
@@ -1415,10 +1434,15 @@ Responsive Views */
 		font-size: 18px;
 		float: right;
 		opacity: 0.6;
-	} 
+	}
 	.search-result-room-container{
 		padding: 0 10px 0 0 !important;
 	}
+
+	.search-result-room-photo-container img{
+
+			max-height: 246px;
+		}
 	.sticky{
 		position: fixed !important;
 		top: 91px;
