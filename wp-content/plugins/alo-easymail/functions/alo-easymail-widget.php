@@ -121,7 +121,7 @@ function alo_em_show_widget_form ( ) {
         //$html .= "  <tr>\n";
         //$html .= "    <td><label for='opt_email'>".__("E-mail", "alo-easymail")."</label></td>\n"; //edit : added the "label" element for better accessibility
         $html .= "    <div class='form-group'><div class='input-group'><input type='text' name='alo_em_opt_email' value='". $alo_em_opt_email ."' id='opt_email' maxlength='50' class='input-text form-control' placeholder='E-post' />\n";
-        //$html .= "  </tr>\n";
+//        $html .= "  </div>\n";
 		
 		//edit : added all the next if
 		$alo_em_cf = alo_easymail_get_custom_fields();
@@ -144,7 +144,7 @@ function alo_em_show_widget_form ( ) {
  		$html .= $lists_table; // add lists table     
  		$html .= $disclaimer_html;	
         $html .= "<span class='input-group-btn'><input type='submit' name='submit' value='".__("Subscribe", "alo-easymail")."' class='input-submit btn btn-default' /></span></div>\n";
-        $html .= "</form>\n";    
+        $html .= "</form></div>\n";    
     } 
     
     // and output it

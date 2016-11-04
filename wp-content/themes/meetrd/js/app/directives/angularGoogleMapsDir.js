@@ -1,7 +1,7 @@
 angular.module('angularGoogleMapsDir', []).
-directive('angularGoogleMaps', function() {
+directive('angularGoogleMaps', function () {
     // directive link function
-    var link = function(scope, element, attrs) {
+    var link = function (scope, element, attrs) {
         var map, infoWindow, mapCenter, mapZoom;
         var markers = [];
         var meetrdHeadQuarters = {
@@ -9,15 +9,15 @@ directive('angularGoogleMaps', function() {
             "longitude": 18.05767990000004
         };
         if (typeof scope.center === 'undefined') {
-          mapCenter = meetrdHeadQuarters;
-        } else{
-          mapCenter = scope.center;
+            mapCenter = meetrdHeadQuarters;
+        } else {
+            mapCenter = scope.center;
         }
         if (typeof scope.zoom === 'undefined') {
-          //Default zoom
-          mapZoom = 13;
+            //Default zoom
+            mapZoom = 13;
         } else {
-          mapZoom = scope.zoom;
+            mapZoom = scope.zoom;
         }
 
         // map config
@@ -42,7 +42,7 @@ directive('angularGoogleMaps', function() {
                 position: position,
                 map: map,
                 title: title,
-                icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
+                icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
             };
 
             marker = new google.maps.Marker(markerOptions);
@@ -63,25 +63,27 @@ directive('angularGoogleMaps', function() {
         }
 
         function setMarkers(roomsOnMap) {
-          angular.forEach(roomsOnMap, function(room){
-            var marker = {
-              'address': room.address,
-              'title': room.title,
-              'content': room.hostBiography,
-              'coordinates': {
-                'longitude': 0,
-                'latitude': 0
-              }
-            };
-            var geocoder = new google.maps.Geocoder();
-            geocoder.geocode( { 'address': marker.address}, function(results, status) {
-              if (status == google.maps.GeocoderStatus.OK) {
-                marker.coordinates.latitude = results[0].geometry.location.lat();
-                marker.coordinates.longitude = results[0].geometry.location.lng();
-                setMarker(map, new google.maps.LatLng(marker.coordinates.latitude, marker.coordinates.longitude), marker.title, marker.content)
-              }
+            angular.forEach(roomsOnMap, function (room) {
+                var marker = {
+                    'address': room.address,
+                    'title': room.title,
+                    'content': room.title,
+                    'coordinates': {
+                        'longitude': 0,
+                        'latitude': 0
+                    }
+                };
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({
+                    'address': marker.address
+                }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        marker.coordinates.latitude = results[0].geometry.location.lat();
+                        marker.coordinates.longitude = results[0].geometry.location.lng();
+                        setMarker(map, new google.maps.LatLng(marker.coordinates.latitude, marker.coordinates.longitude), marker.title, marker.content)
+                    }
+                });
             });
-          });
         }
         initMap();
         setMarkers(scope.roomsOnMap);
@@ -124,9 +126,9 @@ directive('angularGoogleMaps', function() {
         template: '<div id="gmaps"></div>',
         replace: true,
         scope: {
-          roomsOnMap: '=',
-          center: '=',
-          zoom: '='
+            roomsOnMap: '=',
+            center: '=',
+            zoom: '='
         },
         link: link
     };
