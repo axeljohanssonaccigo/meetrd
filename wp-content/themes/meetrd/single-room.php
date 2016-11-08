@@ -232,6 +232,7 @@ $all_meta_for_host = get_user_meta($hostId);
                                         </div>
                                     </div>
                                     <div class="col-xs-12 host-biography-container hidden-xs hidden-sm visible-md visible-lg">
+                                        <h3>{{currentRoom.hostSlogan}}</h3>
 
                                         <span class="preserve-paragraphs">{{currentRoom.hostBiography}}
 

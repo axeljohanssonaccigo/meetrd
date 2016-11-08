@@ -79,7 +79,7 @@
                         <div>
                             <div class="site-branding" ng-controller="headerCtrl" id="meetrd-header" ng-cloak>
                                 <div class="meetrd-logo-container col-md-4 col-xs-10">
-                                    <a href="<?php echo get_home_url(); ?>"><img src="<?php echo get_home_url().'/wp-content/uploads/2016/06/Meetred-Logo.SE_.png'; ?>"></a>
+                                    <a href="<?php echo get_home_url(); ?>"><img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/logo_rosa_test.svg'; ?>"></a>
                                     <div class="user-name-container hidden-xs hidden-sm visible-md visible-lg ng-hide">
                                         <?php if (is_user_logged_in()) {
                       echo $role_display_name." | ".$user_name;
@@ -93,7 +93,7 @@
                                 <nav id="desktop-nav" class="clearfix col-md-8 hidden-xs hidden-sm visible-md visible-lg" role="navigation">
 
                                     <ul class="nav nav-tabs">
-                                        <li ng-hide="<?php echo is_user_logged_in(); ?>"><a href="/wp-login.php" class="simplemodal-login">Logga in</a></li>
+                                        <li ng-hide="<?php echo is_user_logged_in(); ?>"><a ng-click="clickBookingLoginButton()" href="{{loginHref}}" ng-class="{'simplemodal-login': !isRoomPage}">Logga in</a></li>
                                         <li ng-show="<?php echo is_user_logged_in(); ?>"><a href="<?php echo wp_logout_url( home_url() ); ?>">Logga ut</a></li>
                                         <li ng-show="<?php echo is_user_logged_in(); ?>"> <a href="<?php echo $my_pages_url; ?>">Mina sidor</a></li>
                                         <li> <a href="<?php echo get_home_url().'/search/?nrOfPeople=null' ?>">Sök mötesrum</a></li>
@@ -123,7 +123,7 @@
                                         <a href="<?php echo $my_pages_url; ?>">Mina sidor</a><span class="isTonedOut ng-hide"><?php echo $role_display_name." | ".$user_name; ?> </span>
                                     </div>
                                     <div class="mobile-menu-item">
-                                        <span ng-hide="<?php echo is_user_logged_in(); ?>"><a href="/wp-login.php" class="simplemodal-login">Logga in</a></span>
+                                        <span ng-hide="<?php echo is_user_logged_in(); ?>"><a ng-click="clickBookingLoginButton()" href="{{loginHref}}" ng-class="{'simplemodal-login': !isRoomPage}">Logga in</a></span>
                                         <span ng-show="<?php echo is_user_logged_in(); ?>"><a href="<?php echo wp_logout_url( home_url() ); ?>">Logga ut</a></span>
                                         <div ng-show="<?php echo is_user_logged_in(); ?>" class="logged-in-container"><b><?php echo $role_display_name; ?></b> | {{userInfo.data.user_login}}</div>
                                     </div>

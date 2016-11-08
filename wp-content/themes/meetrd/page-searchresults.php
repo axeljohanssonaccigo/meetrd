@@ -22,7 +22,6 @@ for ($i=0; $i < count($all_hosts); $i++) {
 ?>
     <script type="text/javascript">
         allHosts = <?php echo json_encode($all_hosts); ?>;
-        console.log(allHosts);
     </script>
 
     <div id="primary" class="content-area" ng-app="roomApp" ng-controller="roomCtrl" ng-cloak onscroll="onScroll()">
@@ -36,15 +35,17 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         </div>
                         <div class="update-search-container clearfix" ng-show="!isHostPage">
                             <form name="updateSearchForm" ng-submit="search(query)">
+                                <!--
                                 <div class="col-xs-12 col-sm-4">
                                     <datepicker date-min-limit="{{datePickerSettings.minDate}}" date-format="{{datePickerSettings.pattern}}" button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
                                         <input type="text" autocomplete="off" placeholder="När är mötet?" ng-model="query.date" name="date" class="form-control" />
                                     </datepicker>
                                 </div>
-                                <div class="col-xs-12 col-sm-4">
+-->
+                                <div class="col-xs-12 col-sm-3 col-sm-offset-3">
                                     <input type="number" min="1" placeholder="Antal personer" ng-model="query.nrOfPeople" name="nrOfPeople" class="form-control" />
                                 </div>
-                                <div class="col-xs-12 col-sm-4">
+                                <div class="col-xs-12 col-sm-3">
                                     <button type="submit" class="col-xs-12 btn btn-primary btn-search" ng-disabled="!updateSearchForm.$dirty">
                                         Uppdatera
                                     </button>
@@ -80,6 +81,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
 
                             <div class="col-xs-12 no-padding" ng-show="isHostPage">
                                 <div class="col-xs-12 host-biography-container hidden-xs hidden-sm visible-md visible-lg">
+                                    <h1>{{currentHost.slogan}}</h1>
                                     <span class="preserve-paragraphs">{{currentHost.biography}}
 
 									För mer information, besök vår <a target="_blank" href="{{currentHost.data.user_url}}">hemsida</a>.

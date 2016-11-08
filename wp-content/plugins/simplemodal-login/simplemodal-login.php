@@ -346,7 +346,7 @@ if (!class_exists('SimpleModalLogin')) {
 		<div class="title align-center">
 			<div class="meetrd-logo-container">
 
-				<img src="http://meetrd.se/wp-content/uploads/2016/06/Meetred-Logo.SE_.png"></div>
+				<img src="http://meetrd.se/wp-content/themes/meetrd/layouts/Images/logo_rosa_test.svg"></div>
 		</div>
 		<div class="simplemodal-login-fields">
 		<div class="row">
@@ -578,7 +578,7 @@ if (!class_exists('SimpleModalLogin')) {
 			$output = sprintf('
 	<form name="lostpasswordform" id="lostpasswordform" action="%s" method="post">
 	<div class="meetrd-logo-container align-center" style="margin-bottom: 20px;">
-				<img src="http://meetrd.se/wp-content/uploads/2015/12/meetrd-logo-h80px.png">
+				<img src="http://meetrd.se/wp-content/themes/meetrd/layouts/Images/logo_rosa_test.svg">
 			</div>
 		<div class="title">	%s</div>
 		<div class="simplemodal-login-fields">

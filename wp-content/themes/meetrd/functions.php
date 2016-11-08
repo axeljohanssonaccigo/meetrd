@@ -109,7 +109,7 @@ add_action( 'widgets_init', 'meetrd_widgets_init' );
  */
 function meetrd_scripts() {
 
-$version = 1.25;
+$version = 1.28;
 	//Scripts and styles used on all pages
 	//Scripts
 	//angular
@@ -134,7 +134,9 @@ $version = 1.25;
 
 	//Styles
 	wp_enqueue_style('parallax-custom-style', get_template_directory_uri() . '/layouts/parallax.css' );
-	wp_enqueue_style('meetrd-custom-style', get_template_directory_uri() . '/layouts/meetrd-custom-style.css', array(), $version, false );
+//	wp_enqueue_style('meetrd-custom-style', get_template_directory_uri() . '/layouts/meetrd-custom-style.css', array(), $version, false );	
+    wp_enqueue_style('meetrd-custom-style', get_template_directory_uri() . '/layouts/meetrd-custom-style-pink.css', array(), $version, false );
+
 	//bootstrap
 	wp_enqueue_style('simplemodal-login-meetrd', get_template_directory_uri() . '/layouts/simplemodal-login-meetrd.css' );
 	wp_enqueue_style('bootstrap-css', get_template_directory_uri() . '/assets/bootstrap-3.3.5-dist/css/bootstrap.css' );
@@ -152,7 +154,7 @@ $version = 1.25;
 		 wp_enqueue_script( 'startCtrl', get_template_directory_uri() . '/js/app/controllers/startCtrl.js', array(), $version, false);
 
 	}
-	else if ($page_template == 'page-searchresults.php' ) {
+   	else if ($page_template == 'page-searchresults.php' ) {
 		//room app
 		wp_enqueue_script( 'roomCtrl', get_template_directory_uri() . '/js/app/controllers/roomCtrl.js', array(), $version, false);
 		wp_enqueue_script( 'roomSvc', get_template_directory_uri() . '/js/app/services/roomSvc.js', array(), $version, false);
@@ -226,7 +228,7 @@ function my_login_logo() { ?>
     <style type="text/css">
         .login h1 a {
             background-image: url(<?php echo get_home_url();
-            ?>/wp-content/uploads/2016/06/Meetred-Logo.SE_.png);
+            ?>/wp-content/themes/meetrd/layouts/Images/logo_rosa_test.svg);
             padding-bottom: 10px;
             background-size: 250px;
             width: 250px;

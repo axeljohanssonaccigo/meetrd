@@ -36,7 +36,6 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
         });
 
         $scope.$watch('datePickerSettings.date', function (newValue, oldValue) {
-
             if ($scope.pageIsLoaded && $scope.datePickerSettings.wasClicked) {
                 $scope.resetCurrentBooking();
                 $scope.fillBookingsOfChosenDay($scope.bookingsForRoom);
@@ -256,7 +255,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             return date;
         };
         $scope.datePickerSettings = {
-            "date": "",
+            "date": $scope.getFormattedDate(new Date()),
             "minDate": $scope.getFormattedDate(new Date()),
             "maxDate": null,
             "pattern": 'yyyy-MM-dd',
@@ -347,6 +346,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 "hostUrl": "",
                 "hostNickname": "",
                 "hostEmail": "",
+                "hostSlogan": "",
                 "city": roomCity
 
             };
@@ -373,6 +373,9 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             }
             if ('user_email' in hostData.data) {
                 $scope.currentRoom.hostEmail = hostData.data.user_email;
+            };
+            if ('wpcf-slogan' in hostMetaData) {
+                $scope.currentRoom.hostSlogan = hostMetaData['wpcf-slogan'][0];
             };
             //Get additional host info
             bookingSvc.getUserInfo(hostId).then(function (response) {
@@ -404,13 +407,17 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
         };
 
         $scope.setCurrentBookingFromQuery = function () {
+            //            $scope.currentBooking.date = $scope.datePickerSettings.date;
+            //            $scope.showBookingSlots = true;
             if ('date' in $scope.bookingQuery) {
                 $scope.currentBooking.date = $scope.datePickerSettings.date;
                 $scope.showBookingSlots = true;
                 $scope.resetCurrentBooking();
                 $scope.fillBookingsOfChosenDay($scope.bookingsForRoom);
 
-            };
+            } else {
+                $scope.datePickerSettings.date = $scope.getFormattedDate(new Date());
+            }
             //If the user returns to the booking after logging in
             if ('startTime' in $scope.bookingQuery && 'endTime' in $scope.bookingQuery) {
                 $scope.currentBooking.startTime = parseInt($scope.bookingQuery.startTime);
@@ -478,6 +485,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             //If the user is not logged in, set the date in the datepicker from the search query
         } else {
             $scope.getQueryParams();
+            $scope.datePickerSettings.date = $scope.getFormattedDate(new Date());
         }
 
         // Attaching scroll event when document/window is loaded
