@@ -238,6 +238,25 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .block-display {
     display: block !important;
 }
+#popular-hosts-container .owl-lazy {
+    min-height: 150px !important;
+    max-height: 150px !important;
+    height: 150px !important;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-title {
+    min-height: 57px;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc {
+    min-height: 130px;
+    text-align: left;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-created-date {
+    padding-left: 5px;
+    text-align: left;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-buttons {
+    margin-bottom: 0;
+}
 .blog-posts-container .owl-lazy {
     min-height: 150px !important;
     max-height: 150px !important;
@@ -247,7 +266,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     min-height: 57px;
 }
 .blog-posts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc {
-    min-height: 130px;
+    min-height: 150px;
     text-align: left;
 }
 .blog-posts-container .default-theme.wp-posts-carousel .wp-posts-carousel-created-date {

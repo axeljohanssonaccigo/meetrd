@@ -101,6 +101,15 @@ function meetrd_widgets_init() {
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
 		) );
+    register_sidebar( array(
+		'name' =>esc_html__( 'hostwidget', 'meetrd' ),
+		'id' => 'hostwidget',
+		'description' => 'Lägg in karusell för populära värdar här',
+		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'after_widget' => '</div>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>',
+	) );
 }
 add_action( 'widgets_init', 'meetrd_widgets_init' );
 
@@ -150,8 +159,10 @@ $version = 1.28;
 
 
 	//Specific scripts for certain pages
-	if ($page_template == 'page-start.php') {
+	if ($page_template == 'page-start.php' || $page_template == 'page-all-hosts.php') {
 		 wp_enqueue_script( 'startCtrl', get_template_directory_uri() . '/js/app/controllers/startCtrl.js', array(), $version, false);
+        		wp_enqueue_script( 'startSvc', get_template_directory_uri() . '/js/app/services/startSvc.js', array(), $version, false);
+
 
 	}
    	else if ($page_template == 'page-searchresults.php' ) {
@@ -219,6 +230,7 @@ if ( (isset($_GET['action']) && $_GET['action'] != 'logout') || (isset($_POST['l
                 exit();
         }
 }
+
 
 
 /**

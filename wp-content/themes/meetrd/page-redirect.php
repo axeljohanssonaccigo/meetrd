@@ -23,10 +23,11 @@ for ($i=0; $i < count($all_hosts); $i++) {
         var allHosts = <?php echo json_encode($all_hosts); ?>;
         var pageName = '<?php echo $pagename; ?>';
         pageName = pageName.toLowerCase();
-        console.log(pageName);
         for (i = 0; i < allHosts.length; i++) {
             //var hostName = allHosts[i].data.user_login.toLowerCase();
             var hostNick = allHosts[i].data.user_nicename.toLowerCase();
+            console.log("nick: " + hostNick);
+            console.log("pagename: " + pageName);
             if (hostNick === pageName) {
                 var hostId = allHosts[i].data.ID;
                 if (location.pathname.search('meetrd') > -1) {
@@ -35,7 +36,9 @@ for ($i=0; $i < count($all_hosts); $i++) {
                     var urlAddOn = '';
                 }
                 if (hostId > 0) {
-                    location.href = location.origin.concat(urlAddOn).concat('/search/?host=').concat(hostId);
+                    console.log(hostNick + " redirectar");
+
+                    //location.href = location.origin.concat(urlAddOn).concat('/search/?host=').concat(hostId);
                 }
 
             }

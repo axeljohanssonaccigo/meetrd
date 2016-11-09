@@ -1,6 +1,11 @@
-angular.module('startApp', []).controller('startCtrl', function ($scope) {
+angular.module('startApp', []).controller('startCtrl', function ($scope, startSvc) {
 
     $scope.allHosts = [];
+    $scope.htmltest = '<div class="hello">tja</div>';
+
+    jQuery('.wp-posts-carousel-desc').append($scope.htmltest);
+
+
 
     $scope.defineHostAttributes = function () {
         $scope.allHosts = allHosts;
@@ -45,7 +50,57 @@ angular.module('startApp', []).controller('startCtrl', function ($scope) {
 
     };
     $scope.defineHostAttributes();
-    jQuery('.parallax').parallax();
 
+    if (jQuery('.parallax').length > 0) {
+        jQuery('.parallax').parallax();
+        //This is the startpage - get all rooms for carousel
+        startSvc.getAllRooms().then(function (response) {
+            $scope.allRooms = response.data.posts;
+            angular.forEach($scope.allRooms, function (room) {
+                if ('wpcf-nr-of-people' in room.custom_fields) {
+                    room['nrOfPeople'] = parseInt(room.custom_fields['wpcf-nr-of-people'][0]);
+                }
+                if ('wpcf-host-id' in room.custom_fields) {
+                    room['hostId'] = parseInt(room.custom_fields['wpcf-host-id'][0]);
+                }
+                if ('wpcf-price' in room.custom_fields) {
+                    room['price'] = parseInt(room.custom_fields['wpcf-price'][0]);
+                }
+                if ('wpcf-city' in room.custom_fields) {
+                    room['city'] = room.custom_fields['wpcf-city'][0];
+                }
+                if ('wpcf-area' in room.custom_fields) {
+                    room['area'] = room.custom_fields['wpcf-area'][0];
+                }
+                if ('wpcf-street-address' in room.custom_fields) {
+                    room['address'] = room.custom_fields['wpcf-street-address'][0];
+                }
+            });
+            console.log($scope.allRooms);
+        });
+    }
+    $scope.getCarouselPostTitle = function () {
+        jQuery('#popular-hosts-container .wp-posts-carousel-title')[0].innerText;
+    };
+
+    $scope.mapHostsToHostPosts = function () {
+        var hostPostElements = jQuery('#popular-hosts-container .wp-posts-carousel-title');
+        angular.forEach(hostPostElements, function (element) {
+            var hostName = element.innerText.toLowerCase();
+            console.log(element.innerText);
+
+        });
+    };
+    $scope.getHostPostContent = function (hostName) {
+        var returnContent = '';
+        angular.forEach($scope.allHosts, function (host) {
+            if (host.data.user_nicename === hostName) {
+                returnContent = '<div class="address">'.concat(host.address);
+            }
+        });
+
+        return returnContent;
+    };
+    $scope.mapHostsToHostPosts();
 
 });

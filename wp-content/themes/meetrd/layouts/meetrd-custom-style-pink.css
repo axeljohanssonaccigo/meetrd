@@ -279,6 +279,25 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .block-display {
     display: block !important;
 }
+
+/*HOST CAROUSEL*/
+#popular-hosts-container .owl-lazy {
+    width: 100%;
+    min-width: 100%;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc {
+    min-height: 150px;
+    text-align: center;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-buttons {
+    margin-bottom: 0;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-image {
+    padding-top: 0;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-container {
+    padding: 0;
+}
 .blog-posts-container .owl-lazy {
     min-height: 150px !important;
     max-height: 150px !important;

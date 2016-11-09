@@ -44,7 +44,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                     </div>
                 </div>
                 <div class="parallax">
-                    <img src="<?php echo get_home_url().'/wp-content/uploads/2016/06/orange-cup-crop.jpg'; ?>" />
+                    <img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/orange-cup-crop.jpg'; ?>" />
                 </div>
             </div>
 
@@ -84,40 +84,37 @@ for ($i=0; $i < count($all_hosts); $i++) {
             </div>
 
 
+
             <div class="container-fluid white-section row no-padding-mobile">
                 <div class="container first-page">
                     <div class="popular-hosts">
                         VILKET FÖRETAG VILL DU BOKA HOS?
                     </div>
-                    <div class="hosts-rooms-container">
-                        <div ng-repeat="host in allHosts" class="host-rooms-container col-sm-3 col-xs-12 clearfix no-padding-mobile" ng-if="host.showBanner">
-                            <a href="<?php echo get_home_url().'/search/?host='?>{{host.ID}}">
-                                <div class="host-rooms-photo-container">
-                                    <img src="{{host.banner}}">
-                                </div>
-                            </a>
-                        </div>
+                    <div id="popular-hosts-container">
+                        <?php dynamic_sidebar( 'hostwidget' ); ?>
+
                     </div>
                 </div>
             </div>
+
             <p class="popular-hosts-info text-center">För tillfället hittar du alla våra företag i Stockholm och Malmö</p>
-<div class="newsletter-container">
-    <div class="parallax-container newsletter-height row">
-        <div class="container">
-            <div class="newsletter text-center">
-                <?php
+            <div class="newsletter-container">
+                <div class="parallax-container newsletter-height row">
+                    <div class="container">
+                        <div class="newsletter text-center">
+                            <?php
                                                 $istance = array( 'title' => 'Få uppdateringar om det senaste');
                                                 $args = array('before_title' => '<h3>', 'after_title' => '</h3>' );
                                                 the_widget('ALO_Easymail_Widget', $istance, $args );
                                                 ?>
-            </div>
+                        </div>
 
-            <div class="parallax">
-                <img src="<?php echo get_home_url().'/wp-content/uploads/2016/06/Coffee_break.jpg'; ?>" />
+                        <div class="parallax">
+                            <img src="<?php echo get_home_url().'/wp-content/uploads/2016/06/Coffee_break.jpg'; ?>" />
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
             <div class="container-fluid white-section row">
                 <div class="container first-page">
                     <div class="popular-hosts">
