@@ -8,12 +8,7 @@ angular.module('startApp').service('startSvc', function ($http) {
         var urlPathNameAddOn = "";
     }
 
-    this.getAllPosts = function () {
-        return $http({
-            method: "GET",
-            url: urlPathNameAddOn + '/api/get_posts/?post_type=post&posts_per_page=-1'
-        });
-    };
+
 
     this.getAllRooms = function () {
         return $http({
@@ -22,33 +17,14 @@ angular.module('startApp').service('startSvc', function ($http) {
         });
     };
 
-    this.getBookingsForDate = function (date) {
-
+    this.getAllRoomCarouselPosts = function () {
         return $http({
             method: "GET",
-            url: urlPathNameAddOn + '/api/get_posts/?post_type=booking&meta_key=wpcf-booking-date&meta_value=' + Date.parse(date) / 1000 + '&posts_per_page=-1'
+            url: urlPathNameAddOn + '/api/get_posts/?post_type=popular-hosts&posts_per_page=-1'
         });
     };
 
-    this.getBookingsForRoom = function (roomId) {
-        return $http({
-            async: true,
-            method: "GET",
-            url: urlPathNameAddOn + '/api/get_posts/?post_type=booking&meta_key=wpcf-room-id&meta_value=' + roomId + '&posts_per_page=-1'
-        });
-    };
-    this.getRoomsForHost = function (userId) {
-        return $http({
-            method: "GET",
-            url: urlPathNameAddOn + '/api/get_posts/?post_type=room&meta_key=wpcf-host-id&meta_value=' + userId + '&posts_per_page=-1'
-        });
-    };
-    this.getHostInfo = function (hostId) {
-        return $http({
-            method: "GET",
-            url: urlPathNameAddOn + '/api/user/get_userinfo/?user_id=' + hostId + '&insecure=cool'
-        });
-    };
+
 
 
 });

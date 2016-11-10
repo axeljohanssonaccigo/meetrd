@@ -107,6 +107,15 @@ img {
 
 .btn-primary {
     background-color: rgb(230, 0, 138) !important;
+    /*    color: #fff !important;*/
+}
+
+.btn-primary a {
+    color: #fff !important;
+}
+
+.btn-primary a:hover {
+    text-decoration: none;
 }
 
 select.btn-primary {
@@ -279,15 +288,35 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .block-display {
     display: block !important;
 }
+.room.type-room.status-publish.hentry {
+    margin-bottom: 0 !important;
+}
 
 /*HOST CAROUSEL*/
 #popular-hosts-container .owl-lazy {
     width: 100%;
     min-width: 100%;
 }
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-title {
+    display: none !important;
+}
 #popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc {
-    min-height: 150px;
     text-align: center;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc .address {
+    color: rgb(230, 0, 138);
+    font-family: "Raleway Bold", Open Sans, Helvetica, sans-serif !important;
+    font-size: 16px;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc .host-name {
+    margin: 15px 0;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc .room-info {}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc .book-button-container {
+    margin-top: 40px;
+}
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc .book-button-container button {
+    width: 120px;
 }
 #popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-buttons {
     margin-bottom: 0;
@@ -295,8 +324,20 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 #popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-image {
     padding-top: 0;
 }
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-image img {
+    margin: 0;
+    width: 100%;
+}
+#room-carousel-loader.loader-container {
+    max-width: 35%;
+    margin: 0 auto;
+}
 #popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-container {
     padding: 0;
+}
+.default-theme.wp-posts-carousel .owl-controls .owl-nav div {
+    background-color: #fff !important;
+    color: rgb(230, 0, 138) !important;
 }
 .blog-posts-container .owl-lazy {
     min-height: 150px !important;

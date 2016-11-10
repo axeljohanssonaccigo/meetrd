@@ -22,7 +22,6 @@ for ($i=0; $i < count($all_hosts); $i++) {
 ?>
     <script type="text/javascript">
         allHosts = <?php echo json_encode($all_hosts); ?>;
-        console.log(allHosts);
     </script>
 
     <div id="primary" class="content-area" ng-app="startApp" ng-controller="startCtrl" ng-cloak>
@@ -93,6 +92,9 @@ for ($i=0; $i < count($all_hosts); $i++) {
                     <div id="popular-hosts-container">
                         <?php dynamic_sidebar( 'hostwidget' ); ?>
 
+                    </div>
+                    <div class="text-center">
+                        <a href="<?php echo get_home_url().'/vardforetag'; ?>">Se alla våra värdföretag</a>
                     </div>
                 </div>
             </div>

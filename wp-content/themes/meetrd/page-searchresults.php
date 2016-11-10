@@ -160,8 +160,8 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                     <h1 ng-click="goToHostPage(room.hostId)"><a href="">{{getHostFromHostId(room.hostId).nickname}}</a></h1>
                                     <!-- <span class="visible-xs hidden-sm visible-md visible-lg">{{room.area}}</span>
 											<span class="hidden-xs visible-sm hidden-md hidden-lg">{{room.area}}</span> -->
-                                    <span class="hidden-sm hidden-md">{{room.area}}</span>
-                                    <span class="hidden-xs hidden-lg block-display">{{room.area}}</span>
+                                    <span class="hidden-sm hidden-md">{{room.area}} - {{room.city}}</span>
+                                    <span class="hidden-xs hidden-lg block-display">{{room.area}} - {{room.city}}</span>
 
                                     <!--		<div ng-repeat="star in hostRatingRange" class="rating-star" ng-hide="isHostPage">
 												<i class="fa fa-star" ng-if="star <= getHostFromHostId(room.hostId).rating"></i>

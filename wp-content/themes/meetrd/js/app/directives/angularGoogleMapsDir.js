@@ -38,11 +38,17 @@ directive('angularGoogleMaps', function () {
         // place a marker
         function setMarker(map, position, title, content) {
             var marker;
+            var pinColor = "e6008a";
+            //                    'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
+            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                new google.maps.Size(21, 34),
+                new google.maps.Point(0, 0),
+                new google.maps.Point(10, 34));
             var markerOptions = {
                 position: position,
                 map: map,
                 title: title,
-                icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
+                icon: pinImage
             };
 
             marker = new google.maps.Marker(markerOptions);

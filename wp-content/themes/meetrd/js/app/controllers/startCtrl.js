@@ -1,11 +1,6 @@
 angular.module('startApp', []).controller('startCtrl', function ($scope, startSvc) {
 
     $scope.allHosts = [];
-    $scope.htmltest = '<div class="hello">tja</div>';
-
-    jQuery('.wp-posts-carousel-desc').append($scope.htmltest);
-
-
 
     $scope.defineHostAttributes = function () {
         $scope.allHosts = allHosts;
@@ -49,13 +44,14 @@ angular.module('startApp', []).controller('startCtrl', function ($scope, startSv
         });
 
     };
-    $scope.defineHostAttributes();
+    if (location.href.search('vardforetag') > -1) {
+        $scope.defineHostAttributes();
+    }
 
-    if (jQuery('.parallax').length > 0) {
-        jQuery('.parallax').parallax();
-        //This is the startpage - get all rooms for carousel
+    $scope.getAllRooms = function () {
         startSvc.getAllRooms().then(function (response) {
             $scope.allRooms = response.data.posts;
+            //Set attributes on rooms
             angular.forEach($scope.allRooms, function (room) {
                 if ('wpcf-nr-of-people' in room.custom_fields) {
                     room['nrOfPeople'] = parseInt(room.custom_fields['wpcf-nr-of-people'][0]);
@@ -75,32 +71,64 @@ angular.module('startApp', []).controller('startCtrl', function ($scope, startSv
                 if ('wpcf-street-address' in room.custom_fields) {
                     room['address'] = room.custom_fields['wpcf-street-address'][0];
                 }
+                //Map room to carousel rooms
+                angular.forEach($scope.carouselRooms, function (carouselRoom) {
+                    if (room.id === carouselRoom.roomId) {
+                        $scope.mapRoomToCarouselPost(room, carouselRoom);
+                    }
+                });
+
             });
-            console.log($scope.allRooms);
-        });
-    }
-    $scope.getCarouselPostTitle = function () {
-        jQuery('#popular-hosts-container .wp-posts-carousel-title')[0].innerText;
-    };
-
-    $scope.mapHostsToHostPosts = function () {
-        var hostPostElements = jQuery('#popular-hosts-container .wp-posts-carousel-title');
-        angular.forEach(hostPostElements, function (element) {
-            var hostName = element.innerText.toLowerCase();
-            console.log(element.innerText);
-
+            jQuery('#room-carousel-loader img').addClass('hidden');
         });
     };
-    $scope.getHostPostContent = function (hostName) {
-        var returnContent = '';
-        angular.forEach($scope.allHosts, function (host) {
-            if (host.data.user_nicename === hostName) {
-                returnContent = '<div class="address">'.concat(host.address);
+
+    $scope.getAllRoomCarouselPosts = function () {
+        $scope.appendCarouselWithLoader();
+        startSvc.getAllRoomCarouselPosts().then(function (response) {
+            $scope.carouselRooms = response.data.posts;
+            angular.forEach($scope.carouselRooms, function (room) {
+                if ('wpcf-room-id' in room.custom_fields) {
+                    room['roomId'] = parseInt(room.custom_fields['wpcf-room-id'][0]);
+                }
+            });
+            //Get all rooms
+            $scope.getAllRooms();
+        });
+    };
+
+    $scope.appendCarouselWithLoader = function () {
+        var elementToAppend = jQuery('#popular-hosts-container .wp-posts-carousel-container .wp-posts-carousel-details .wp-posts-carousel-desc');
+        var loaderElement = '<div class="loader-container" id="room-carousel-loader"><img src="http://www.meetrd.se/wp-content/themes/meetrd/layouts/Images/meetrd-loader.gif"></div>';
+        elementToAppend.append(loaderElement);
+    };
+
+    $scope.mapRoomToCarouselPost = function (room, carouselRoom) {
+        var carouselPostElements = jQuery('#popular-hosts-container .wp-posts-carousel-container');
+        angular.forEach(carouselPostElements, function (element) {
+            var hostName = jQuery(element).find('.wp-posts-carousel-details .wp-posts-carousel-title')[0].innerText;
+            if (hostName.toLowerCase() === carouselRoom.title.toLowerCase()) {
+                var elementToAppend = jQuery(element).find('.wp-posts-carousel-details .wp-posts-carousel-desc');
+                var addressElement = '<div class="address"> ' + room.address + ', ' + room.city + '</div>';
+                var hostNameElement = '<div class="host-name">' + hostName + '</div>';
+                var roomInfoElement = '<div class="room-info"><span class="nr-of-people"> ' +
+                    room.nrOfPeople + ' pers, </span>' + '<span class="price"> ' + room.price + ' kr/h</span></div>';
+                var bookButtonElement = '<div class="book-button-container"><button type="button" class="btn btn-sm btn-primary"><a href="' + location.href + 'search/?host=' + room.hostId + '">BOKA</a></button></div>'
+                elementToAppend.append(addressElement);
+                elementToAppend.append(hostNameElement);
+                elementToAppend.append(roomInfoElement);
+                elementToAppend.append(bookButtonElement);
+
             }
         });
-
-        return returnContent;
     };
-    $scope.mapHostsToHostPosts();
+
+    jQuery(document).ready(function () {
+        if (jQuery('.parallax').length > 0) {
+            jQuery('.parallax').parallax();
+            //This is the startpage - get all rooms for carousel
+            $scope.getAllRoomCarouselPosts();
+        }
+    });
 
 });
