@@ -9,9 +9,9 @@ Version: 1.0.0
 html,
 body {
     font-size: 14px !important;
-    color: rgb( 35, 35, 35) !important;
+    color: rgb(84, 84, 84) !important;
     height: 100%;
-    font-family: "Raleway", Open Sans, Helvetica, sans-serif!important;
+    font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;
     font-weight: 300;
 }
 
@@ -19,56 +19,50 @@ body {
 /* Fonts */
 
 p {
-    font-family: "Raleway", Open Sans, Helvetica, sans-serif!important;
+    font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;
     font-weight: 300;
-    color: rgb(35, 35, 35) !important;
 }
 
 h1 {
-    font-family: "Raleway Bold", Open Sans, Helvetica, sans-serif!important;
+    font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;
     font-weight: 300;
 }
 
 h2 {
-    font-family: "Raleway Bold", Open Sans, Helvetica, sans-serif!important;
+    font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;
     font-weight: 300;
 }
 
 h3 {
-    font-family: "Raleway Bold", Open Sans, Helvetica, sans-serif!important;
+    font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;
     font-weight: 300;
 }
 
 h4 {
-    font-family: "Raleway Bold", Open Sans, Helvetica, sans-serif!important;
+    font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;
     font-weight: 300;
 }
 
 h5 {
-    font-family: "Raleway Bold", Open Sans, Helvetica, sans-serif!important;
+    font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;
     font-weight: 300;
 }
 
 a {
-    font-family: "Raleway", Open Sans, Helvetica, sans-serif!important;
+    font-family: "Oswald", Open Sans, Helvetica, sans-serif!important;
     font-weight: 400;
     text-decoration: none;
-    color: rgb(35, 35, 35) !important;
-}
-
-i {
-    color: rgb(230, 0, 138) !important;
+    color: #000 !important;
 }
 
 a:hover,
 a:focus,
 a:active {
     text-decoration: underline;
-    color: rgb(230, 0, 138) !important;
 }
 
 a:visited {
-    color: rgb(35, 35, 35);
+    color: #000 !important;
     text-decoration: none;
 }
 
@@ -100,51 +94,7 @@ img {
 }
 
 .btn-meetrd:hover {
-    background-color: rgb(255, 255, 255) !important;
-    color: rgb(230, 0, 138) !important;
-    border-color: rgb(230, 0, 138) !important;
-}
-
-.btn-primary {
-    background-color: rgb(230, 0, 138) !important;
-    /*    color: #fff !important;*/
-}
-
-.btn-primary a {
-    color: #fff !important;
-}
-
-.btn-primary a:hover {
-    text-decoration: none;
-}
-
-select.btn-primary {
-    background-color: rgb(35, 35, 35) !important;
-}
-
-.chosen-slot.btn-primary {
-    background-color: rgb(35, 35, 35) !important;
-}
-
-._720kb-datepicker-calendar-header i {
-    color: rgb(255, 255, 255) !important;
-}
-
-._720kb-datepicker-calendar-header {
-    background-color: rgb(35, 35, 35) !important;
-    color: rgb(255, 255, 255) !important;
-}
-
-._720kb-datepicker-calendar-month {
-    color: rgb(255, 255, 255) !important;
-}
-
-._720kb-datepicker-calendar-month span {
-    color: rgb(255, 255, 255) !important;
-}
-
-.input-group-btn > .btn {
-    min-height: 46px;
+    background-color: rgba(255, 255, 255, 0.4) !important;
 }
 
 input {
@@ -163,12 +113,12 @@ input[type="button"] input[type="text"],
 input[type="number"],
 input[type="tel"] {
     border-radius: 0 !important;
-    color: rgb( 35, 35, 35) !important;
+    color: rgb(84, 84, 84) !important;
 }
 
 datepicker input[type="text"] {
     border-radius: 0;
-    color: rgb( 35, 35, 35) !important;
+    color: rgb(84, 84, 84) !important;
 }
 
 datepicker::-moz-placeholder {
@@ -288,56 +238,24 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .block-display {
     display: block !important;
 }
-.room.type-room.status-publish.hentry {
-    margin-bottom: 0 !important;
-}
-
-/*HOST CAROUSEL*/
 #popular-hosts-container .owl-lazy {
-    width: 100%;
-    min-width: 100%;
+    min-height: 150px !important;
+    max-height: 150px !important;
+    height: 150px !important;
 }
 #popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-title {
-    display: none !important;
+    min-height: 57px;
 }
 #popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc {
-    text-align: center;
+    min-height: 130px;
+    text-align: left;
 }
-#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc .address {
-    color: rgb(230, 0, 138);
-    font-family: "Raleway Bold", Open Sans, Helvetica, sans-serif !important;
-    font-size: 16px;
-}
-#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc .host-name {
-    margin: 15px 0;
-}
-#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc .room-info {}
-#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc .book-button-container {
-    margin-top: 40px;
-}
-#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc .book-button-container button {
-    width: 120px;
+#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-created-date {
+    padding-left: 5px;
+    text-align: left;
 }
 #popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-buttons {
     margin-bottom: 0;
-}
-#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-image {
-    padding-top: 0;
-}
-#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-image img {
-    margin: 0;
-    width: 100%;
-}
-#room-carousel-loader.loader-container {
-    max-width: 35%;
-    margin: 0 auto;
-}
-#popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-container {
-    padding: 0;
-}
-.default-theme.wp-posts-carousel .owl-controls .owl-nav div {
-    background-color: #fff !important;
-    color: rgb(230, 0, 138) !important;
 }
 .blog-posts-container .owl-lazy {
     min-height: 150px !important;
@@ -348,7 +266,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     min-height: 57px;
 }
 .blog-posts-container .default-theme.wp-posts-carousel .wp-posts-carousel-desc {
-    min-height: 130px;
+    min-height: 150px;
     text-align: left;
 }
 .blog-posts-container .default-theme.wp-posts-carousel .wp-posts-carousel-created-date {
@@ -404,10 +322,10 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     padding: 22px 10px 10px 10px !important;
 }
 .nav-tabs li a:hover {
-    border-top: 3px solid rgb( 230, 0, 138) !important;
+    border-top: 3px solid rgb(36, 67, 99) !important;
     background-color: transparent !important;
     border-radius: 0;
-    color: rgb( 230, 0, 138) !important;
+    color: rgb(36, 67, 99) !important;
     padding: 18px 10px 10px 10px !important;
 }
 .nav {
@@ -493,7 +411,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     color: #000;
 }
 .one-step i {
-    color: rgb(230, 0, 138);
+    color: rgb(50, 93, 136);
     margin-bottom: -2px;
 }
 .one-step img {
@@ -518,8 +436,6 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     margin-top: 30px;
     text-align: center;
     color: black;
-    font-family: "Raleway Bold", Open Sans, Helvetica, sans-serif!important;
-    font-weight: 300;
 }
 .host-banner-slogan {
     //font-weight: bold;
@@ -735,7 +651,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     vertical-align: bottom !important;
 }
 .booking-option datepicker input {
-    background: rgb(35, 35, 35);
+    background: rgb(50, 93, 136);
     color: #fff !important;
     text-align: center;
 }
@@ -747,7 +663,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     padding-bottom: 5px;
 }
 .room-price-container {
-    background-color: rgb(230, 0, 138);
+    background-color: #325D88;
     height: 30px;
     color: #fff;
     border: 0;

@@ -93,15 +93,17 @@ $all_meta_for_host = get_user_meta($hostId);
                         </div>
 
                     </div>
-                    <div class="row">
-                        <div class="send-mail-container col-xs-12 ng-hide">
-                            <input type="text" ng-model="testMail"></input>
-                            <div class="btn btn-lg btn-default" ng-click="sendMail()">Send test mail</div>
-                        </div>
-                    </div>
+                    <!--
+                  <div class="row">
+    <div class="send-mail-container col-xs-12 ng-hide">
+        <input type="text" ng-model="testMail"></input>
+        <div class="btn btn-lg btn-default" ng-click="sendMail()">Send test mail</div>
+    </div>
+</div>
+-->
                     <div class="row">
                         <div class="container-fluid white-section">
-                            <div class="container no-padding">
+                            <div class="container no-padding" id="single-room">
                                 <!-- BOOKING CONTAINER -->
                                 <div class="booking-container clearfix" id="booking-container">
                                     <!-- PRICE TAG -->
@@ -248,6 +250,7 @@ $all_meta_for_host = get_user_meta($hostId);
             <span class="more-info-link link-color" ng-show="showMoreInfo" ng-click="showMoreInfo = !showMoreInfo">Dölj</span></span>
                                     </div>
 
+                                    <!--
                                     <div class="separator"></div>
                                     <div class="col-xs-12 host-rating-container">
                                         <div ng-repeat="star in hostRatingRange" class="rating-star">
@@ -257,6 +260,7 @@ $all_meta_for_host = get_user_meta($hostId);
                                         baserat på {{currentRoom.hostVotes.length}} röster.
                                     </div>
                                     <div class="separator"></div>
+-->
                                     <div class="host-review-container" ng-repeat="review in currentRoom.hostReviews">
                                         <div class="col-xs-12 host-review">
                                             "{{review}}"

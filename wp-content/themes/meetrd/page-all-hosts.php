@@ -31,7 +31,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
             <div class="container-fluid white-section row no-padding-mobile">
                 <div class="container first-page">
                     <div class="popular-hosts">
-                        ALLA VÅRA VÄRDAR
+                        ALLA VÅRA VÄRDFÖRETAG
                     </div>
                     <div class="hosts-rooms-container">
                         <div ng-repeat="host in allHosts" class="host-rooms-container col-sm-3 col-xs-12 clearfix no-padding-mobile">

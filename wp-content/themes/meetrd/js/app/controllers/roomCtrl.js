@@ -18,6 +18,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
         }
         $scope.allHosts = [];
         $scope.allPosts = [];
+        $scope.sortField = 'nrOfPeople';
         $scope.allRoomsLoaded = false;
         $scope.roomsForHostLoaded = false;
         $scope.allRooms = [];
@@ -48,7 +49,9 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             "nrOfHits": 0,
             "host": null
         };
-        $scope.nrOfRoomsShown = { value: 0 };
+        $scope.nrOfRoomsShown = {
+            value: 0
+        };
 
         //On scroll
         jQuery(window).scroll(function () {
@@ -219,7 +222,9 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             $scope.isSearchResult = true;
             jQuery.extend({
                 getQueryParameters: function (str) {
-                    return (str || document.location.search).replace(/(^\?)/, '').split("&").map(function (n) { return n = n.split("="), this[n[0]] = n[1], this }.bind({}))[0];
+                    return (str || document.location.search).replace(/(^\?)/, '').split("&").map(function (n) {
+                        return n = n.split("="), this[n[0]] = n[1], this
+                    }.bind({}))[0];
                 }
             });
             $scope.query = jQuery.getQueryParameters();
@@ -246,8 +251,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
                     });
                     if ($scope.queriedRooms.length < 40) {
                         $scope.nrOfRoomsShown.value = $scope.queriedRooms.length;
-                    }
-                    else {
+                    } else {
                         $scope.nrOfRoomsShown.value = 40;
                     }
                     //On page load, show the first 10 rooms (or all rooms if less than 10
@@ -289,8 +293,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             var shownRooms = $scope.nrOfRoomsShown.value;
             if ($scope.queriedRooms.length < $scope.nrOfRoomsShown.value + addToShowMoreRooms) {
                 $scope.nrOfRoomsShown.value = $scope.queriedRooms.length;
-            }
-            else {
+            } else {
                 $scope.nrOfRoomsShown.value = $scope.nrOfRoomsShown.value + addToShowMoreRooms;
             }
             //Push rooms to filtered rooms
@@ -312,8 +315,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
                 // $scope.allRoomsLoaded = true;
                 if ($scope.queriedRooms.length < 40) {
                     $scope.nrOfRoomsShown.value = $scope.queriedRooms.length;
-                }
-                else {
+                } else {
                     $scope.nrOfRoomsShown.value = 40;
                 }
                 //On page load, show the first 10 rooms (or all rooms if less than 10)
@@ -384,8 +386,13 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
         }
 
         //Sorting functions
-        function numOrdA(a, b) { return (a - b); };
-        function numOrdD(a, b) { return (b - a); };
+        function numOrdA(a, b) {
+            return (a - b);
+        };
+
+        function numOrdD(a, b) {
+            return (b - a);
+        };
 
         $scope.search = function (query) {
             if (query.date === null || query.date === "") {
@@ -476,8 +483,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
                 if (booking.bookingStatus === 2) {
                     localMaxes.push(localMax);
                     localMax = 0;
-                }
-                else {
+                } else {
                     localMax++;
                 }
             });

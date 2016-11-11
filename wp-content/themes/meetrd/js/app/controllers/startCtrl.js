@@ -118,15 +118,26 @@ angular.module('startApp', []).controller('startCtrl', function ($scope, startSv
                 elementToAppend.append(hostNameElement);
                 elementToAppend.append(roomInfoElement);
                 elementToAppend.append(bookButtonElement);
+                //Set image link
+                jQuery(element).find('.wp-posts-carousel-image a')[0].href = location.href + 'search/?host=' + room.hostId;
 
             }
         });
     };
 
+    //Disable tags on page load - these will then be set to links to the host page
+    $scope.disableDefaultCarouselImageLinks = function () {
+        var linkTags = jQuery('#popular-hosts-container .wp-posts-carousel-container .wp-posts-carousel-image a');
+        angular.forEach(linkTags, function (tag) {
+            tag.href = "javascript:;";
+        })
+    }
+
     jQuery(document).ready(function () {
         if (jQuery('.parallax').length > 0) {
             jQuery('.parallax').parallax();
             //This is the startpage - get all rooms for carousel
+            $scope.disableDefaultCarouselImageLinks();
             $scope.getAllRoomCarouselPosts();
         }
     });

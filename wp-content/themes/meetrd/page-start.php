@@ -87,19 +87,19 @@ for ($i=0; $i < count($all_hosts); $i++) {
             <div class="container-fluid white-section row no-padding-mobile">
                 <div class="container first-page">
                     <div class="popular-hosts">
-                        VILKET FÖRETAG VILL DU BOKA HOS?
+                        VILKET FÖRETAG VILL DU BOKA MÖTESRUM HOS?
                     </div>
                     <div id="popular-hosts-container">
                         <?php dynamic_sidebar( 'hostwidget' ); ?>
 
                     </div>
-                    <div class="text-center">
-                        <a href="<?php echo get_home_url().'/vardforetag'; ?>">Se alla våra värdföretag</a>
+                    <div class="text-center all-hosts-link">
+                        <a href="<?php echo get_home_url().'/vardforetag'; ?>">Här hittar du alla våra värdföretag</a>
                     </div>
                 </div>
             </div>
 
-            <p class="popular-hosts-info text-center">För tillfället hittar du alla våra företag i Stockholm och Malmö</p>
+            <p class="popular-hosts-info text-center">För tillfället kan du boka mötesrum i Stockholm och Malmö</p>
             <div class="newsletter-container">
                 <div class="parallax-container newsletter-height row">
                     <div class="container">

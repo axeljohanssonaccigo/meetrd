@@ -98,6 +98,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                 </div>
 
 
+                                <!--
                                 <div class="separator"></div>
                                 <div class="col-xs-12 host-rating-container">
                                     <div ng-repeat="star in hostRatingRange" class="rating-star">
@@ -107,6 +108,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                     baserat på {{currentHost.votes.length}} röster.
                                 </div>
                                 <div class="separator"></div>
+-->
                                 <div class="host-review-container" ng-repeat="review in currentHost.reviews">
                                     <div class="col-xs-12 host-review">
                                         "{{review}}"
@@ -141,7 +143,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         </div>
                         <!--<div ng-repeat="room in filteredRooms = (allRooms | filter:roomMatchesSearchQuery():true)" class="room col-xs-12">-->
 
-                        <div ng-repeat="room in filteredRooms | filter:roomFilter  | orderBy: 'nrOfPeople'" class="search-result-room-container col-sm-4 clearfix">
+                        <div ng-repeat="room in filteredRooms | filter:roomFilter  | orderBy:sortField" class="search-result-room-container col-sm-4 clearfix">
 
                             <div class="search-result-room-photo-container">
                                 <a href="{{room.url}}">
@@ -158,8 +160,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                             <div class="search-result-room-title">
                                 <div class="col-xs-12 no-padding">
                                     <h1 ng-click="goToHostPage(room.hostId)"><a href="">{{getHostFromHostId(room.hostId).nickname}}</a></h1>
-                                    <!-- <span class="visible-xs hidden-sm visible-md visible-lg">{{room.area}}</span>
-											<span class="hidden-xs visible-sm hidden-md hidden-lg">{{room.area}}</span> -->
+
                                     <span class="hidden-sm hidden-md">{{room.area}} - {{room.city}}</span>
                                     <span class="hidden-xs hidden-lg block-display">{{room.area}} - {{room.city}}</span>
 
