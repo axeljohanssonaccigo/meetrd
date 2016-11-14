@@ -118,7 +118,7 @@ add_action( 'widgets_init', 'meetrd_widgets_init' );
  */
 function meetrd_scripts() {
 
-$version = 1.32;
+$version = 1.35;
 	//Scripts and styles used on all pages
 	//Scripts
 	//angular
@@ -139,6 +139,8 @@ $version = 1.32;
 	wp_enqueue_script( 'headerSvc', get_template_directory_uri() . '/js/app/services/headerSvc.js');
 	//footer app
 	wp_enqueue_script( 'footerCtrl', get_template_directory_uri() . '/js/app/controllers/footerCtrl.js');
+    //Loader directive
+    wp_enqueue_script( 'meetrd_loader_directive', get_template_directory_uri() . '/js/app/directives/meetrdLoaderDir.js', array(), $version, false);
 
 
 	//Styles
@@ -172,8 +174,9 @@ $version = 1.32;
 		wp_enqueue_script( 'angular-datepicker-js', get_template_directory_uri() . '/assets/angular-datepicker-master/src/js/angular-datepicker.js');
 		wp_enqueue_style('angular-datepicker-css', get_template_directory_uri() . '/assets/angular-datepicker-master/src/css/angular-datepicker.css' );
 		//Google maps
-				wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBGqEqZZk9N4I2ck5kN7tfXkoVOGfB8598');
-		wp_enqueue_script( 'angularGoogleMapsDir', get_template_directory_uri() . '/js/app/directives/angularGoogleMapsDir.js', array(), $version, false);
+        wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBGqEqZZk9N4I2ck5kN7tfXkoVOGfB8598');
+        wp_enqueue_script( 'angularGoogleMapsDir', get_template_directory_uri() . '/js/app/directives/angularGoogleMapsDir.js', array(), $version, false);
+        wp_enqueue_script( 'roomFilter', get_template_directory_uri() . '/js/app/filters/roomFilter.js', array(), $version, false);
 
 	}
 	//Single-room.php

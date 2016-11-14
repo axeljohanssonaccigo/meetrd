@@ -1,5 +1,11 @@
-angular.module('startApp', []).controller('startCtrl', function ($scope, startSvc) {
-
+angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function ($scope, startSvc) {
+    if (window.location.pathname.substr(0, 7) === "/Meetrd") {
+        var urlPathNameAddOn = "/Meetrd";
+    } else if (window.location.pathname.substr(0, 7) === "/meetrd") {
+        var urlPathNameAddOn = "/meetrd";
+    } else {
+        var urlPathNameAddOn = "";
+    }
     $scope.allHosts = [];
 
     $scope.defineHostAttributes = function () {
@@ -99,7 +105,8 @@ angular.module('startApp', []).controller('startCtrl', function ($scope, startSv
 
     $scope.appendCarouselWithLoader = function () {
         var elementToAppend = jQuery('#popular-hosts-container .wp-posts-carousel-container .wp-posts-carousel-details .wp-posts-carousel-desc');
-        var loaderElement = '<div class="loader-container" id="room-carousel-loader"><img src="http://www.meetrd.se/wp-content/themes/meetrd/layouts/Images/meetrd-loader.gif"></div>';
+        var meetrdLoader = '<div class="meetrd-loader-container"><img class="spin" src="' + urlPathNameAddOn + '/wp-content/themes/meetrd/layouts/Images/meetrd.se-ikon-logo_pink.png"/></div>';
+        var loaderElement = '<div id="room-carousel-loader">' + meetrdLoader + '</div>';
         elementToAppend.append(loaderElement);
     };
 

@@ -454,7 +454,7 @@ $all_meta_for_host = get_user_meta($hostId);
                                             <center>{{registerMessageToUser}}</center>
                                             <div ng-show="userTriedToRegister && !userWasRegistered">
                                                 <div class="loader-container">
-                                                    <img src=" <?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/meetrd-loader.gif'?> ">
+                                                    <meetrd-loader></meetrd-loader>
                                                 </div>
                                             </div>
 
@@ -599,7 +599,7 @@ $all_meta_for_host = get_user_meta($hostId);
                                                     <center>{{bookingMessageToUser}}
                                                         <br>
                                                         <div class="loader-container" ng-hide="mailsAreDone">
-                                                            <img src=" <?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/meetrd-loader.gif'?> ">
+                                                            <meetrd-loader></meetrd-loader>
                                                             <!-- <h2>Var god vänta...</h2> -->
                                                         </div>
                                                     </center>

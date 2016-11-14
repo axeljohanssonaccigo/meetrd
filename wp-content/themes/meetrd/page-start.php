@@ -43,9 +43,10 @@ for ($i=0; $i < count($all_hosts); $i++) {
                     </div>
                 </div>
                 <div class="parallax">
-                    <img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/orange-cup-crop.jpg'; ?>" />
+                    <img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/test10.jpg'; ?>" />
                 </div>
             </div>
+
 
             <div class="off-white-section row">
                 <div class="container">
@@ -53,7 +54,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         <div class="col-xs-12 col-sm-4 one-step no-padding-mobile">
                             <a href="<?php echo get_home_url().'/hyra-ut'; ?>">
                                 <div class="col-xs-12">
-                                    <img src="<?php echo get_home_url().'/wp-content/uploads/2015/10/keys14.png'; ?>">
+                                    <i class="fa fa-key fa-3x"></i>
                                 </div>
                                 <h1>Bli värd</h1>
                                 <p> </p>
@@ -63,7 +64,8 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         <div class="col-xs-12 col-sm-4 one-step no-padding-mobile">
                             <a href="<?php echo get_home_url().'/att-hyra'; ?>">
                                 <div class="col-xs-12">
-                                    <img src="<?php echo get_home_url().'/wp-content/uploads/2015/10/agreement_blue.png'; ?>">
+                                    <i class="fa fa-handshake-o fa-3x"></i>
+
                                 </div>
                                 <h1>Att hyra</h1>
                                 <p> </p>
@@ -72,7 +74,8 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         <div class="col-xs-12 col-sm-4 one-step no-padding-mobile">
                             <a href="<?php echo get_home_url().'/sa-har-fungerar-det'; ?>">
                                 <div class="col-xs-12">
-                                    <img src="<?php echo get_home_url().'/wp-content/uploads/2015/10/question_blue.png'; ?>">
+                                    <i class="fa fa-question fa-3x"></i>
+
                                 </div>
                                 <h1>Vi hjälper dig</h1>
                                 <p> </p>

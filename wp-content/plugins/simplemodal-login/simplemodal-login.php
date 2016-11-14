@@ -428,7 +428,7 @@ if (!class_exists('SimpleModalLogin')) {
 				</div>
 				<div class="meetrd-logo-container">
 
-					<img src="http://www.meetrd.se/wp-content/themes/meetrd/layouts/Images/meetrd-loader.gif">
+					<img class="spin" src="http://www.meetrd.se/wp-content/themes/meetrd/layouts/Images/meetrd.se-ikon-logo_pink.png">
 				</div>
 			</div>
 		</form>';

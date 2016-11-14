@@ -100,7 +100,7 @@ datepicker,
 #single-room i,
 .room-info-container i,
 .booking-option i {
-    color: rgb(230, 0, 138) !important;
+    color: rgb(230, 0, 138);
 }
 
 a:hover,
@@ -142,15 +142,9 @@ img {
 }
 
 .spin {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 120px;
-    height: 120px;
-    margin: -60px 0 0 -60px;
-    -webkit-animation: spin 4s linear infinite;
-    -moz-animation: spin 4s linear infinite;
-    animation: spin 4s linear infinite;
+    -webkit-animation: spin 3s linear infinite;
+    -moz-animation: spin 3s linear infinite;
+    animation: spin 3s linear infinite;
 }
 
 
@@ -287,6 +281,17 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     line-height: 1 !important;
 }
 
+.meetrd-loader-container {
+    text-align: center;
+    padding-top: 5%;
+}
+
+.meetrd-loader-container img {
+    width: 70px !important;
+    height: 70px !important;
+    margin: 0 auto;
+}
+
 
 /* COMMON CLASSES USED HERE AND THERE */
 
@@ -308,16 +313,6 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 
 .link-color {
     color: #1a0dab;
-}
-
-.loader-container {
-    margin-top: 5%;
-    text-align: center;
-}
-
-.loader-container img {
-    width: 10%;
-    height: auto;
 }
 
 .no-padding {
@@ -426,9 +421,8 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     margin: 0;
     width: 100%;
 }
-#room-carousel-loader.loader-container {
-    max-width: 35%;
-    margin: 0 auto;
+#room-carousel-loader {
+    margin: 20px 0;
 }
 #popular-hosts-container .default-theme.wp-posts-carousel .wp-posts-carousel-container {
     padding: 0;
@@ -589,6 +583,9 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 }
 .three-steps-container p {
     text-align: justify;
+}
+.three-steps-container div a div i {
+    margin-bottom: 10px;
 }
 .one-step h1 {
     font-size: 21px;
@@ -1402,6 +1399,11 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     height: 350px;
     margin-bottom: 10px;
 }
+.update-search-container div #gmaps {
+    width: 100%;
+    height: 350px;
+    margin-bottom: 10px;
+}
 
 /* Responsive Views */
 @media (max-width: 480px) {
@@ -1591,12 +1593,13 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
         .room-price-container {
             height: 50px;
             padding-top: 10px;
-            background-color: #325D88;
+            background-color: rgb(230, 0, 138);
         }
         .room-price-container .price-definition i {
             font-size: 30px;
             vertical-align: top;
             margin-left: 10px;
+            color: #fff !important;
         }
         .search-container .btn {
             margin-top: 5px;

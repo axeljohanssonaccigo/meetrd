@@ -1,4 +1,4 @@
-var bookingApp = angular.module('bookingApp', ['720kb.datepicker', 'ui.bootstrap.popover', 'angularGoogleMapsDir']);
+var bookingApp = angular.module('bookingApp', ['720kb.datepicker', 'ui.bootstrap.popover', 'angularGoogleMapsDir', 'meetrdLoaderDir']);
 
 bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition) {
     //Simplemodal login adds amp; to the url, strip the url of this and reload once.

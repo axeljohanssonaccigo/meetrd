@@ -34,35 +34,47 @@ for ($i=0; $i < count($all_hosts); $i++) {
                             SÖK MÖTESRUM
                         </div>
                         <div class="update-search-container clearfix" ng-show="!isHostPage">
-                            <form name="updateSearchForm" ng-submit="search(query)">
-                                <!--
-                                <div class="col-xs-12 col-sm-4">
-                                    <datepicker date-min-limit="{{datePickerSettings.minDate}}" date-format="{{datePickerSettings.pattern}}" button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
-                                        <input type="text" autocomplete="off" placeholder="När är mötet?" ng-model="query.date" name="date" class="form-control" />
-                                    </datepicker>
-                                </div>
--->
-                                <div class="col-xs-12 col-sm-3 col-sm-offset-3">
-                                    <input type="number" min="1" placeholder="Antal personer" ng-model="query.nrOfPeople" name="nrOfPeople" class="form-control" />
-                                </div>
-                                <div class="col-xs-12 col-sm-3">
-                                    <button type="submit" class="col-xs-12 btn btn-primary btn-search" ng-disabled="!updateSearchForm.$dirty">
-                                        Uppdatera
-                                    </button>
-                                </div>
-                            </form>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <form name="updateSearchForm" ng-submit="search(query)">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="control-label" for="nrOfPeople">Hur många är ni?</label>
+                                        <input type="number" min="1" placeholder="Antal personer" ng-model="query.nrOfPeople" name="nrOfPeople" id="nrOfPeople" class="form-control" />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class=" control-label" for="company">Vet du vilket företag du vill boka hos?</label>
+                                        <select class="form-control" name="company" id="company" ng-model="query.company">
+                                            <option ng-repeat="company in allCompanies" value="{{company.name}}">{{company.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="control-label" for="city">Vilken stad vill du boka i?</label>
+                                        <select class="form-control" name="city" id="city" ng-model="query.city">
+                                            <option ng-repeat="company in allCompanies" value="{{company.city}}">{{company.city}}</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-if="allRoomsLoaded">
+                                <angular-google-maps rooms-on-map="roomsOnMap" center="" zoom="5"></angular-google-maps>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
+            <!--
+                                        <button type="submit" class="col-xs-12 btn btn-primary btn-search" ng-disabled="!updateSearchForm.$dirty">
+                                            Uppdatera
+                                        </button>
+-->
 
             <!-- Meetrd Loader -->
             <div ng-if="!allRoomsLoaded && !isHostPage" class="container loader-container">
-                <img src=" <?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/meetrd-loader.gif'?> ">
+                <meetrd-loader></meetrd-loader>
                 <!-- <h2>Meetrd söker efter rum...</h2> -->
             </div>
             <div ng-if="!roomsForHostLoaded && isHostPage" class="container loader-container">
-                <img src=" <?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/meetrd-loader.gif'?> ">
+                <meetrd-loader></meetrd-loader>
                 <!-- <h2>Var god vänta...</h2> -->
             </div>
 
@@ -127,8 +139,8 @@ for ($i=0; $i < count($all_hosts); $i++) {
 
 
             <!-- SEARCH RESULT -->
-
-            <div class="off-white-section row" ng-if="allRoomsLoaded || roomsForHostLoaded">
+            <!--ng-if="allRoomsLoaded || roomsForHostLoaded"-->
+            <div class="off-white-section row">
                 <div class="container-fluid">
                     <div class="container search-result-container ">
 
@@ -143,7 +155,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         </div>
                         <!--<div ng-repeat="room in filteredRooms = (allRooms | filter:roomMatchesSearchQuery():true)" class="room col-xs-12">-->
 
-                        <div ng-repeat="room in filteredRooms | filter:roomFilter  | orderBy:sortField" class="search-result-room-container col-sm-4 clearfix">
+                        <div data-ng-repeat="room in filtered = (allRooms | roomFilter:query) | orderBy: sortField" class="search-result-room-container col-sm-4 clearfix">
 
                             <div class="search-result-room-photo-container">
                                 <a href="{{room.url}}">
@@ -174,7 +186,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
 
                         </div>
                         <div class="col-xs-12 show-more-rooms-container no-padding" ng-click="showMoreRooms()">
-                            <div class="shows-x-rooms bold pull-left" ng-show="!isHostPage">Visar {{nrOfRoomsShown.value}} av {{queriedRooms.length}} sökträffar</div>
+                            <div class="shows-x-rooms bold pull-left" ng-show="!isHostPage">Visar {{query.nrOfHits}} av {{query.nrOfHits}} sökträffar</div>
 
                             <span ng-hide="queriedRooms.length === nrOfRoomsShown.value" class="pull-right btn btn-primary">Visa fler rum</span>
                         </div>

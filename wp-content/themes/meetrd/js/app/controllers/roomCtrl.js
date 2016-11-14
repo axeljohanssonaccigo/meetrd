@@ -1,4 +1,4 @@
-var roomApp = angular.module('roomApp', ['720kb.datepicker', 'angularGoogleMapsDir']);
+var roomApp = angular.module('roomApp', ['720kb.datepicker', 'angularGoogleMapsDir', 'meetrdLoaderDir', 'roomSearchFilter']);
 
 
 roomApp.controller('roomCtrl', function ($scope, roomSvc) {
@@ -20,16 +20,21 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
         $scope.allPosts = [];
         $scope.sortField = 'nrOfPeople';
         $scope.allRoomsLoaded = false;
+        $scope.roomsOnMap = [];
         $scope.roomsForHostLoaded = false;
         $scope.allRooms = [];
-        $scope.allBlogPosts = [];
+        $scope.allCompanies = [];
+        $scope.allCities = [];
+
+        //$scope.allHosts = allHosts;
+
         //The room that match the search query
         $scope.queriedRooms = [];
         //The rooms that matches the search query and the filter in search result
         $scope.filteredRooms = [];
         //The rooms that does not match the search query
-        $scope.otherRooms = [];
-        $scope.otherRoomsAreShown = false;
+        //        $scope.otherRooms = [];
+        //        $scope.otherRoomsAreShown = false;
         $scope.bookingFormIsShown = false;
         $scope.isHostPage = false;
         $scope.currentHost = [];
@@ -39,83 +44,127 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
         $scope.hostBiographyBreakpoint = 250;
         $scope.showMoreInfo = false;
         $scope.hostInfoHeightIsSet = false;
-        $scope.isSearchResult = false;
+        $scope.isSearchResult = true;
 
         $scope.query = {
             "date": null,
             "start": 0,
             "end": 0,
-            "nrOfPeople": null,
+            "nrOfPeople": '',
             "nrOfHits": 0,
-            "host": null
+            "company": null,
+            "city": null
         };
         $scope.nrOfRoomsShown = {
             value: 0
         };
+        $scope.roomAddressIsOnMap = function (address) {
+            var isOnMap = false;
+            angular.forEach($scope.roomsOnMap, function (room) {
+                if (room.address === address) {
+                    isOnMap = true;
+                }
+            });
+            return isOnMap;
+        };
+
+        //Get all rooms
+        if (!$scope.isHostPage) {
+            roomSvc.getAllRooms().then(function (response) {
+                var index = 0;
+                angular.forEach(response.data.posts, function (room) {
+                    $scope.defineRoomAttributes(room, index);
+                    index++;
+                    $scope.allRooms.push(room);
+                    //Push to roomsOnMap if the room address is unique
+                    var isOnMap = $scope.roomAddressIsOnMap(room.address);
+                    if (!isOnMap) {
+                        $scope.roomsOnMap.push(room);
+                    }
+                    //Pushes the room in queriedRooms if it matches the query
+
+                    //$scope.roomMatchesSearchQuery(room);
+                });
+                $scope.query.nrOfHits = $scope.queriedRooms.length;
+                // $scope.allRoomsLoaded = true;
+                if ($scope.queriedRooms.length < 40) {
+                    $scope.nrOfRoomsShown.value = $scope.queriedRooms.length;
+                } else {
+                    $scope.nrOfRoomsShown.value = 40;
+                }
+                //On page load, show the first 10 rooms (or all rooms if less than 10)
+                //$scope.pushToFilteredRooms(0, $scope.nrOfRoomsShown.value);
+                $scope.allRoomsLoaded = true;
+                console.log($scope.allRooms);
+                console.log($scope.allCompanies);
+                console.log($scope.allCities);
+
+            });
+        }
 
         //On scroll
-        jQuery(window).scroll(function () {
-            if ($scope.isSearchResult) {
-                if ($scope.isHostPage) {
-                    if (!$scope.hostInfoHeightIsSet) {
-                        $scope.hostInfoContainer = document.getElementById('host-info-container');
-                        $scope.hostInfoHeight = $scope.hostInfoContainer.clientHeight;
-                        $scope.hostInfoHeightIsSet = true;
-                    };
-                    //Dynamic distance to top depending on the host info container height
-                    var mapToTopDistance = $scope.hostInfoHeight + 96; //Adding the space between map and host info container
-                } else {
-                    //Fixed distance to top on a regular search result.
-                    var mapToTopDistance = 186;
-                }
-                var toTop = jQuery(document).scrollTop();
-
-                if (toTop >= mapToTopDistance) {
-                    jQuery("#map-container").addClass('sticky-map');
-
-                } else {
-                    jQuery("#map-container").removeClass('sticky-map');
-                }
-
-                //Compress map height if it does not fit in the window
-                $scope.reduceMapHeight();
-            };
-        });
-        jQuery('.parallax').parallax();
+        //        jQuery(window).scroll(function () {
+        //            if ($scope.isSearchResult) {
+        //                if ($scope.isHostPage) {
+        //                    if (!$scope.hostInfoHeightIsSet) {
+        //                        $scope.hostInfoContainer = document.getElementById('host-info-container');
+        //                        $scope.hostInfoHeight = $scope.hostInfoContainer.clientHeight;
+        //                        $scope.hostInfoHeightIsSet = true;
+        //                    };
+        //                    //Dynamic distance to top depending on the host info container height
+        //                    var mapToTopDistance = $scope.hostInfoHeight + 96; //Adding the space between map and host info container
+        //                } else {
+        //                    //Fixed distance to top on a regular search result.
+        //                    var mapToTopDistance = 186;
+        //                }
+        //                var toTop = jQuery(document).scrollTop();
+        //
+        //                if (toTop >= mapToTopDistance) {
+        //                    jQuery("#map-container").addClass('sticky-map');
+        //
+        //                } else {
+        //                    jQuery("#map-container").removeClass('sticky-map');
+        //                }
+        //
+        //                //Compress map height if it does not fit in the window
+        //                //$scope.reduceMapHeight();
+        //            };
+        //        });
+        //jQuery('.parallax').parallax();
         //Triggered on window resize
         jQuery(window).resize(function () {
             if ($scope.isSearchResult) {
-                $scope.reduceMapHeight();
+                //$scope.reduceMapHeight();
             };
         });
 
-        $scope.reduceMapHeight = function () {
-            if ($scope.mapIsInitilized) {
-                //Get the initial width of the map (100% of the container)
-                $scope.mapCanvasWidth = document.getElementById('map-canvas').clientWidth;
-                //Apply this 100% width as the max-width
-                jQuery("#map-container").css("cssText", "max-width: " + $scope.mapCanvasWidth + "px !important;");
-                jQuery("#map-canvas").css("cssText", "max-width: " + $scope.mapCanvasWidth + "px !important;");
-            };
-            $scope.windowHeight = jQuery(window).height();
-            //Initial map Canvas width
-            //var mapCanvas = document.getElementById('map-canvas');
-            //Apply the initial width (100%) as the max width for the canvas.
-            //var mapCanvasWidth = mapCanvas.clientWidth;
-            var defaultMapHeight = 505;
-            var menuHeight = 61;
-            var footerHeight = 100;
-            var marginBottom = 20;
-            var reducedMapHeight = $scope.windowHeight - (menuHeight + footerHeight + marginBottom);
-            var toBottom = jQuery(document).height() - jQuery(window).height() - jQuery(window).scrollTop();
-            //If the map cant fit the window, and the scroll is closer than footerHeight + marginBottom to the bottom: reduce the height.
-            if (reducedMapHeight < defaultMapHeight && toBottom < (footerHeight + marginBottom)) {
-                jQuery(".compressed-map").css("cssText", "max-height: " + reducedMapHeight + "px !important;");
-                jQuery("#map-canvas").addClass('compressed-map');
-            } else {
-                jQuery("#map-canvas").removeClass('compressed-map');
-            }
-        };
+        //        $scope.reduceMapHeight = function () {
+        //            if ($scope.mapIsInitilized) {
+        //                //Get the initial width of the map (100% of the container)
+        //                $scope.mapCanvasWidth = document.getElementById('map-canvas').clientWidth;
+        //                //Apply this 100% width as the max-width
+        //                jQuery("#map-container").css("cssText", "max-width: " + $scope.mapCanvasWidth + "px !important;");
+        //                jQuery("#map-canvas").css("cssText", "max-width: " + $scope.mapCanvasWidth + "px !important;");
+        //            };
+        //            $scope.windowHeight = jQuery(window).height();
+        //            //Initial map Canvas width
+        //            //var mapCanvas = document.getElementById('map-canvas');
+        //            //Apply the initial width (100%) as the max width for the canvas.
+        //            //var mapCanvasWidth = mapCanvas.clientWidth;
+        //            var defaultMapHeight = 505;
+        //            var menuHeight = 61;
+        //            var footerHeight = 100;
+        //            var marginBottom = 20;
+        //            var reducedMapHeight = $scope.windowHeight - (menuHeight + footerHeight + marginBottom);
+        //            var toBottom = jQuery(document).height() - jQuery(window).height() - jQuery(window).scrollTop();
+        //            //If the map cant fit the window, and the scroll is closer than footerHeight + marginBottom to the bottom: reduce the height.
+        //            if (reducedMapHeight < defaultMapHeight && toBottom < (footerHeight + marginBottom)) {
+        //                jQuery(".compressed-map").css("cssText", "max-height: " + reducedMapHeight + "px !important;");
+        //                jQuery("#map-canvas").addClass('compressed-map');
+        //            } else {
+        //                jQuery("#map-canvas").removeClass('compressed-map');
+        //            }
+        //        };
         $scope.getFormattedDate = function (date) {
             var dd = date.getDate();
             var mm = date.getMonth() + 1; //January is 0!
@@ -218,115 +267,124 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
         };
 
         //Get the params from the search query on start page
-        if (window.location.pathname === urlPathNameAddOn + "/search/") {
-            $scope.isSearchResult = true;
-            jQuery.extend({
-                getQueryParameters: function (str) {
-                    return (str || document.location.search).replace(/(^\?)/, '').split("&").map(function (n) {
-                        return n = n.split("="), this[n[0]] = n[1], this
-                    }.bind({}))[0];
-                }
-            });
-            $scope.query = jQuery.getQueryParameters();
-            if ($scope.query.date === "null") {
-                $scope.query.date = "";
-                //$scope.query.date = $scope.getFormattedDate($scope.query.date);
-            }
-            if ($scope.query.nrOfPeople === "null") {
-                $scope.query.nrOfPeople = "";
-            } else {
-                $scope.query.nrOfPeople = parseInt($scope.query.nrOfPeople);
-
-            }
-            if ('host' in $scope.query) {
-                $scope.isHostPage = true;
-                $scope.currentHost = $scope.getHostFromHostId($scope.query.host);
-                roomSvc.getRoomsForHost($scope.query.host).then(function (response) {
-                    var index = 0;
-                    angular.forEach(response.data.posts, function (room) {
-                        $scope.defineRoomAttributes(room, index);
-                        index++;
-                        $scope.queriedRooms.push(room);
-                        //$scope.getCoordinatesForRoom(room);
-                    });
-                    if ($scope.queriedRooms.length < 40) {
-                        $scope.nrOfRoomsShown.value = $scope.queriedRooms.length;
-                    } else {
-                        $scope.nrOfRoomsShown.value = 40;
-                    }
-                    //On page load, show the first 10 rooms (or all rooms if less than 10
-
-
-                    $scope.pushToFilteredRooms(0, $scope.nrOfRoomsShown.value);
-
-                    $scope.roomsForHostLoaded = true;
-
-                    $scope.query.nrOfHits = $scope.queriedRooms.length;
-                });
-
-
-            }
-            //Else = page is start page
-        } else {
-            //Get the blog posts
-            roomSvc.getAllPosts().then(function (response) {
-                angular.forEach(response.data.posts, function (post) {
-                    //strip the blog content from html
-                    post.content = post.content.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '');
-
-                });
-                $scope.allBlogPosts = response.data.posts;
-            });
-        }
+        //        if (window.location.pathname === urlPathNameAddOn + "/search/") {
+        //            $scope.isSearchResult = true;
+        //            jQuery.extend({
+        //                getQueryParameters: function (str) {
+        //                    return (str || document.location.search).replace(/(^\?)/, '').split("&").map(function (n) {
+        //                        return n = n.split("="), this[n[0]] = n[1], this
+        //                    }.bind({}))[0];
+        //                }
+        //            });
+        //            $scope.query = jQuery.getQueryParameters();
+        //            if ($scope.query.date === "null") {
+        //                $scope.query.date = "";
+        //                //$scope.query.date = $scope.getFormattedDate($scope.query.date);
+        //            }
+        //            if ($scope.query.nrOfPeople === "null") {
+        //                $scope.query.nrOfPeople = "";
+        //            } else {
+        //                $scope.query.nrOfPeople = parseInt($scope.query.nrOfPeople);
+        //
+        //            }
+        //            if ('host' in $scope.query) {
+        //                $scope.isHostPage = true;
+        //                $scope.currentHost = $scope.getHostFromHostId($scope.query.host);
+        //                roomSvc.getRoomsForHost($scope.query.host).then(function (response) {
+        //                    var index = 0;
+        //                    angular.forEach(response.data.posts, function (room) {
+        //                        $scope.defineRoomAttributes(room, index);
+        //                        index++;
+        //                        $scope.queriedRooms.push(room);
+        //                        //$scope.getCoordinatesForRoom(room);
+        //                    });
+        //                    if ($scope.queriedRooms.length < 40) {
+        //                        $scope.nrOfRoomsShown.value = $scope.queriedRooms.length;
+        //                    } else {
+        //                        $scope.nrOfRoomsShown.value = 40;
+        //                    }
+        //                    //On page load, show the first 10 rooms (or all rooms if less than 10
+        //
+        //
+        //                    $scope.pushToFilteredRooms(0, $scope.nrOfRoomsShown.value);
+        //
+        //                    $scope.roomsForHostLoaded = true;
+        //
+        //                    $scope.query.nrOfHits = $scope.queriedRooms.length;
+        //                });
+        //
+        //
+        //            }
+        //            //Else = page is start page
+        //        } else {
+        //            //Get the blog posts
+        //            roomSvc.getAllPosts().then(function (response) {
+        //                angular.forEach(response.data.posts, function (post) {
+        //                    //strip the blog content from html
+        //                    post.content = post.content.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '');
+        //
+        //                });
+        //                $scope.allBlogPosts = response.data.posts;
+        //            });
+        //        }
         //Pushes rooms from queriedRooms to filteredRooms, start and end index in queried rooms
-        $scope.pushToFilteredRooms = function (startIndex, endIndex) {
-            if ($scope.isSearchResult) {
-                //Push rooms to filtered rooms
-                for (var i = startIndex; i < endIndex; i++) {
-                    $scope.filteredRooms.push($scope.queriedRooms[i]);
-                };
-            };
-        };
+        //        $scope.pushToFilteredRooms = function (startIndex, endIndex) {
+        //            if ($scope.isSearchResult) {
+        //                //Push rooms to filtered rooms
+        //                for (var i = startIndex; i < endIndex; i++) {
+        //                    $scope.filteredRooms.push($scope.queriedRooms[i]);
+        //                };
+        //            };
+        //        };
 
-        $scope.showMoreRooms = function () {
-            var addToShowMoreRooms = 10;
-            var shownRooms = $scope.nrOfRoomsShown.value;
-            if ($scope.queriedRooms.length < $scope.nrOfRoomsShown.value + addToShowMoreRooms) {
-                $scope.nrOfRoomsShown.value = $scope.queriedRooms.length;
-            } else {
-                $scope.nrOfRoomsShown.value = $scope.nrOfRoomsShown.value + addToShowMoreRooms;
-            }
-            //Push rooms to filtered rooms
-            $scope.pushToFilteredRooms(shownRooms, $scope.nrOfRoomsShown.value);
-
-        };
+        //        $scope.showMoreRooms = function () {
+        //            var addToShowMoreRooms = 10;
+        //            var shownRooms = $scope.nrOfRoomsShown.value;
+        //            if ($scope.queriedRooms.length < $scope.nrOfRoomsShown.value + addToShowMoreRooms) {
+        //                $scope.nrOfRoomsShown.value = $scope.queriedRooms.length;
+        //            } else {
+        //                $scope.nrOfRoomsShown.value = $scope.nrOfRoomsShown.value + addToShowMoreRooms;
+        //            }
+        //            //Push rooms to filtered rooms
+        //            $scope.pushToFilteredRooms(shownRooms, $scope.nrOfRoomsShown.value);
+        //
+        //        };
         //Get all rooms if it a regular search and not a host page
-        if (!$scope.isHostPage) {
-            roomSvc.getAllRooms().then(function (response) {
-                var index = 0;
-                angular.forEach(response.data.posts, function (room) {
-                    $scope.defineRoomAttributes(room, index);
-                    index++;
-                    $scope.allRooms.push(room);
-                    //Pushes the room in queriedRooms if it matches the query
-                    $scope.roomMatchesSearchQuery(room);
-                });
-                $scope.query.nrOfHits = $scope.queriedRooms.length;
-                // $scope.allRoomsLoaded = true;
-                if ($scope.queriedRooms.length < 40) {
-                    $scope.nrOfRoomsShown.value = $scope.queriedRooms.length;
-                } else {
-                    $scope.nrOfRoomsShown.value = 40;
+        //        if (!$scope.isHostPage) {
+        //            roomSvc.getAllRooms().then(function (response) {
+        //                var index = 0;
+        //                angular.forEach(response.data.posts, function (room) {
+        //                    $scope.defineRoomAttributes(room, index);
+        //                    index++;
+        //                    $scope.allRooms.push(room);
+        //                    //Pushes the room in queriedRooms if it matches the query
+        //                    $scope.roomMatchesSearchQuery(room);
+        //                });
+        //                $scope.query.nrOfHits = $scope.queriedRooms.length;
+        //                // $scope.allRoomsLoaded = true;
+        //                if ($scope.queriedRooms.length < 40) {
+        //                    $scope.nrOfRoomsShown.value = $scope.queriedRooms.length;
+        //                } else {
+        //                    $scope.nrOfRoomsShown.value = 40;
+        //                }
+        //                //On page load, show the first 10 rooms (or all rooms if less than 10)
+        //                $scope.pushToFilteredRooms(0, $scope.nrOfRoomsShown.value);
+        //                $scope.allRoomsLoaded = true;
+        //
+        //
+        //            });
+        //            console.log($scope.allRooms);
+        //        }
+        function containsObject(obj, list) {
+            var i;
+            for (i = 0; i < list.length; i++) {
+                if (list[i] === obj) {
+                    return true;
                 }
-                //On page load, show the first 10 rooms (or all rooms if less than 10)
-                $scope.pushToFilteredRooms(0, $scope.nrOfRoomsShown.value);
-                $scope.allRoomsLoaded = true;
+            }
 
-
-            });
-            console.log($scope.allRooms);
+            return false;
         }
-
 
         $scope.defineRoomAttributes = function (room, index) {
             //Create new attributes from custom fields to facilitate handling
@@ -346,9 +404,10 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             if ('wpcf-host-id' in room['custom_fields']) {
                 room['hostId'] = room['custom_fields']['wpcf-host-id'][0];
                 room['host'] = $scope.getHostFromHostId(room.hostId);
+                room['company'] = room.host.nickname;
             }
             if ('wpcf-nr-of-people' in room['custom_fields']) {
-                room['nrOfPeople'] = room['custom_fields']['wpcf-nr-of-people'][0];
+                room['nrOfPeople'] = parseInt(room['custom_fields']['wpcf-nr-of-people'][0]);
             }
             if ('wpcf-price' in room['custom_fields']) {
                 room['price'] = parseInt(room['custom_fields']['wpcf-price'][0]);
@@ -371,10 +430,21 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             if ('wpcf-street-address' in room['custom_fields']) {
                 room['address'] = room['custom_fields']['wpcf-street-address'][0] + ", " + room.city;
             }
-
-            console.log(room.city);
             room["isOnMap"] = false;
             room["index"] = index;
+            //Push unique companies to array
+            var companyObject = {
+                'name': room.company,
+                'city': room.city
+            };
+            if (!angular.isUndefined(room.company) && !angular.isUndefined(room.city) && !containsObject(companyObject, $scope.allCompanies)) {
+                $scope.allCompanies.push(companyObject);
+            }
+            //Push unique cities to array
+            //            if (!angular.isUndefined(room.city) && jQuery.inArray(room.city, $scope.allCities) === -1) {
+            //                $scope.allCities.push(room.city);
+            //            }
+
         };
         //Sets indices to an array of rooms, used to display queriedrooms (or filtered rooms) as grid
         $scope.setRoomIndices = function (roomArray) {
@@ -395,14 +465,14 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
         };
 
         $scope.search = function (query) {
-            if (query.date === null || query.date === "") {
-                var dateQuery = null;
-            } else {
-                var dateQuery = moment(query.date).format('YYYY-MM-DD');
-            }
-
-            var url = window.location.origin + urlPathNameAddOn + '/search/?date=' + dateQuery + '&nrOfPeople=' + query.nrOfPeople;
-            window.location.href = url;
+            //            if (query.date === null || query.date === "") {
+            //                var dateQuery = null;
+            //            } else {
+            //                var dateQuery = moment(query.date).format('YYYY-MM-DD');
+            //            }
+            //
+            //            var url = window.location.origin + urlPathNameAddOn + '/search/?date=' + dateQuery + '&nrOfPeople=' + query.nrOfPeople;
+            //            window.location.href = url;
         };
         $scope.goToHostPage = function (hostId) {
             window.location.href = window.location.origin + urlPathNameAddOn + '/search/?host=' + hostId;
@@ -411,18 +481,18 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             window.location.href = blogPostUrl;
         };
 
-        $scope.roomMatchesSearchQuery = function (room) {
-            if ($scope.query.nrOfPeople === "") {
-                var nrOfPeople = 0;
-            } else {
-                var nrOfPeople = $scope.query.nrOfPeople;
-            }
-            //Check if the room can fit in the nr of people requested in the query
-            if (parseInt(room.nrOfPeople) >= parseInt(nrOfPeople) && !room.isOnMap) {
-                $scope.queriedRooms.push(room);
-                $scope.setRoomIndices($scope.queriedRooms);
-            };
-        };
+        //        $scope.roomMatchesSearchQuery = function (room) {
+        //            if ($scope.query.nrOfPeople === "") {
+        //                var nrOfPeople = 0;
+        //            } else {
+        //                var nrOfPeople = $scope.query.nrOfPeople;
+        //            }
+        //            //Check if the room can fit in the nr of people requested in the query
+        //            if (parseInt(room.nrOfPeople) >= parseInt(nrOfPeople) && !room.isOnMap) {
+        //                $scope.queriedRooms.push(room);
+        //                $scope.setRoomIndices($scope.queriedRooms);
+        //            };
+        //        };
         $scope.goToRoom = function (roomUrl, queryDate) {
             if (queryDate === "") {
                 var date = $scope.getFormattedDate(new Date());
@@ -501,6 +571,11 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             location.href = location.origin + urlPathNameAddOn + page;
         };
 
+        $scope.$watch('query', function () {
+            if ($scope.query.company !== null) {
+                // $scope.query.city = null;
+            }
+        }, true);
 
     };
     console.log("romctrl loadings");

@@ -1,5 +1,5 @@
 'use strict';
-var headerApp = angular.module('headerApp', []);
+var headerApp = angular.module('headerApp', ['meetrdLoaderDir']);
 
 jQuery(document).ready(function () {
     angular.bootstrap(document.getElementById("meetrd-header"), ['headerApp']);

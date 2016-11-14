@@ -218,7 +218,7 @@
                                                 <center>{{registerMessageToUser}}</center>
                                                 <div ng-show="userTriedToRegister && !userWasRegistered">
                                                     <div class="loader-container">
-                                                        <img src=" <?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/meetrd-loader.gif'?> ">
+                                                        <meetrd-loader></meetrd-loader>
                                                     </div>
                                                 </div>
 
