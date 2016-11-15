@@ -43,12 +43,12 @@ for ($i=0; $i < count($all_hosts); $i++) {
                     </div>
                 </div>
                 <div class="parallax">
-                    <img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/test10.jpg'; ?>" />
+                    <img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/meetrd-banner-happy-people-2000x1039.jpg'; ?>" />
                 </div>
             </div>
 
 
-            <div class="off-white-section row">
+            <div class="row">
                 <div class="container">
                     <div class="three-steps-container col-xs-12 no-padding">
                         <div class="col-xs-12 col-sm-4 one-step no-padding-mobile">
@@ -56,7 +56,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                 <div class="col-xs-12">
                                     <i class="fa fa-key fa-3x"></i>
                                 </div>
-                                <h1>Bli värd</h1>
+                                <h1>Att vara värd</h1>
                                 <p> </p>
                             </a>
 
@@ -67,7 +67,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                     <i class="fa fa-handshake-o fa-3x"></i>
 
                                 </div>
-                                <h1>Att hyra</h1>
+                                <h1>Så bokar du mötesrum</h1>
                                 <p> </p>
                             </a>
                         </div>

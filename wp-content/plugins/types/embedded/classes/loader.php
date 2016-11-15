@@ -35,15 +35,15 @@ class WPCF_Loader
 		add_filter( 'wpcf_fields_postmeta_value_save', array( 'WPCF_Loader', 'wpcf_sanitize_postmeta_values_on_save' ) );
 		add_filter( 'wpcf_fields_usermeta_value_save', array( 'WPCF_Loader', 'wpcf_sanitize_usermeta_values_on_save' ) );
     }
-	
+
 	/**
 	* Sanitize fields values on save
 	*
 	*/
-	
+
 	public static function wpcf_sanitize_postmeta_values_on_save( $value ) {
 		if (
-			current_user_can( 'unfiltered_html' ) 
+			current_user_can( 'unfiltered_html' )
 			&& wpcf_get_settings('postmeta_unfiltered_html') != 'off'
 		) {
 			return $value;
@@ -56,10 +56,10 @@ class WPCF_Loader
 		}
 		return $value;
 	}
-	
+
 	public static function wpcf_sanitize_usermeta_values_on_save( $value ) {
 		if (
-			current_user_can( 'unfiltered_html' ) 
+			current_user_can( 'unfiltered_html' )
 			&& wpcf_get_settings('usermeta_unfiltered_html') != 'off'
 		) {
 			return $value;
@@ -174,7 +174,7 @@ class WPCF_Loader
                 'font-awesome',
                 WPCF_EMBEDDED_RELPATH.'/toolset/toolset-common/utility/css/font-awesome/css/font-awesome.min.css',
                 array(),
-                '4.4.0'
+                '4.7.0'
             );
         }
         if ( !wp_style_is( 'toolset-dashicons', 'registered' ) ) {

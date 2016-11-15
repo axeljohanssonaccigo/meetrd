@@ -96,7 +96,7 @@
                                         <li ng-hide="<?php echo is_user_logged_in(); ?>"><a ng-click="clickBookingLoginButton()" href="{{loginHref}}" ng-class="{'simplemodal-login': !isRoomPage}">Logga in</a></li>
                                         <li ng-show="<?php echo is_user_logged_in(); ?>"><a href="<?php echo wp_logout_url( home_url() ); ?>">Logga ut</a></li>
                                         <li ng-show="<?php echo is_user_logged_in(); ?>"> <a href="<?php echo $my_pages_url; ?>">Mina sidor</a></li>
-                                        <li> <a href="<?php echo get_home_url().'/search/?nrOfPeople=null' ?>">Sök mötesrum</a></li>
+                                        <li> <a href="<?php echo get_home_url().'/search' ?>">Sök mötesrum</a></li>
                                         <?php wp_nav_menu( array( 'theme_location' => 'meetrd-navigation', 'menu_class' => 'nav nav-tabs', 'link_before' => '<span class="icon"><i aria-hidden="true" class="icon-home"></i></span><span class="MenuName">', 'link_after' => '</span>' ) ); ?>
 
                                     </ul>
@@ -115,7 +115,7 @@
                                         <a href="<?php  echo get_home_url().'/kontakt'; ?>">Kontakt</a>
                                     </div>
                                     <div class="mobile-menu-item">
-                                        <a href="<?php  echo get_home_url().'/search/?nrOfPeople=null'; ?>">Sök mötesrum</a>
+                                        <a href="<?php  echo get_home_url().'/search'; ?>">Sök mötesrum</a>
                                     </div>
 
 
@@ -245,4 +245,4 @@
                 </div>
             </div>
 
-            <div id="content" class="site-content row">
+            <div id="content" class="site-content">

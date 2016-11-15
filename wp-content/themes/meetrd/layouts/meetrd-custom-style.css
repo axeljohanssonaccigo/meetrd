@@ -165,15 +165,15 @@ img {
 }
 
 .btn-meetrd {
-    background-color: rgba(255, 255, 255, 0.3) !important;
+    background-color: rgba(230, 0, 138, 0.7) !important;
     border: 1px solid #fff !important;
     color: #fff !important;
 }
 
 .btn-meetrd:hover {
-    background-color: rgb(255, 255, 255) !important;
-    color: rgb(230, 0, 138) !important;
-    border-color: rgb(230, 0, 138) !important;
+    background-color: rgba(230, 0, 138, 0.9) !important;
+    color: #fff !important;
+    /*    border-color: rgb(230, 0, 138) !important;*/
 }
 
 .btn-primary {
@@ -192,6 +192,10 @@ img {
 
 .btn-primary a:hover {
     text-decoration: none;
+}
+
+select {
+    border-radius: 0 !important;
 }
 
 select.btn-primary,
@@ -284,6 +288,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .meetrd-loader-container {
     text-align: center;
     padding-top: 5%;
+    padding-bottom: 3%;
 }
 
 .meetrd-loader-container img {
@@ -954,6 +959,13 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 }
 
 /* SEARCH RESULT PAGE */
+#updateSearchForm .control-label {
+    margin-top: 15px;
+}
+.search-form-container {
+    margin-bottom: 30px;
+    padding-right: 10px;
+}
 .update-search-container {
     padding: 20px 0;
     margin: auto;
@@ -974,7 +986,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     opacity: 1;
 }
 .show-more-rooms-container {
-    margin-top: 30px;
+    margin: 30px 0;
     text-align: right;
 }
 .show-more-rooms-container span {
@@ -1473,6 +1485,11 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     .newsletter {
         padding-top: 70px;
     }
+    
+    .search-result-room-container {
+        padding-right: 5px!important;
+        padding-left: 0px!important;
+    }
 }
 @media(max-width: 767px) {
     .custom-tab {
@@ -1560,6 +1577,10 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     
     .popular-hosts {
         font-size: 24px;
+    }
+    
+    .search-form-container {
+        padding-right: 0;
     }
     
     @media(max-width: 990px) {
@@ -1763,6 +1784,9 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 }
 .parallax {
     min-height: 400px;
+}
+.parallax-container {
+    height: 580px !important;
 }
 .area {
     font-size: 14px!important;
