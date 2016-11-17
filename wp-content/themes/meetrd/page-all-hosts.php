@@ -34,7 +34,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         ALLA VÅRA VÄRDFÖRETAG
                     </div>
                     <div class="hosts-rooms-container">
-                        <div ng-repeat="host in allHosts" class="host-rooms-container col-sm-3 col-xs-12 clearfix no-padding-mobile">
+                        <div ng-repeat="host in allHosts | orderBy:'nickname'" class="host-rooms-container col-sm-3 col-xs-12 clearfix no-padding-mobile">
                             <a href="<?php echo get_home_url().'/search/?host='?>{{host.ID}}">
                                 <div class="host-rooms-photo-container">
                                     <img src="{{host.banner}}">
@@ -50,3 +50,4 @@ for ($i=0; $i < count($all_hosts); $i++) {
         <!-- #main -->
     </div>
     <!-- #primary -->
+    <?php get_footer(); ?>

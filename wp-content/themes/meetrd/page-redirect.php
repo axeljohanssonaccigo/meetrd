@@ -21,12 +21,16 @@ for ($i=0; $i < count($all_hosts); $i++) {
 ?>
     <script type="text/javascript">
         var allHosts = <?php echo json_encode($all_hosts); ?>;
+        console.log(allHosts);
         var pageName = '<?php echo $pagename; ?>';
-        pageName = pageName.toLowerCase();
+        pageName = pageName.replace(/-/g, ' ').toLowerCase();
+        console.log('pagename: ' + pageName);
         for (i = 0; i < allHosts.length; i++) {
             //var hostName = allHosts[i].data.user_login.toLowerCase();
-            var hostNick = allHosts[i].data.user_nicename.toLowerCase();
+            //            var hostNick = allHosts[i].data.user_nicename.toLowerCase();
+            var hostNick = allHosts[i].nickname[0].toLowerCase();
 
+            console.log(hostNick);
             if (hostNick === pageName) {
                 var hostId = allHosts[i].data.ID;
                 if (location.pathname.search('meetrd') > -1) {

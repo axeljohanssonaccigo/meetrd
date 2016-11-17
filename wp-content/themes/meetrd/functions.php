@@ -118,7 +118,7 @@ add_action( 'widgets_init', 'meetrd_widgets_init' );
  */
 function meetrd_scripts() {
 
-$version = 1.36;
+$version = 1.39;
 	//Scripts and styles used on all pages
 	//Scripts
 	//angular
@@ -141,8 +141,11 @@ $version = 1.36;
 	wp_enqueue_script( 'footerCtrl', get_template_directory_uri() . '/js/app/controllers/footerCtrl.js');
     //Loader directive
     wp_enqueue_script( 'meetrd_loader_directive', get_template_directory_uri() . '/js/app/directives/meetrdLoaderDir.js', array(), $version, false);
+    //Filters
+    wp_enqueue_script( 'uniqueFilter', get_template_directory_uri() . '/js/app/filters/uniqueFilter.js', array(), $version, false);
 
-
+    
+    
 	//Styles
 	wp_enqueue_style('parallax-custom-style', get_template_directory_uri() . '/layouts/parallax.css' );
 	wp_enqueue_style('meetrd-custom-style', get_template_directory_uri() . '/layouts/meetrd-custom-style.css', array(), $version, false );	

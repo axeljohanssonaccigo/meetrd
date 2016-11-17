@@ -26,7 +26,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
 
     <div id="primary" class="content-area" ng-app="roomApp" ng-controller="roomCtrl" ng-cloak>
         <main id="main" class="site-main" role="main">
-            <!-- FILTEr SEARCH RESULT -->
+            <!-- FILTER SEARCH RESULT -->
             <div class="white-section container">
                 <div class="row">
                     <div class="popular-hosts" ng-show="!isHostPage">
@@ -36,11 +36,11 @@ for ($i=0; $i < count($all_hosts); $i++) {
                 <div class="" ng-show="!isHostPage">
                     <div class="row search-form-container">
                         <form name="updateSearchForm" id="updateSearchForm">
-                            <div class="col-xs-12 col-md-4 text-center search-input">
+                            <div class="col-xs-12 col-md-3 text-center search-input">
                                 <label class="control-label" for="nrOfPeople">Hur många är ni?</label>
                                 <input type="number" min="1" ng-model="query.nrOfPeople" name="nrOfPeople" id="nrOfPeople" class="form-control" />
                             </div>
-                            <div class="col-xs-12 col-md-4 text-center search-input">
+                            <div class="col-xs-12 col-md-3 text-center search-input">
                                 <label class="control-label" for="city">Vilken stad vill du boka i?</label>
                                 <select class="form-control" placeholder="Välj stad" name="city" id="city" ng-model="query.city">
                                     <option ng-repeat="city in allCities" value="{{city}}">{{city}}</option>
@@ -49,8 +49,15 @@ for ($i=0; $i < count($all_hosts); $i++) {
                             <div class="col-xs-12 col-md-4 text-center search-input">
                                 <label class=" control-label" for="company">Vet du vilket företag du vill boka hos?</label>
                                 <select class="form-control" name="company" id="company" ng-model="query.companyName" ng-change="setCompanyCity()">
-                                    <option ng-repeat="company in allCompanies" value="{{company.name}}">{{company.name}}</option>
+                                    <option ng-repeat="company in allCompanies | unique:'name' | orderBy:'name'" value="{{company.name}}">{{company.name}}</option>
                                 </select>
+                            </div>
+                            <div class="col-xs-12 col-md-2">
+                                <label class=" control-label" for="company">&nbsp;</label>
+                                <button type="button" ng-click="resetSearchQuery()" class="form-control btn btn-primary">Rensa sök</button>
+                            </div>
+                            <div class="col-xs-12" ng-show="query.isSearchResult">
+                                <h4> Din sökning gav {{query.nrOfHits}} rum</h4>
                             </div>
                         </form>
                     </div>
@@ -151,7 +158,8 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                     </div>
                                     <div class="search-result-room-title">
                                         <div class="col-xs-12 no-padding">
-                                            <h1><a href="<?php echo get_home_url().'/search/?host='?>{{room.hostId}}">{{getHostFromHostId(room.hostId).nickname}}</a></h1>
+                                            <h1 ng-hide="isHostPage"><a href="<?php echo get_home_url().'/search/?host='?>{{room.hostId}}">{{getHostFromHostId(room.hostId).nickname}}</a></h1>
+                                            <h1 ng-show="isHostPage"><a href="{{room.url}}">{{room.title}}</a></h1>
 
                                             <!--                                    <span class="hidden-sm hidden-md">{{room.area}} - {{room.city}}</span>-->
                                             <span class="block-display">{{room.area}} - {{room.city}}</span>
@@ -163,9 +171,6 @@ for ($i=0; $i < count($all_hosts); $i++) {
                             </div>
                             <div class="col-xs-12 show-more-rooms-container no-padding" ng-if="!isHostPage" ng-show="query.nrOfHits > 0">
                                 <div class="shows-x-rooms bold pull-left" ng-show="allRoomsLoaded && !isHostPage">Visar {{query.shownRooms}} av {{query.nrOfHits}} rum</div>
-                                <!--                                <div class="shows-x-rooms bold pull-left" ng-show="allRoomsLoaded && !isHostPage">Din sökning gav {{query.nrOfHits}} rum</div>-->
-
-                                {{filtered.length}}
                                 <button ng-hide="query.nrOfHits === query.shownRooms" type="button" ng-click="showMoreRooms()" ng-show="true" class="pull-right btn btn-primary">Visa fler rum</button>
                             </div>
                         </div>

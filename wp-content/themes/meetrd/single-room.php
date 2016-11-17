@@ -75,7 +75,7 @@ $all_meta_for_host = get_user_meta($hostId);
 
 
 
-    <div id="primary" class="content-area col-xs-12 overflow-fix">
+    <div id="primary" class="content-area  overflow-fix">
         <main id="main" class="site-main" role="main" ng-app="bookingApp" ng-controller="bookingCtrl" ng-cloak>
 
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -101,8 +101,8 @@ $all_meta_for_host = get_user_meta($hostId);
     </div>
 </div>
 -->
-                    <div class="row">
-                        <div class="container-fluid white-section">
+                    <div class="">
+                        <div class="container-fluid row white-section">
                             <div class="container no-padding" id="single-room">
                                 <!-- BOOKING CONTAINER -->
                                 <div class="booking-container clearfix" id="booking-container">
@@ -274,7 +274,7 @@ $all_meta_for_host = get_user_meta($hostId);
 
 
                         <!-- ABOUT THE ROOM -->
-                        <div class="container-fluid off-white-section">
+                        <div class="container-fluid row off-white-section">
                             <div class="container no-padding">
                                 <!-- ABOUT THE ROOM -->
 

@@ -7,6 +7,10 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
         var urlPathNameAddOn = "";
     }
     $scope.allHosts = [];
+    $scope.viewPort = {
+        height: 0,
+        width: 0
+    };
 
     $scope.defineHostAttributes = function () {
         $scope.allHosts = allHosts;
@@ -139,6 +143,21 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
             tag.href = "javascript:;";
         })
     }
+    $scope.setViewPort = function () {
+        $scope.viewPort.height = jQuery(window).height();
+        $scope.viewPort.width = jQuery(window).width();
+        if ($scope.viewPort.width < 768) {
+            $scope.isMobile = true;
+            $scope.imgUrl = location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-mobile.jpg';
+        } else {
+            $scope.imgUrl = location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-desktop.jpg';
+            $scope.bannerImg = 'meetrd-banner-desktop.jpg';
+
+            $scope.isMobile = false;
+        }
+
+        console.log($scope.isMobile);
+    }
 
     jQuery(document).ready(function () {
         if (jQuery('.parallax').length > 0) {
@@ -146,7 +165,11 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
             //This is the startpage - get all rooms for carousel
             $scope.disableDefaultCarouselImageLinks();
             $scope.getAllRoomCarouselPosts();
+            $scope.setViewPort();
         }
+    });
+    jQuery(window).resize(function () {
+        $scope.setViewPort();
     });
 
 });

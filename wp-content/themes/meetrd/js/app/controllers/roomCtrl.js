@@ -1,4 +1,4 @@
-var roomApp = angular.module('roomApp', ['720kb.datepicker', 'angularGoogleMapsDir', 'meetrdLoaderDir', 'roomSearchFilter']);
+var roomApp = angular.module('roomApp', ['720kb.datepicker', 'angularGoogleMapsDir', 'meetrdLoaderDir', 'roomSearchFilter', 'uniqueFilter']);
 
 
 roomApp.controller('roomCtrl', function ($scope, roomSvc) {
@@ -17,18 +17,12 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             var urlPathNameAddOn = "";
         }
         $scope.allHosts = [];
-        //        $scope.allPosts = [];
-        $scope.sortField = 'host.rating';
+        $scope.sortField = '-host.rating';
         $scope.allRoomsLoaded = false;
         $scope.roomsOnMap = [];
-        //        $scope.roomsForHostLoaded = false;
         $scope.allRooms = [];
         $scope.allCompanies = [];
         $scope.allCities = [];
-        //The room that match the search query
-        //        $scope.queriedRooms = [];
-        //The rooms that matches the search query and the filter in search result
-        //        $scope.filteredRooms = [];
         $scope.bookingFormIsShown = false;
         $scope.isHostPage = false;
         $scope.currentHost = [];
@@ -39,11 +33,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
         $scope.showMoreInfo = false;
         $scope.hostInfoHeightIsSet = false;
         $scope.isSearchResult = true;
-        $scope.shownRoomsDefault = 11;
 
-        $scope.nrOfRoomsShown = {
-            value: 0
-        };
         $scope.roomAddressIsOnMap = function (address) {
             var isOnMap = false;
             angular.forEach($scope.roomsOnMap, function (room) {
@@ -55,7 +45,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
         };
         $scope.initPage = function () {
 
-
+            //Get all rooms for host
             if (location.search.search('host') > -1) {
                 $scope.isHostPage = true;
                 $scope.query.host = parseInt(location.search.replace('?host=', ''));
@@ -87,43 +77,12 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
                         if (!isOnMap) {
                             $scope.roomsOnMap.push(room);
                         }
-                        //Pushes the room in queriedRooms if it matches the query
-
-                        //$scope.roomMatchesSearchQuery(room);
                     });
-                    //$scope.query.nrOfHits = $scope.queriedRooms.length;
-                    $scope.query.shownRooms = $scope.shownRoomsDefault;
-                    // $scope.allRoomsLoaded = true;
-
-                    //On page load, show the first 10 rooms (or all rooms if less than 10)
-                    //$scope.pushToFilteredRooms(0, $scope.nrOfRoomsShown.value);
+                    $scope.query.shownRooms = $scope.query.shownRoomsDefault;
                     $scope.allRoomsLoaded = true;
                 });
             }
         }
-
-        $scope.getFormattedDate = function (date) {
-            var dd = date.getDate();
-            var mm = date.getMonth() + 1; //January is 0!
-            var yyyy = date.getFullYear();
-            if (dd < 10) {
-                dd = '0' + dd
-            }
-            if (mm < 10) {
-                mm = '0' + mm
-            }
-            date = yyyy + '-' + mm + '-' + dd;
-            return date;
-        };
-
-        $scope.datePickerSettings = {
-            "minDate": $scope.getFormattedDate(new Date()),
-            "maxDate": null,
-            "isShown": false,
-            "pattern": 'yyyy-MM-dd'
-
-        };
-
 
         //Returns an 5 element array of ints from 1 to integer. Fills the rest with zeros if integer < 5 (max rating)
         $scope.getIntRange = function (integer) {
@@ -187,6 +146,8 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
                 if ('wpcf-votes' in host) {
                     host["votes"] = host['wpcf-votes'];
                     host["rating"] = $scope.calculateHostRating(host);
+                } else {
+                    host["rating"] = 1;
                 }
             });
 
@@ -203,10 +164,10 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             return returnHost;
         };
 
-        function containsCompany(companyName) {
+        function containsCompany(companyObject) {
             var containsCompany = false;
             angular.forEach($scope.allCompanies, function (company) {
-                if (company.name === companyName) {
+                if (company.name === companyObject.name && company.city === companyObject.city) {
                     containsCompany = true;
                 }
             });
@@ -215,7 +176,6 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
 
         $scope.defineRoomAttributes = function (room, index) {
             //Create new attributes from custom fields to facilitate handling
-
             if ('wpcf-contact-person' in room['custom_fields']) {
                 room['contactPerson'] = room['custom_fields']['wpcf-contact-person'][0];
             }
@@ -259,12 +219,12 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             }
             room["isOnMap"] = false;
             room["index"] = index;
-            //Push unique companies to array
             var companyObject = {
                 'name': room.company,
                 'city': room.city
             };
-            if (!angular.isUndefined(room.company) && !angular.isUndefined(room.city) && !containsCompany(room.company)) {
+            //Push unique companies to array
+            if (!angular.isUndefined(room.company) && !angular.isUndefined(room.city) && !containsCompany(companyObject)) {
                 $scope.allCompanies.push(companyObject);
             }
             //Push unique cities to array
@@ -293,22 +253,50 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
 
 
         $scope.setCompanyCity = function () {
+            var companyCities = $scope.getCitiesForCompany($scope.query.companyName);
             angular.forEach($scope.allCompanies, function (company) {
                 if ($scope.query.companyName === company.name) {
-                    $scope.query.city = company.city;
+                    //If the company is in only one city - set this city
+                    if (companyCities.length === 1) {
+                        $scope.query.city = company.city;
+                    }
+                    // If the company exists in the chosen city - do nothing
+                    else if (jQuery.inArray($scope.query.city, companyCities) > -1) {
+                        //Keep the chosen city
+                    }
+                    //Else set the city to null
+                    else {
+                        $scope.query.city = null;
+                    }
+
                 }
             });
         };
+
+
+
+        $scope.getCitiesForCompany = function (companyName) {
+            var companyCitites = [];
+            angular.forEach($scope.allCompanies, function (company) {
+                if (company.name === companyName) {
+                    companyCitites.push(company.city);
+                }
+            });
+            return companyCitites;
+        };
+
         $scope.resetSearchQuery = function () {
+            var shownRoomsDefault = 12;
             $scope.query = {
                 nrOfPeople: '',
                 nrOfHits: 0,
                 companyName: null,
                 city: null,
                 host: 0,
-                shownRooms: $scope.shownRoomsDefault,
-                moreRoomsIncrease: $scope.shownRoomsDefault,
-                clickedMoreRoomsButton: false,
+                shownRooms: shownRoomsDefault,
+                moreRoomsIncrease: shownRoomsDefault,
+                shownRoomsDefault: shownRoomsDefault,
+                isSearchResult: false,
                 sortFields: [
                     {
                         name: 'Minst först',
@@ -332,7 +320,6 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
         };
 
         $scope.showMoreRooms = function () {
-            $scope.query.clickedMoreRoomsButton = true;
             if ($scope.query.nrOfHits > $scope.query.shownRooms) {
                 var roomsNotShown = $scope.query.nrOfHits - $scope.query.shownRooms;
                 if (roomsNotShown > $scope.query.moreRoomsIncrease) {
@@ -341,7 +328,6 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
                     $scope.query.shownRooms += roomsNotShown;
                 }
             }
-            console.log($scope.query);
         };
 
         $scope.queriesAreIdentic = function (newQuery, oldQuery) {
@@ -349,18 +335,13 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
         };
 
         $scope.$watch('query', function (newQuery, oldQuery) {
-            //If the city is changed from one to another - reset company drop
-            if (oldQuery.city !== null && oldQuery.city !== newQuery.city && oldQuery.companyName === newQuery.companyName) {
+            //If the city is changed from one to another and the company in query has only one city - then reset company drop
+            var companyCities = $scope.getCitiesForCompany(newQuery.companyName);
+            if (oldQuery.city !== null && oldQuery.city !== newQuery.city && oldQuery.companyName === newQuery.companyName && !(jQuery.inArray(newQuery.city, companyCities) > -1)) {
                 $scope.query.companyName = null;
             }
-//            //Nånting som inte riktigt
-  //            if($scope.query.nrOfHits < $scope.shownRoomsDefault){
-  //                $scope.
-  //            }
-            if ($scope.query.shownRooms < $scope.shownRoomsDefault && $scope.query.nrOfHits > $scope.shownRoomsDefault) {
-                console.log("reset to 9");
-                $scope.query.shownRooms = $scope.shownRoomsDefault;
-
+            if (($scope.query.shownRooms < $scope.query.shownRoomsDefault && $scope.query.nrOfHits > $scope.query.shownRoomsDefault) || $scope.query.shownRooms > $scope.query.nrOfHits) {
+                $scope.query.shownRooms = $scope.query.shownRoomsDefault;
             }
         }, true);
         $scope.resetSearchQuery();

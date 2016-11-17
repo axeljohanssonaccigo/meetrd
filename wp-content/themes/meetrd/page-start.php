@@ -25,7 +25,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
     </script>
 
     <div id="primary" class="content-area" ng-app="startApp" ng-controller="startCtrl" ng-cloak>
-        <main id="main" class="site-main container-fluid" role="main">
+        <main id="main" class="site-main container-fluid row" role="main">
             <div class="parallax-container row">
                 <div class="container">
                     <!--HEADING TEXT-->
@@ -34,17 +34,22 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         <h2>✓ Socialt  ✓ Hållbart  ✓ Prisvärt</h2>
                     </div>
                     <!-- Search container -->
-                    <div class="search-container col-xs-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+                    <div class="search-container col-xs-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6 hidden">
                         <div class="col-xs-12 text-center">
-                            <a href="<?php  echo get_home_url().'/search/?nrOfPeople=null'; ?>">
+                            <a href="<?php  echo get_home_url().'/search'; ?>">
                                 <button type="submit" class="btn btn-meetrd">Sök mötesrum</button>
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="parallax">
-                    <img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/meetrd-banner-happy-people-2000x1039.jpg'; ?>" />
+
+                    <img ng-src="{{imgUrl}}" />
+
+
                 </div>
+
+
             </div>
 
 

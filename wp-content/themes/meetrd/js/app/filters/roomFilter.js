@@ -1,4 +1,4 @@
-angular.module('roomSearchFilter', []).filter('roomFilter', [function ($scope) {
+angular.module('roomSearchFilter', []).filter('roomFilter', [function () {
     return function (rooms, query) {
 
         if (!angular.isUndefined(rooms) && !angular.isUndefined(query)) {
@@ -17,7 +17,13 @@ angular.module('roomSearchFilter', []).filter('roomFilter', [function ($scope) {
                 var cityCondition = room.city === query.city;
 
 
+
                 //The logix
+                if (!hasNrOfPeople && !hasCompany && !hasCity) {
+                    query.isSearchResult = false;
+                } else {
+                    query.isSearchResult = true;
+                }
                 if (hasNrOfPeople && hasCompany && hasCity) {
                     pushRoom = nrOfPeopleCondition && companyCondition && cityCondition;
                 } else if (hasNrOfPeople && hasCompany && !hasCity) {
@@ -40,17 +46,9 @@ angular.module('roomSearchFilter', []).filter('roomFilter', [function ($scope) {
                 }
             });
             query.nrOfHits = filteredRooms.length;
-            //If refiltering - and not just a more rooms click
-
-            if (query.nrOfHits < 9) {
+            if (query.nrOfHits < query.shownRoomsDefault) {
                 query.shownRooms = query.nrOfHits;
             }
-            //else {
-            //                query.shownRooms = 9;
-            //            }
-
-
-            //            query.hasFiltered = true;
             return filteredRooms;
         } else {
             query.nrOfHits = rooms.length;

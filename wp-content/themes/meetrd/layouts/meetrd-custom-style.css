@@ -119,6 +119,10 @@ img {
     -ms-interpolation-mode: bicubic;
 }
 
+#main {
+    margin-bottom: 200px;
+}
+
 
 /* SPIN THAT SHIT */
 
@@ -177,7 +181,12 @@ img {
 }
 
 .btn-primary {
-    background-color: rgb(230, 0, 138) !important;
+    background-color: rgba(230, 0, 138, 1) !important;
+    /*    color: #fff !important;*/
+}
+
+.btn-primary:hover {
+    background-color: rgba(230, 0, 138, 0.8) !important;
     /*    color: #fff !important;*/
 }
 
@@ -559,6 +568,12 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .start-img-container {
     background-position: center;
     background-size: cover;
+}
+.parallax-container .parallax img {
+    min-width: 1px;
+    max-width: 100%;
+    height: auto;
+    min-height: 1px;
 }
 .heading-text {
     text-align: center;
@@ -989,12 +1004,8 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     margin: 30px 0;
     text-align: right;
 }
-.show-more-rooms-container span {
-    opacity: 0.9;
-    cursor: pointer;
-}
-.show-more-rooms-container span:hover {
-    opacity: 1;
+.show-more-rooms-container button {
+    margin-right: 10px;
 }
 .show-x-rooms {
     //font-weight: bold;
@@ -1351,7 +1362,8 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .meetrd-footer-container ul {
     list-style: none;
     margin: 0 0 10px 0;
-    padding: 0;
+    padding: 10px 0;
+    text-align: left;
 }
 .meetrd-footer-container ul li {
     display: inline;
@@ -1375,15 +1387,51 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 }
 .meetrd-footer-container {
     width: 100%;
-    height: 100px;
+    height: 300px;
     position: absolute;
     bottom: 0;
     left: 0;
     text-align: center;
     color: #fff;
     background-color: #000;
-    padding: 15px 0;
+    padding: 40px 0 0 0;
     font-size: 12px;
+}
+.meetrd-footer-container .logo-container img {
+    height: 70px;
+}
+.meetrd-footer-container .logo-container {
+    background-color: #000;
+}
+.meetrd-footer-container .social-media-container {
+    padding-top: 20px;
+    background-color: #000;
+}
+.meetrd-footer-container .social-media-container i {
+    margin: 0 20px;
+}
+.meetrd-footer-container .social-media-container i:hover {
+    color: rgb(230, 0, 138);
+    cursor: pointer;
+}
+.meetrd-footer-container .pages-container ul li a {
+    display: block;
+}
+.meetrd-footer-container .pages-container {
+    background-color: #000;
+}
+.meetrd-footer-container .pages-container ul.text-right {
+    text-align: right;
+}
+.meetrd-footer-container .contact-container {
+    background-color: #000;
+    padding: 40px 0;
+    font-size: 16px;
+}
+.meetrd-footer-container .all-rights {
+    background-color: #000;
+    min-height: 40px;
+    padding-bottom: 20px;
 }
 
 /* THESE CSS PROPS MAKES THE FOOTER STAY AT BOTTOM OF THE PAGE*/
@@ -1441,6 +1489,10 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     .button {
         font-size: 14px!important;
     }
+    
+    .meetrd-footer-container .social-media-container i {
+        margin: 0 5px !important;
+    }
 }
 @media(min-width: 768px) {
     .custom-tab {
@@ -1489,6 +1541,14 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     .search-result-room-container {
         padding-right: 5px!important;
         padding-left: 0px!important;
+    }
+    
+    .meetrd-footer-container .col-sm-6 {
+        width: 50%;
+    }
+    
+    .meetrd-footer-container .social-media-container {
+        min-height: 80px;
     }
 }
 @media(max-width: 767px) {
@@ -1583,91 +1643,129 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
         padding-right: 0;
     }
     
-    @media(max-width: 990px) {
-        #page {}
-        .page-php-container {
-            width: 100%;
-            padding: 5px 0 10px 0;
-        }
-        .logged-in-container {
-            padding: 5px;
-            margin-right: 5px;
-            font-size: 14px;
-            opacity: 0.6;
-        }
-        .search-result-room-container {
-            padding-right: 10px;
-            padding-left: 0px!important;
-        }
-        .sticky {
-            position: fixed !important;
-            top: 91px;
-            background-color: #fff;
-            width: inherit;
-            z-index: 100;
-        }
-        .sticky-scrollable {
-            overflow-y: scroll;
-            overflow-x: hidden;
-            bottom: 0;
-        }
-        .room-price-container {
-            height: 50px;
-            padding-top: 10px;
-            background-color: rgb(230, 0, 138);
-        }
-        .room-price-container .price-definition i {
-            font-size: 30px;
-            vertical-align: top;
-            margin-left: 10px;
-            color: #fff !important;
-        }
-        .search-container .btn {
-            margin-top: 5px;
-        }
-        /*	.search-container .ng-pristine .ng-valid .ng-valid-min .ng-touched .ng-dirty .ng-valid-number{margin-top:3px;}
-	.search-container .ng-pristine {margin-top:3px;}*/
-        .search-container input[type="number"] {
-            margin-top: 3px;
-        }
-        .booking h3 {
-            font-size: 16px;
-        }
-        .booking-brief-info {
-            font-size: 12px;
-        }
-        .booking-count {
-            font-size: 12px;
-        }
+    .show-more-rooms-container button {
+        margin-right: 0 !important;
     }
     
-    @media (max-width: 991px) {
-        .booking-container {
-            position: relative;
-            width: 100% !important;
-            right: 0px!important;
-            z-index: 100;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            -moz-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            /*padding: 0;*/
-        }
-        .price-tag {
-            font-size: 17px;
-            margin-top: 2px;
-        }
-        .host-biography-container a {
-            float: none;
-        }
-        .update-search-container {
-            width: 100%;
-        }
+    .meetrd-footer-container .social-media-container {
+        min-height: 1px;
+        padding-bottom: 20px;
+    }
+}
+@media(max-width: 990px) {
+    #page {}
+    
+    .page-php-container {
+        width: 100%;
+        padding: 5px 0 10px 0;
+    }
+    
+    .logged-in-container {
+        padding: 5px;
+        margin-right: 5px;
+        font-size: 14px;
+        opacity: 0.6;
+    }
+    
+    .search-result-room-container {
+        padding-right: 10px;
+        padding-left: 0px!important;
+    }
+    
+    .sticky {
+        position: fixed !important;
+        top: 91px;
+        background-color: #fff;
+        width: inherit;
+        z-index: 100;
+    }
+    
+    .sticky-scrollable {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        bottom: 0;
+    }
+    
+    .room-price-container {
+        height: 50px;
+        padding-top: 10px;
+        background-color: rgb(230, 0, 138);
+    }
+    
+    .room-price-container .price-definition i {
+        font-size: 30px;
+        vertical-align: top;
+        margin-left: 10px;
+        color: #fff !important;
+    }
+    
+    .search-container .btn {
+        margin-top: 5px;
+    }
+    
+    .show-more-rooms-container button {
+        margin-right: 5px;
+    }
+    /*	.search-container .ng-pristine .ng-valid .ng-valid-min .ng-touched .ng-dirty .ng-valid-number{margin-top:3px;}
+	.search-container .ng-pristine {margin-top:3px;}*/
+    
+    .search-container input[type="number"] {
+        margin-top: 3px;
+    }
+    
+    .booking h3 {
+        font-size: 16px;
+    }
+    
+    .booking-brief-info {
+        font-size: 12px;
+    }
+    
+    .booking-count {
+        font-size: 12px;
+    }
+    
+    .meetrd-footer-container .social-media-container i {
+        margin: 0 10px;
+    }
+}
+@media (max-width: 991px) {
+    .booking-container {
+        position: relative;
+        width: 100% !important;
+        right: 0px!important;
+        z-index: 100;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        /*padding: 0;*/
+    }
+    
+    .price-tag {
+        font-size: 17px;
+        margin-top: 2px;
+    }
+    
+    .host-biography-container a {
+        float: none;
+    }
+    
+    .update-search-container {
+        width: 100%;
+    }
+    
+    .show-more-rooms-container button {
+        margin-right: 5px;
+    }
+    
+    .meetrd-footer-container .social-media-container i {
+        margin: 0 10px;
     }
 }
 @media(min-width: 991px) {
     .page-php-container {
         width: 85%;
-        padding: 5px 25px 10px 25px;
+        padding: 5px 25px 30px 25px;
     }
     
     .logged-in-container {
@@ -1763,6 +1861,122 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
         /*padding: 0 0 10px 0;*/
     }
 }
+@media (min-width: 1750px) {
+    .parallax-container {
+        height: 620px;
+    }
+    
+    .parallax {
+        height: 470px;
+    }
+}
+@media (max-width: 1749px) and (min-width: 1650px) {
+    .parallax-container {
+        height: 550px;
+    }
+    
+    .parallax {
+        height: 340px;
+    }
+}
+@media (max-width: 1649px) and (min-width: 1550px) {
+    .parallax-container {
+        height: 530px;
+    }
+    
+    .parallax {
+        height: 330px;
+    }
+}
+@media (max-width: 1549px) and (min-width: 1400px) {
+    .parallax-container {
+        height: 480px;
+    }
+    
+    .parallax {
+        height: 310px;
+    }
+}
+@media (max-width: 1399px) and (min-width: 1300px) {
+    .parallax-container {
+        height: 450px;
+    }
+    
+    .parallax {
+        height: 320px;
+    }
+}
+@media (max-width: 1299px) and (min-width: 1200px) {
+    .parallax-container {
+        height: 420px;
+    }
+    
+    .parallax {
+        height: 320px;
+    }
+}
+@media (max-width: 1199px) and (min-width: 1100px) {
+    .parallax-container {
+        height: 410px;
+    }
+    
+    .parallax {
+        height: 350px;
+    }
+}
+@media (max-width: 1099px) and (min-width: 991px) {
+    .parallax-container {
+        height: 380px;
+    }
+    
+    .parallax {
+        height: 320px;
+    }
+}
+@media (max-width: 990px) and (min-width: 850px) {
+    .parallax-container {
+        height: 330px;
+    }
+    
+    .parallax {
+        height: 280px;
+    }
+    
+    .parallax-container .container .heading-text h1 {
+        font-size: 35px;
+    }
+}
+@media (max-width: 849px) and (min-width: 768px) {
+    .parallax-container {
+        height: 300px;
+    }
+    
+    .parallax {
+        height: 270px;
+    }
+    
+    .parallax-container .container .heading-text h1 {
+        font-size: 35px;
+    }
+}
+@media (max-width: 767px) and (min-width: 500px) {
+    .parallax-container {
+        height: 600px;
+    }
+    
+    .parallax {
+        height: 550px;
+    }
+}
+@media (max-width: 499px) and (min-width: 200px) {
+    .parallax-container {
+        height: 440px;
+    }
+    
+    .parallax {
+        height: 390px;
+    }
+}
 .blog-title {
     font-size: 18px !important;
     color: black !important;
@@ -1782,12 +1996,12 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .newsletter-height {
     max-height: 300px;
 }
+
+/*
 .parallax {
     min-height: 400px;
 }
-.parallax-container {
-    height: 580px !important;
-}
+*/
 .area {
     font-size: 14px!important;
     color: rgba(0, 0, 0, 0.5);
