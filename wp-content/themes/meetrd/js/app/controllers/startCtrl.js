@@ -9,7 +9,12 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
     $scope.allHosts = [];
     $scope.viewPort = {
         height: 0,
-        width: 0
+        width: 0,
+        bannerUrl: ''
+    };
+    $scope.bannerUrls = {
+        mobile: location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-mobile.jpg',
+        desktop: location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-desktop.jpg'
     };
 
     $scope.defineHostAttributes = function () {
@@ -146,22 +151,35 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
     $scope.setViewPort = function () {
         $scope.viewPort.height = jQuery(window).height();
         $scope.viewPort.width = jQuery(window).width();
-        if ($scope.viewPort.width < 768) {
+        var scrollbarWidth = 17;
+        if ($scope.viewPort.width < (768 - scrollbarWidth)) {
+            //Only reset imgUrl if a change is needed
+            if ($scope.viewPort.bannerUrl !== $scope.bannerUrls.mobile) {
+                $scope.viewPort.bannerUrl = $scope.bannerUrls.mobile;
+
+                console.log("img reset");
+                $scope.$apply();
+                jQuery('#meetrd-banner').parallax();
+            }
+
             $scope.isMobile = true;
-            $scope.imgUrl = location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-mobile.jpg';
         } else {
-            $scope.imgUrl = location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-desktop.jpg';
-            $scope.bannerImg = 'meetrd-banner-desktop.jpg';
+            //Only reset imgUrl if a change is needed
+            if ($scope.viewPort.bannerUrl !== $scope.bannerUrls.desktop) {
+                $scope.viewPort.bannerUrl = $scope.bannerUrls.desktop;
+                console.log("img reset");
+                $scope.$apply();
+                jQuery('#meetrd-banner').parallax();
+            }
 
             $scope.isMobile = false;
         }
-
         console.log($scope.isMobile);
     }
 
     jQuery(document).ready(function () {
         if (jQuery('.parallax').length > 0) {
-            jQuery('.parallax').parallax();
+            jQuery('#newsletter-parallax.parallax').parallax();
             //This is the startpage - get all rooms for carousel
             $scope.disableDefaultCarouselImageLinks();
             $scope.getAllRoomCarouselPosts();

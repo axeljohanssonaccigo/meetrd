@@ -26,7 +26,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
 
     <div id="primary" class="content-area" ng-app="startApp" ng-controller="startCtrl" ng-cloak>
         <main id="main" class="site-main container-fluid row" role="main">
-            <div class="parallax-container row">
+            <div class="parallax-container row" id="meetrd-banner-container">
                 <div class="container">
                     <!--HEADING TEXT-->
                     <div class="col-xs-12 heading-text">
@@ -34,7 +34,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         <h2>✓ Socialt  ✓ Hållbart  ✓ Prisvärt</h2>
                     </div>
                     <!-- Search container -->
-                    <div class="search-container col-xs-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6 hidden">
+                    <div class=" col-xs-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
                         <div class="col-xs-12 text-center">
                             <a href="<?php  echo get_home_url().'/search'; ?>">
                                 <button type="submit" class="btn btn-meetrd">Sök mötesrum</button>
@@ -42,9 +42,9 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         </div>
                     </div>
                 </div>
-                <div class="parallax">
+                <div class="parallax" id="meetrd-banner">
 
-                    <img ng-src="{{imgUrl}}" />
+                    <img ng-src="{{viewPort.bannerUrl}}" />
 
 
                 </div>
@@ -119,7 +119,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                                 ?>
                         </div>
 
-                        <div class="parallax">
+                        <div class="parallax" id="newsletter-parallax">
                             <img src="<?php echo get_home_url().'/wp-content/uploads/2016/06/Coffee_break.jpg'; ?>" />
                         </div>
                     </div>

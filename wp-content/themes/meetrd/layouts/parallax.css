@@ -1,25 +1,165 @@
-.parallax-container{
-	position: relative;
-	overflow: hidden;
-	height: 490px;
+.parallax-container {
+    position: relative;
+    overflow: hidden;
+    height: 490px;
 }
-.parallax{
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: -1;
+
+.parallax {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
 }
-.parallax img{
-	display: none;
-	position: absolute;
-	left: 50%;
-	bottom: 0;
-	min-width: 100%;
-	min-height: 100%;
-	-webkit-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
-	-webkit-transform: translateX(-50%);
-	transform: translateX(-50%);
+
+.parallax img {
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+.newsletter-container .parallax img {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+#meetrd-banner-container.parallax-container .parallax img {
+    min-width: 1px;
+    max-width: 100%;
+    height: auto;
+    min-height: 1px;
+}
+
+@media (min-width: 1750px) {
+    #meetrd-banner-container.parallax-container {
+        height: 620px;
+    }
+    #meetrd-banner.parallax {
+        height: 470px;
+    }
+}
+
+@media (max-width: 1749px) and (min-width: 1650px) {
+    #meetrd-banner-container.parallax-container {
+        height: 550px;
+    }
+    #meetrd-banner.parallax {
+        height: 340px;
+    }
+}
+
+@media (max-width: 1649px) and (min-width: 1550px) {
+    #meetrd-banner-container.parallax-container {
+        height: 530px;
+    }
+    #meetrd-banner.parallax {
+        height: 330px;
+    }
+}
+
+@media (max-width: 1549px) and (min-width: 1400px) {
+    #meetrd-banner-container.parallax-container {
+        height: 480px;
+    }
+    #meetrd-banner.parallax {
+        height: 310px;
+    }
+}
+
+@media (max-width: 1399px) and (min-width: 1300px) {
+    #meetrd-banner-container.parallax-container {
+        height: 450px;
+    }
+    #meetrd-banner.parallax {
+        height: 320px;
+    }
+}
+
+@media (max-width: 1299px) and (min-width: 1200px) {
+    #meetrd-banner-container.parallax-container {
+        height: 420px;
+    }
+    #meetrd-banner.parallax {
+        height: 320px;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 1100px) {
+    #meetrd-banner-container.parallax-container {
+        height: 410px;
+    }
+    #meetrd-banner.parallax {
+        height: 350px;
+    }
+}
+
+@media (max-width: 1099px) and (min-width: 991px) {
+    #meetrd-banner-container.parallax-container {
+        height: 380px;
+    }
+    #meetrd-banner.parallax {
+        height: 320px;
+    }
+    #meetrd-banner-container.parallax-container .container .heading-text h1 {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 990px) and (min-width: 850px) {
+    #meetrd-banner-container.parallax-container {
+        height: 330px;
+    }
+    #meetrd-banner.parallax {
+        height: 280px;
+    }
+    #meetrd-banner-container.parallax-container .container .heading-text h1 {
+        font-size: 35px;
+    }
+}
+
+@media (max-width: 849px) and (min-width: 768px) {
+    #meetrd-banner-container.parallax-container {
+        height: 300px;
+    }
+    #meetrd-banner.parallax {
+        height: 270px;
+    }
+    #meetrd-banner-container.parallax-container .container .heading-text h1 {
+        font-size: 35px;
+    }
+    .heading-text {
+        padding-top: 50px;
+    }
+}
+
+@media (max-width: 767px) and (min-width: 500px) {
+    #meetrd-banner-container.parallax-container {
+        height: 600px;
+    }
+    #meetrd-banner.parallax {
+        height: 550px;
+    }
+    #meetrd-banner-container.parallax-container .container .heading-text h2 {
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 499px) and (min-width: 200px) {
+    #meetrd-banner-container.parallax-container {
+        height: 440px;
+    }
+    #meetrd-banner.parallax {
+        height: 390px;
+    }
+    #meetrd-banner-container.parallax-container .container .heading-text h2 {
+        margin-bottom: 40px;
+    }
 }

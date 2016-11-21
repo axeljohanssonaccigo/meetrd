@@ -118,7 +118,7 @@ add_action( 'widgets_init', 'meetrd_widgets_init' );
  */
 function meetrd_scripts() {
 
-$version = 1.39;
+$version = 1.43;
 	//Scripts and styles used on all pages
 	//Scripts
 	//angular
@@ -147,8 +147,9 @@ $version = 1.39;
     
     
 	//Styles
-	wp_enqueue_style('parallax-custom-style', get_template_directory_uri() . '/layouts/parallax.css' );
 	wp_enqueue_style('meetrd-custom-style', get_template_directory_uri() . '/layouts/meetrd-custom-style.css', array(), $version, false );	
+    wp_enqueue_style('parallax-custom-style', get_template_directory_uri() . '/layouts/parallax.css', array(), $version, false  );
+
 
 	//bootstrap
 	wp_enqueue_style('simplemodal-login-meetrd', get_template_directory_uri() . '/layouts/simplemodal-login-meetrd.css' );

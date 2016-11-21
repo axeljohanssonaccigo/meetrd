@@ -309,6 +309,10 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 
 /* COMMON CLASSES USED HERE AND THERE */
 
+.crop-banner {
+    clip: rect(0px, 440px, 570px, 260px);
+}
+
 .container-fluid {
     text-rendering: optimizeLegibility;
 }
@@ -569,12 +573,6 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     background-position: center;
     background-size: cover;
 }
-.parallax-container .parallax img {
-    min-width: 1px;
-    max-width: 100%;
-    height: auto;
-    min-height: 1px;
-}
 .heading-text {
     text-align: center;
     color: #fff;
@@ -596,6 +594,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     font-weight: 300;
     text-shadow: 0px 0px 7px rgba(50, 50, 50, 0.5);
     margin-top: 5px;
+    margin-bottom: 20px;
 }
 .three-steps-container {
     text-align: center;
@@ -982,7 +981,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     padding-right: 10px;
 }
 .update-search-container {
-    padding: 20px 0;
+    padding: 5px 0;
     margin: auto;
     padding: 15px;
 }
@@ -1519,7 +1518,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     }
     
     .heading-text {
-        padding-top: 100px;
+        padding-top: 80px;
     }
     
     .heading-text h1 {
@@ -1583,7 +1582,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     }
     
     .heading-text {
-        padding-top: 100px;
+        padding-top: 80px;
     }
     
     .heading-text h1 {
@@ -1861,122 +1860,6 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
         /*padding: 0 0 10px 0;*/
     }
 }
-@media (min-width: 1750px) {
-    .parallax-container {
-        height: 620px;
-    }
-    
-    .parallax {
-        height: 470px;
-    }
-}
-@media (max-width: 1749px) and (min-width: 1650px) {
-    .parallax-container {
-        height: 550px;
-    }
-    
-    .parallax {
-        height: 340px;
-    }
-}
-@media (max-width: 1649px) and (min-width: 1550px) {
-    .parallax-container {
-        height: 530px;
-    }
-    
-    .parallax {
-        height: 330px;
-    }
-}
-@media (max-width: 1549px) and (min-width: 1400px) {
-    .parallax-container {
-        height: 480px;
-    }
-    
-    .parallax {
-        height: 310px;
-    }
-}
-@media (max-width: 1399px) and (min-width: 1300px) {
-    .parallax-container {
-        height: 450px;
-    }
-    
-    .parallax {
-        height: 320px;
-    }
-}
-@media (max-width: 1299px) and (min-width: 1200px) {
-    .parallax-container {
-        height: 420px;
-    }
-    
-    .parallax {
-        height: 320px;
-    }
-}
-@media (max-width: 1199px) and (min-width: 1100px) {
-    .parallax-container {
-        height: 410px;
-    }
-    
-    .parallax {
-        height: 350px;
-    }
-}
-@media (max-width: 1099px) and (min-width: 991px) {
-    .parallax-container {
-        height: 380px;
-    }
-    
-    .parallax {
-        height: 320px;
-    }
-}
-@media (max-width: 990px) and (min-width: 850px) {
-    .parallax-container {
-        height: 330px;
-    }
-    
-    .parallax {
-        height: 280px;
-    }
-    
-    .parallax-container .container .heading-text h1 {
-        font-size: 35px;
-    }
-}
-@media (max-width: 849px) and (min-width: 768px) {
-    .parallax-container {
-        height: 300px;
-    }
-    
-    .parallax {
-        height: 270px;
-    }
-    
-    .parallax-container .container .heading-text h1 {
-        font-size: 35px;
-    }
-}
-@media (max-width: 767px) and (min-width: 500px) {
-    .parallax-container {
-        height: 600px;
-    }
-    
-    .parallax {
-        height: 550px;
-    }
-}
-@media (max-width: 499px) and (min-width: 200px) {
-    .parallax-container {
-        height: 440px;
-    }
-    
-    .parallax {
-        height: 390px;
-    }
-}
 .blog-title {
     font-size: 18px !important;
     color: black !important;
@@ -1996,12 +1879,6 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .newsletter-height {
     max-height: 300px;
 }
-
-/*
-.parallax {
-    min-height: 400px;
-}
-*/
 .area {
     font-size: 14px!important;
     color: rgba(0, 0, 0, 0.5);
