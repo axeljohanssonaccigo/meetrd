@@ -320,6 +320,97 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             });
         };
 
+
+
+        $scope.isHalfHour = function (hourString) {
+            return parseFloat(hourString) % 1 > 0;
+        };
+
+        //Returns x.5 for numbers equal to x.3 (converting from time to number)
+        $scope.toHalfNumber = function (floatNr) {
+            if (floatNr % 1 > 0) {
+                return floatNr + 0.2; //to 0.5
+            } else {
+                return floatNr;
+            }
+        };
+
+        $scope.setBookingTime = function () {
+            //Lock start times according to selected end time
+            //            angular.forEach($scope.currentRoom.bookingOptions.bookableTimeSlots, function () {
+            //
+            //            });
+            //            angular.forEach($scope.currentRoom.bookingOptions.bookableTimeSlots, function (slot) {
+            //                if(slot === $scope.currentRoom.bookingOptions.selectedStart){
+            //                    
+            //                }
+            //                if ($scope.isHalfHour(slot)) {
+            //                    
+            //                } else {
+            //                    
+            //                }
+            //            });
+            if ($scope.isHalfHour($scope.currentRoom.bookingOptions.selectedStart)) {
+                $scope.currentBooking.startTime = parseFloat($scope.currentRoom.bookingOptions.selectedStart) + 0.3;
+            } else if (!$scope.isHalfHour($scope.currentRoom.bookingOptions.selectedStart)) {
+                $scope.currentBooking.startTime = parseFloat($scope.currentRoom.bookingOptions.selectedStart);
+            } else {
+                $scope.currentBooking.startTime = null;
+            }
+            if ($scope.isHalfHour($scope.currentRoom.bookingOptions.selectedEnd)) {
+                $scope.currentBooking.endTime = parseFloat($scope.currentRoom.bookingOptions.selectedEnd) + 0.3;
+            } else if (!$scope.isHalfHour($scope.currentRoom.bookingOptions.selectedEnd)) {
+                $scope.currentBooking.endTime = parseFloat($scope.currentRoom.bookingOptions.selectedEnd);
+            } else {
+                $scope.currentBooking.endTime = null;
+            }
+            console.log($scope.currentBooking);
+            //            $scope.currentBooking.startTime = startingSlot.startTime;
+            //            $scope.currentBooking.endTime = startingSlot.startTime + $scope.selectedHoursToBook.value;
+            //
+            //            $scope.currentBooking.duration = $scope.getCurrentBookingTotalTime();
+            //            $scope.currentBooking.price = $scope.currentBooking.duration * $scope.currentRoom.price;
+            //            $scope.currentBooking.slot = $scope.formatHour($scope.currentBooking.startTime) + ":00-" + $scope.formatHour($scope.currentBooking.endTime) + ":00";
+
+        };
+
+
+        $scope.setRoomTimeSlots = function () {
+            var startTime = $scope.toHalfNumber($scope.currentRoom.startTime);
+            console.log(startTime);
+            var endTime = $scope.toHalfNumber($scope.currentRoom.endTime);
+            console.log(endTime);
+            var nrOfSlots = (endTime - startTime) * 2;
+            console.log(nrOfSlots);
+            var currentSlot = $scope.currentRoom.startTime;
+            var currentSlotFloat = parseFloat(currentSlot);
+            for (var i = 0; i <= nrOfSlots; i++) {
+                //$scope.currentRoom.bookableTimeSlots.push(currentSlot);
+
+                if ($scope.isHalfHour(currentSlot)) {
+                    currentSlotHour = currentSlotFloat - 0.3;
+                    $scope.currentRoom.bookingOptions.bookableTimeSlots.push(currentSlotHour.toString().concat(':30'));
+                    currentSlotFloat += 0.7
+                    currentSlot = currentSlotFloat.toString();
+
+                } else {
+                    //currentSlot = currentSlot.concat(':');
+                    currentSlotHour = currentSlotFloat;
+                    $scope.currentRoom.bookingOptions.bookableTimeSlots.push(currentSlotHour.toString().concat(':00'));
+                    //$scope.currentRoom.bookingOptions.bookingStartSlots.push(currentSlotHour.toString().concat(':00'));
+                    currentSlotFloat += 0.3;
+                    currentSlot = currentSlotFloat.toString()
+                        //$scope.currentRoom.bookableTimeSlots.push(currentSlot.concat(':30'));
+
+                }
+                //                currentSlot =
+            }
+            angular.copy($scope.currentRoom.bookingOptions.bookableTimeSlots, $scope.currentRoom.bookingOptions.bookingStartSlots);
+            angular.copy($scope.currentRoom.bookingOptions.bookableTimeSlots, $scope.currentRoom.bookingOptions.bookingEndSlots);
+
+            console.log($scope.currentRoom.bookingOptions);
+        };
+
         $scope.defineCurrentRoomAttributes = function () {
             $scope.currentRoom = {
                 "title": roomTitle,
@@ -327,8 +418,8 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 "hostId": hostId,
                 "nrOfPeople": nrOfPeople,
                 "price": roomPrice,
-                "startTime": roomStartTime,
-                "endTime": roomEndTime,
+                "startTime": parseFloat(roomStartTime),
+                "endTime": parseFloat(roomEndTime),
                 "contactPerson": roomContact,
                 "contactEmail": roomContactEmail,
                 "contactPhone": roomContactPhone,
@@ -347,9 +438,17 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 "hostNickname": "",
                 "hostEmail": "",
                 "hostSlogan": "",
-                "city": roomCity
+                "city": roomCity,
+                "bookingOptions": {
+                    bookableTimeSlots: [],
+                    bookingStartSlots: [],
+                    bookingEndSlots: [],
+                    selectedStart: '',
+                    selectedEnd: ''
+                }
 
             };
+            $scope.setRoomTimeSlots();
             $scope.setMapCenter($scope.currentRoom.address);
             $scope.roomsOnMap.push($scope.currentRoom);
 
@@ -390,6 +489,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 "phone": false,
                 "biography": false
             };
+            console.log($scope.currentRoom);
         };
         $scope.defineCurrentRoomAttributes();
 

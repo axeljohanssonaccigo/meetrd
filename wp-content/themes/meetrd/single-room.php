@@ -170,6 +170,19 @@ $all_meta_for_host = get_user_meta($hostId);
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="booking-time-picker-container">
+                                            <!--                                            Booking start-->
+                                            <select ng-change="setBookingTime()" ng-model="currentRoom.bookingOptions.selectedStart" class="btn btn-primary col-xs-12" ng-options="slot for slot in currentRoom.bookingOptions.bookingStartSlots">
+
+                                            </select>
+                                            {{currentRoom.bookingOptions.selectedStart}}
+                                            <!--                                            Booking end-->
+                                            <select ng-change="setBookingTime()" ng-model="currentRoom.bookingOptions.selectedEnd" class="btn btn-primary col-xs-12" ng-options="slot for slot in currentRoom.bookingOptions.bookingEndSlots"></select>
+                                            {{currentRoom.bookingOptions.selectedEnd}}
+
+                                        </div>
+
                                         <div class="slots-of-today-container col-xs-12" ng-show="showBookingSlots">
                                             <h4>När börjar mötet?</h4>
                                             <div ng-repeat="slot in bookingsOfChosenDay">
