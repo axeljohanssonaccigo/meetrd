@@ -124,7 +124,7 @@ headerApp.controller('headerCtrl', function ($scope, headerSvc) {
                 headerSvc.generateUserCookie($scope.newUser.username, $scope.newUser.password).then(function (response) {
                     headerSvc.updateUserInfo(response.data.cookie, $scope.newUser).then(function (response) {
                         $scope.userWasRegistered = true;
-                        $scope.registerMessageToUser = "Ditt gästkonto har skapats!"
+                        $scope.registerMessageToUser = "Ditt konto har skapats!"
                             //Auto click the login button to come to the login form
                         jQuery("#loginButton")[0].click();
                         //<?php echo $_SERVER['REQUEST_URI']; ?>";

@@ -47,7 +47,7 @@
     }
 }
 
-@media (max-width: 1749px) and (min-width: 1650px) {
+@media (max-width: 1750px) and (min-width: 1650px) {
     #meetrd-banner-container.parallax-container {
         height: 550px;
     }
@@ -56,7 +56,7 @@
     }
 }
 
-@media (max-width: 1649px) and (min-width: 1550px) {
+@media (max-width: 1650px) and (min-width: 1550px) {
     #meetrd-banner-container.parallax-container {
         height: 530px;
     }
@@ -65,45 +65,45 @@
     }
 }
 
-@media (max-width: 1549px) and (min-width: 1400px) {
+@media (max-width: 1550px) and (min-width: 1400px) {
     #meetrd-banner-container.parallax-container {
-        height: 480px;
+        height: 458px;
     }
     #meetrd-banner.parallax {
         height: 310px;
     }
 }
 
-@media (max-width: 1399px) and (min-width: 1300px) {
+@media (max-width: 1400px) and (min-width: 1300px) {
     #meetrd-banner-container.parallax-container {
-        height: 450px;
+        height: 435px;
     }
     #meetrd-banner.parallax {
         height: 320px;
     }
 }
 
-@media (max-width: 1299px) and (min-width: 1200px) {
-    #meetrd-banner-container.parallax-container {
-        height: 420px;
-    }
-    #meetrd-banner.parallax {
-        height: 320px;
-    }
-}
-
-@media (max-width: 1199px) and (min-width: 1100px) {
+@media (max-width: 1300px) and (min-width: 1200px) {
     #meetrd-banner-container.parallax-container {
         height: 410px;
+    }
+    #meetrd-banner.parallax {
+        height: 320px;
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 1100px) {
+    #meetrd-banner-container.parallax-container {
+        height: 400px;
     }
     #meetrd-banner.parallax {
         height: 350px;
     }
 }
 
-@media (max-width: 1099px) and (min-width: 991px) {
+@media (max-width: 1100px) and (min-width: 990px) {
     #meetrd-banner-container.parallax-container {
-        height: 380px;
+        height: 360px;
     }
     #meetrd-banner.parallax {
         height: 320px;
@@ -115,7 +115,7 @@
 
 @media (max-width: 990px) and (min-width: 850px) {
     #meetrd-banner-container.parallax-container {
-        height: 330px;
+        height: 310px;
     }
     #meetrd-banner.parallax {
         height: 280px;
@@ -125,9 +125,9 @@
     }
 }
 
-@media (max-width: 849px) and (min-width: 768px) {
+@media (max-width: 850px) and (min-width: 767px) {
     #meetrd-banner-container.parallax-container {
-        height: 300px;
+        height: 290px;
     }
     #meetrd-banner.parallax {
         height: 270px;
@@ -137,6 +137,9 @@
     }
     .heading-text {
         padding-top: 50px;
+    }
+    .heading-text h2 {
+        font-size: 25px;
     }
 }
 
@@ -152,7 +155,7 @@
     }
 }
 
-@media (max-width: 499px) and (min-width: 200px) {
+@media (max-width: 500px) and (min-width: 200px) {
     #meetrd-banner-container.parallax-container {
         height: 440px;
     }

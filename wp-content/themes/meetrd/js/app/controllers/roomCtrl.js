@@ -318,6 +318,25 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             };
 
         };
+        $scope.setCityParam = function () {
+            if (location.search.search('city') > -1) {
+                var city = location.search.replace('?city=', '');
+                switch (city) {
+                case 'stockholm':
+                    $scope.query.city = 'Stockholm';
+                    break;
+                case 'malmo':
+                    $scope.query.city = 'Malmö';
+                    break;
+                case 'goteborg':
+                    $scope.query.city = 'Göteborg';
+                    break;
+                default:
+                    $scope.query.city = null;
+                    break;
+                }
+            }
+        };
 
         $scope.showMoreRooms = function () {
             if ($scope.query.nrOfHits > $scope.query.shownRooms) {
@@ -345,9 +364,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             }
         }, true);
         $scope.resetSearchQuery();
-
         $scope.initPage();
-
+        $scope.setCityParam();
     };
-
 });

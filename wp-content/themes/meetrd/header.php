@@ -78,7 +78,7 @@
                     <header id="masthead" class="site-header" role="banner">
                         <div>
                             <div class="site-branding" ng-controller="headerCtrl" id="meetrd-header" ng-cloak>
-                                <div class="meetrd-logo-container col-md-4 col-xs-10">
+                                <div class="meetrd-logo-container col-md-3 col-xs-10">
                                     <a href="<?php echo get_home_url(); ?>"><img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/logo_rosa_test.svg'; ?>"></a>
                                     <div class="user-name-container hidden-xs hidden-sm visible-md visible-lg ng-hide">
                                         <?php if (is_user_logged_in()) {
@@ -90,7 +90,7 @@
                                     <i class="fa fa-bars fa-2x" ng-click="showOrHideMobileMenu()"></i>
                                 </div>
                                 <!-- #site-navigation DESKTOP-->
-                                <nav id="desktop-nav" class="clearfix col-md-8 hidden-xs hidden-sm visible-md visible-lg" role="navigation">
+                                <nav id="desktop-nav" class="clearfix col-md-9 hidden-xs hidden-sm visible-md visible-lg" role="navigation">
 
                                     <ul class="nav nav-tabs">
                                         <li ng-hide="<?php echo is_user_logged_in(); ?>"><a ng-click="clickBookingLoginButton()" href="{{loginHref}}" ng-class="{'simplemodal-login': !isRoomPage}">Logga in</a></li>
@@ -107,6 +107,9 @@
                                 <nav id="mobile-nav" class="clearfix visible-xs visible-sm hidden-md hidden-lg col-xs-12 no-padding" role="navigation" ng-show="showMobileMenu">
                                     <div class="mobile-menu-item">
                                         <a href="<?php echo get_home_url().'/om-oss'; ?>">Om Meetrd</a>
+                                    </div>
+                                    <div class="mobile-menu-item">
+                                        <a href="<?php echo get_home_url().'/sa-fungerar-det'; ?>">Så fungerar det</a>
                                     </div>
                                     <div class="mobile-menu-item">
                                         <a href="<?php  echo get_home_url().'/bli-vard'; ?>">Bli värd</a>
@@ -136,7 +139,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title" id="myModalLabel" ng-show="!userTriedToRegister">Skapa ett gästkonto hos Meetrd</h4>
+                                                <h4 class="modal-title" id="myModalLabel" ng-show="!userTriedToRegister">Skapa ett konto hos Meetrd</h4>
                                                 <h4 class="modal-title" id="myModalLabel" ng-show="userTriedToRegister">Var god vänta...</h4>
                                             </div>
                                             <div class="modal-body clearfix">

@@ -220,7 +220,7 @@ $all_meta_for_host = get_user_meta($hostId);
                                                 <center>
                                                     <div class="col-xs-12 vertical-spacing">--- eller ---</div>
                                                 </center>
-                                                <div data-toggle="modal" data-backdrop="" data-target="#registerUserModal" class="btn btn-primary col-xs-12" ng-click="setBookingUrl()">SKAPA GÄSTKONTO</div>
+                                                <div data-toggle="modal" data-backdrop="" data-target="#registerUserModal" class="btn btn-primary col-xs-12" ng-click="setBookingUrl()">SKAPA KONTO</div>
                                             </div>
                                         </div>
                                     </div>
@@ -372,7 +372,7 @@ $all_meta_for_host = get_user_meta($hostId);
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel" ng-show="!userTriedToRegister">Skapa ett gästkonto hos Meetrd</h4>
+                                            <h4 class="modal-title" id="myModalLabel" ng-show="!userTriedToRegister">Skapa ett konto hos Meetrd</h4>
                                             <h4 class="modal-title" id="myModalLabel" ng-show="userTriedToRegister">Var god vänta...</h4>
                                         </div>
                                         <div class="modal-body clearfix">

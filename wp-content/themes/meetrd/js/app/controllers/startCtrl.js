@@ -16,6 +16,49 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
         mobile: location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-mobile.jpg',
         desktop: location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-desktop.jpg'
     };
+    $scope.homeUrl = location.href;
+    $scope.meetrdFans = [
+        {
+            name: 'Assa Abloy',
+            logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/assaabloy-logo.png'),
+            website: 'http://www.assaabloy.com/'
+        },
+        {
+            name: 'Fortum',
+            logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/fortum-logo.png'),
+            website: 'http://www.fortum.com/'
+        },
+        {
+            name: 'Lagerhaus',
+            logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/lagerhouse-logo.png'),
+            website: 'http://www.lagerhaus.se/'
+        },
+        {
+            name: 'Nyheter 24',
+            logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/nyheter24-logo.png'),
+            website: 'http://nyheter24.se/'
+        },
+        {
+            name: 'Sweco',
+            logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/sweco-logo.png'),
+            website: 'http://www.sweco.se/'
+        },
+        {
+            name: 'Synsam',
+            logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/synsam-logo.png'),
+            website: 'http://www.synsam.se/'
+        },
+        {
+            name: 'MTR',
+            logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/mtr-logo.png'),
+            website: 'http://www.mtrnordic.se/'
+        },
+        {
+            name: 'Tele2',
+            logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/tele2-logo.png'),
+            website: 'http://www.tele2.se/'
+        }
+    ];
 
     $scope.defineHostAttributes = function () {
         $scope.allHosts = allHosts;
@@ -94,7 +137,8 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
                 });
 
             });
-            jQuery('#room-carousel-loader img').addClass('hidden');
+            jQuery('.room-carousel-loader img').addClass('hidden');
+            jQuery('.room-carousel-loader').remove();
         });
     };
 
@@ -115,7 +159,7 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
     $scope.appendCarouselWithLoader = function () {
         var elementToAppend = jQuery('#popular-hosts-container .wp-posts-carousel-container .wp-posts-carousel-details .wp-posts-carousel-desc');
         var meetrdLoader = '<div class="meetrd-loader-container"><img class="spin" src="' + urlPathNameAddOn + '/wp-content/themes/meetrd/layouts/Images/meetrd.se-ikon-logo_pink.png"/></div>';
-        var loaderElement = '<div id="room-carousel-loader">' + meetrdLoader + '</div>';
+        var loaderElement = '<div class="room-carousel-loader">' + meetrdLoader + '</div>';
         elementToAppend.append(loaderElement);
     };
 
@@ -151,8 +195,14 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
     $scope.setViewPort = function () {
         $scope.viewPort.height = jQuery(window).height();
         $scope.viewPort.width = jQuery(window).width();
-        var scrollbarWidth = 17;
-        if ($scope.viewPort.width < (768 - scrollbarWidth)) {
+        //Check for the device to determine width of scrollbar
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) === null) {
+            var scrollbarWidth = 17;
+        } else {
+            var scrollbarWidth = 0;
+        }
+
+        if ($scope.viewPort.width <= (767 - scrollbarWidth)) {
             //Only reset imgUrl if a change is needed
             if ($scope.viewPort.bannerUrl !== $scope.bannerUrls.mobile) {
                 $scope.viewPort.bannerUrl = $scope.bannerUrls.mobile;

@@ -52,7 +52,7 @@ get_header(); ?>
                                                 </div>
 
                                                 <div data-toggle="modal" data-target="#registerUserModal" data-backdrop="" class="col-xs-12 col-md-6 btn btn-primary" ng-if="isPage('att-hyra') || isPage('faq')">
-                                                    Skapa gästkonto hos Meetrd
+                                                    Skapa konto hos Meetrd
                                                 </div>
                                 </div>
                                 <!-- Register user Modal -->
@@ -61,7 +61,7 @@ get_header(); ?>
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title" id="myModalLabel" ng-show="!userTriedToRegister">Skapa ett gästkonto hos Meetrd</h4>
+                                                <h4 class="modal-title" id="myModalLabel" ng-show="!userTriedToRegister">Skapa ett konto hos Meetrd</h4>
                                                 <h4 class="modal-title" id="myModalLabel" ng-show="userTriedToRegister">Var god vänta...</h4>
                                             </div>
                                             <div class="modal-body clearfix">

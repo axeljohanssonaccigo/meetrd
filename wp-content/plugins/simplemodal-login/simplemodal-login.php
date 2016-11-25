@@ -380,8 +380,8 @@ if (!class_exists('SimpleModalLogin')) {
 		<div class="row">
 			<div class="col-xs-12 button-container">
 				<p class="submit">
-					<input type="submit" name="wp-submit" class="btn btn-primary col-xs-12 col-md-7" value="%s" tabindex="100" />
-					<input type="button" class="simplemodal-close btn btn-danger col-xs-12 col-md-4 col-md-offset-1" value="%s" tabindex="101" />
+					<input type="submit" name="wp-submit" class="btn btn-primary col-xs-7 col-md-7" value="%s" tabindex="100" />
+					<input type="button" class="simplemodal-close btn btn-danger col-xs-5 col-md-4 col-md-offset-1" value="%s" tabindex="101" />
 					<input type="hidden" name="testcookie" value="1" />
 				</p>
 			</div>
@@ -400,9 +400,9 @@ if (!class_exists('SimpleModalLogin')) {
 			// 	);
 			// }
 
-				$output .= sprintf('<div class="row"><div class="col-xs-6 align-left"><a data-toggle="modal" data-backdrop="" data-target="#registerUserModal"  class="simplemodal-close" href="#" >Skapa gästkonto</a></div>'
+				$output .= sprintf('<div class="row"><div class="col-xs-12"><a data-toggle="modal" data-backdrop="" data-target="#registerUserModal"  class="simplemodal-close" href="#" ><button type="button" class="col-xs-12 btn btn-primary">Skapa konto</button></a></div>'
     				,site_url('', 'login'),
-					__('Skapa gästkonto', 'simplemodal-login')
+					__('Skapa konto', 'simplemodal-login')
 				);
 
 
@@ -412,7 +412,7 @@ if (!class_exists('SimpleModalLogin')) {
 			}
 
 			if ($this->options['reset']) {
-				$output .= sprintf('<div class="col-xs-6 align-right"><a class="simplemodal-forgotpw" href="%s" title="%s">%s</a></div></div>',
+				$output .= sprintf('<div class="col-xs-12 text-center"><a class="simplemodal-forgotpw" href="%s" title="%s">%s</a></div></div>',
 					site_url('wp-login.php?action=lostpassword', 'login'),
 					__('Password Lost and Found', 'simplemodal-login'),
 					__('Glömt ditt lösenord?', 'simplemodal-login')
@@ -541,7 +541,7 @@ if (!class_exists('SimpleModalLogin')) {
 	<p class="nav">
 		<a class="simplemodal-login" href="%s">%s</a>',
 				__('Ett nytt lösenord har skickats till din e-mailadress.', 'simplemodal-login'),
-				__('Skapa gästkonto', 'simplemodal-login'),
+				__('Skapa konto', 'simplemodal-login'),
 				__('Avbryt', 'simplemodal-login'),
 				site_url('wp-login.php', 'login'),
 				__('Logga in', 'simplemodal-login')
@@ -604,7 +604,7 @@ if (!class_exists('SimpleModalLogin')) {
 			</div>
 		</div>
 		</p>
-		<p class="align-left">
+		<p class="text-center">
 			<a class="simplemodal-login" href="%s">%s</a>',
 				__('Återställ lösenord', 'simplemodal-login'),
 				__('Avbryt', 'simplemodal-login'),

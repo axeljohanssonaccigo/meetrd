@@ -29,9 +29,9 @@ for ($i=0; $i < count($all_hosts); $i++) {
             <!-- FILTER SEARCH RESULT -->
             <div class="white-section container">
                 <div class="row">
-                    <div class="popular-hosts" ng-show="!isHostPage">
+                    <h1 class="popular-hosts" ng-show="!isHostPage">
                         SÖK MÖTESRUM
-                    </div>
+                    </h1>
                 </div>
                 <div class="" ng-show="!isHostPage">
                     <div class="row search-form-container">
