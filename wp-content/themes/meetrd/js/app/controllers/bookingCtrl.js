@@ -15,34 +15,6 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
         } else {
             var urlPathNameAddOn = "";
         }
-        // ON PAGE LOAD
-
-        $scope.hourSelectWasClicked = function () {
-            $scope.hourSelectHasBeenClicked = true;
-
-        };
-        $scope.$watch('selectedHoursToBook.value', function (newValue, oldValue) {
-            if (oldValue === newValue) {}
-            if ($scope.selectedHoursToBook.value > 0 && $scope.pageIsLoaded && $scope.hourSelectHasBeenClicked) {
-                $scope.setChoosableTimeSlots();
-                //If the hours change, reset the added hours and the current booking
-                $scope.resetCurrentBooking();
-                $scope.resetChosenSlots();
-                //$scope.showBookingContainer = true;
-                $scope.showBookingSlots = true;
-
-            };
-
-        });
-
-        $scope.$watch('datePickerSettings.date', function (newValue, oldValue) {
-            if ($scope.pageIsLoaded && $scope.datePickerSettings.wasClicked) {
-                $scope.resetCurrentBooking();
-                $scope.fillBookingsOfChosenDay($scope.bookingsForRoom);
-                $scope.showBookingSlots = true;
-            }
-        });
-
 
         //Scope Variables
         $scope.userIsLoggedIn = userIsLoggedIn;
@@ -76,19 +48,13 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             $scope.showBookingContainer = true;
 
         };
-        //Booking container
-        $scope.bookingsForRoom = [];
-        $scope.bookingsOfChosenDay = [];
         $scope.currentBooking = {};
         $scope.bookingFormIsShown = false;
-        $scope.bookingsAreLoaded = false;
         $scope.registrationFormIsShown = false;
-        $scope.maxHoursToBook = 0;
-        $scope.bookingHoursOptions = [];
-        $scope.selectedHoursToBook = {
-            value: 1
+        $scope.priceNotification = {
+            show: false,
+            notification: 'OBS! Endast hela timmar debiteras.'
         };
-        $scope.hourSelectHasBeenClicked = false;
 
         $scope.bookingMessageToUser = "";
         //Max rating is 5 for a host. Used to loop and display filled or unfilled stars as rating
@@ -233,8 +199,39 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             },
 	];
 
+        //Sets the isChecked prop for each checkbox option
+        $scope.setCheckboxValues = function (checkboxArray, funnyObject) {
+            angular.forEach(checkboxArray, function (checkbox) {
+                if (funnyObject.search(checkbox.value) > -1) {
+                    checkbox.isChecked = true;
+                }
+            });
+        };
+        $scope.setCheckboxValues($scope.weekdays, weekdays);
+        $scope.setCheckboxValues($scope.food, roomFood);
+        $scope.setCheckboxValues($scope.equipment, roomEquipment);
 
 
+        $scope.getDisabledDates = function () {
+            var thisMoment = moment(new Date());
+            var nextMoment = moment(new Date(thisMoment.year() + 1, thisMoment.month(), thisMoment.date()));
+            var daysOfYear = [];
+            var dayOfWeekindex;
+            for (var d = new Date(thisMoment.year(), thisMoment.month(), thisMoment.date()); d <= nextMoment; d.setDate(d.getDate() + 1)) {
+                theDate = moment(new Date(d));
+                //daysOfYear.push(new Date(d));
+                angular.forEach($scope.weekdays, function (weekday) {
+                    dayOfWeekindex = theDate.day();
+                    if (dayOfWeekindex === 0) {
+                        dayOfWeekindex = 7;
+                    }
+                    if (weekday.index === dayOfWeekindex && !weekday.isChecked) {
+                        $scope.currentRoom.bookingOptions.disabledDates.push(theDate);
+                    }
+                });
+            }
+            console.log($scope.currentRoom.bookingOptions.disabledDates);
+        };
         //Get query params from url on page load
         $scope.bookingQuery = {
             "date": "",
@@ -258,8 +255,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             "date": $scope.getFormattedDate(new Date()),
             "minDate": $scope.getFormattedDate(new Date()),
             "maxDate": null,
-            "pattern": 'yyyy-MM-dd',
-            "wasClicked": false
+            "pattern": 'yyyy-MM-dd'
         };
         //Creates the slot string in the correct format, adding 0 to the hours that are less than 10
         $scope.formatHour = function (hour) {
@@ -335,80 +331,96 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             }
         };
 
-        $scope.setBookingTime = function () {
-            //Lock start times according to selected end time
-            //            angular.forEach($scope.currentRoom.bookingOptions.bookableTimeSlots, function () {
-            //
-            //            });
-            //            angular.forEach($scope.currentRoom.bookingOptions.bookableTimeSlots, function (slot) {
-            //                if(slot === $scope.currentRoom.bookingOptions.selectedStart){
-            //                    
-            //                }
-            //                if ($scope.isHalfHour(slot)) {
-            //                    
-            //                } else {
-            //                    
-            //                }
-            //            });
-            if ($scope.isHalfHour($scope.currentRoom.bookingOptions.selectedStart)) {
-                $scope.currentBooking.startTime = parseFloat($scope.currentRoom.bookingOptions.selectedStart) + 0.3;
-            } else if (!$scope.isHalfHour($scope.currentRoom.bookingOptions.selectedStart)) {
-                $scope.currentBooking.startTime = parseFloat($scope.currentRoom.bookingOptions.selectedStart);
-            } else {
-                $scope.currentBooking.startTime = null;
+
+        $scope.setBooking = function () {
+            var dateIsSelected = false;
+            var timeIsSelected = false;
+            var hasStartTime = $scope.currentRoom.bookingOptions.selectedStart !== null && angular.isDefined($scope.currentRoom.bookingOptions.selectedStart.slotFloat);
+            var hasEndTime = $scope.currentRoom.bookingOptions.selectedEnd !== null && angular.isDefined($scope.currentRoom.bookingOptions.selectedEnd.slotFloat);
+            //Date
+            if (angular.isDefined($scope.datePickerSettings.date)) {
+                $scope.currentBooking.date = $scope.datePickerSettings.date;
+                var dateIsSelected = true;
             }
-            if ($scope.isHalfHour($scope.currentRoom.bookingOptions.selectedEnd)) {
-                $scope.currentBooking.endTime = parseFloat($scope.currentRoom.bookingOptions.selectedEnd) + 0.3;
-            } else if (!$scope.isHalfHour($scope.currentRoom.bookingOptions.selectedEnd)) {
-                $scope.currentBooking.endTime = parseFloat($scope.currentRoom.bookingOptions.selectedEnd);
-            } else {
-                $scope.currentBooking.endTime = null;
+            if (hasStartTime) {
+                //Compare selected start time with end times
+                angular.forEach($scope.currentRoom.bookingOptions.bookingEndSlots, function (slot) {
+                    if ($scope.currentRoom.bookingOptions.selectedStart.slotFloat >= slot.slotFloat) {
+                        slot.visible = false;
+                    } else {
+                        slot.visible = true;
+                    }
+                });
+            }
+            //Set booking times and price
+            if (hasStartTime && hasEndTime) {
+                $scope.currentBooking.startTime = $scope.currentRoom.bookingOptions.selectedStart.slotFloat;
+                $scope.currentBooking.endTime = $scope.currentRoom.bookingOptions.selectedEnd.slotFloat;
+                $scope.currentBooking.duration = Math.round(($scope.currentBooking.endTime - $scope.currentBooking.startTime) * 100) / 100; //rounf flot to 2 decimals
+                $scope.currentBooking.slot = $scope.currentRoom.bookingOptions.selectedStart.slot.concat('-').concat($scope.currentRoom.bookingOptions.selectedEnd.slot);
+                //Duration and price
+                if ($scope.currentBooking.duration % 1 > 0) {
+                    //Round up duration for half hours
+                    $scope.currentBooking.duration = parseInt($scope.currentBooking.duration) + 1;
+                    $scope.priceNotification.show = true;
+                } else {
+                    $scope.priceNotification.show = false;
+                }
+                $scope.currentBooking.price = $scope.currentRoom.price * $scope.currentBooking.duration;
+                var timeIsSelected = true;
+            }
+            if (dateIsSelected && timeIsSelected) {
+                $scope.currentBookingIsSet = true;
+            }
+            if ($scope.currentBookingIsSet && $scope.userIsLoggedIn && $scope.userIsGuest) {
+                $scope.currentBooking.title = $scope.userInfo.nickname;
+                $scope.currentBooking.email = $scope.userInfo.email;
+                $scope.currentBooking.guestBiography = $scope.userInfo["biography"];
+                $scope.currentBooking.contact = $scope.userInfo.firstname + " " + $scope.userInfo.lastname;
+                $scope.currentBooking.phone = $scope.userInfo["phone"];
+                $scope.currentBooking.billingAddress = $scope.userInfo.billingAddress;
+                $scope.currentBooking.roomId = $scope.currentRoom.id;
+                $scope.currentBooking.hostId = $scope.currentRoom.hostId;
+                $scope.currentBooking.roomName = $scope.currentRoom.title;
             }
             console.log($scope.currentBooking);
-            //            $scope.currentBooking.startTime = startingSlot.startTime;
-            //            $scope.currentBooking.endTime = startingSlot.startTime + $scope.selectedHoursToBook.value;
-            //
-            //            $scope.currentBooking.duration = $scope.getCurrentBookingTotalTime();
-            //            $scope.currentBooking.price = $scope.currentBooking.duration * $scope.currentRoom.price;
-            //            $scope.currentBooking.slot = $scope.formatHour($scope.currentBooking.startTime) + ":00-" + $scope.formatHour($scope.currentBooking.endTime) + ":00";
-
         };
 
 
         $scope.setRoomTimeSlots = function () {
             var startTime = $scope.toHalfNumber($scope.currentRoom.startTime);
-            console.log(startTime);
             var endTime = $scope.toHalfNumber($scope.currentRoom.endTime);
-            console.log(endTime);
             var nrOfSlots = (endTime - startTime) * 2;
-            console.log(nrOfSlots);
             var currentSlot = $scope.currentRoom.startTime;
             var currentSlotFloat = parseFloat(currentSlot);
             for (var i = 0; i <= nrOfSlots; i++) {
-                //$scope.currentRoom.bookableTimeSlots.push(currentSlot);
-
                 if ($scope.isHalfHour(currentSlot)) {
                     currentSlotHour = currentSlotFloat - 0.3;
-                    $scope.currentRoom.bookingOptions.bookableTimeSlots.push(currentSlotHour.toString().concat(':30'));
+                    var slotObject = {
+                        slotString: currentSlot,
+                        slotFloat: currentSlotFloat,
+                        slot: currentSlotHour.toString().concat(':30'),
+                        visible: true
+                    };
+                    $scope.currentRoom.bookingOptions.bookableTimeSlots.push(slotObject);
                     currentSlotFloat += 0.7
                     currentSlot = currentSlotFloat.toString();
 
                 } else {
-                    //currentSlot = currentSlot.concat(':');
                     currentSlotHour = currentSlotFloat;
-                    $scope.currentRoom.bookingOptions.bookableTimeSlots.push(currentSlotHour.toString().concat(':00'));
-                    //$scope.currentRoom.bookingOptions.bookingStartSlots.push(currentSlotHour.toString().concat(':00'));
+                    var slotObject = {
+                        slotString: currentSlot,
+                        slotFloat: currentSlotFloat,
+                        slot: currentSlotHour.toString().concat(':00'),
+                        visible: true
+                    };
+                    $scope.currentRoom.bookingOptions.bookableTimeSlots.push(slotObject);
                     currentSlotFloat += 0.3;
                     currentSlot = currentSlotFloat.toString()
-                        //$scope.currentRoom.bookableTimeSlots.push(currentSlot.concat(':30'));
-
                 }
-                //                currentSlot =
             }
             angular.copy($scope.currentRoom.bookingOptions.bookableTimeSlots, $scope.currentRoom.bookingOptions.bookingStartSlots);
             angular.copy($scope.currentRoom.bookingOptions.bookableTimeSlots, $scope.currentRoom.bookingOptions.bookingEndSlots);
-
-            console.log($scope.currentRoom.bookingOptions);
         };
 
         $scope.defineCurrentRoomAttributes = function () {
@@ -444,10 +456,12 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                     bookingStartSlots: [],
                     bookingEndSlots: [],
                     selectedStart: '',
-                    selectedEnd: ''
+                    selectedEnd: '',
+                    disabledDates: []
                 }
 
             };
+            $scope.getDisabledDates();
             $scope.setRoomTimeSlots();
             $scope.setMapCenter($scope.currentRoom.address);
             $scope.roomsOnMap.push($scope.currentRoom);
@@ -489,7 +503,6 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 "phone": false,
                 "biography": false
             };
-            console.log($scope.currentRoom);
         };
         $scope.defineCurrentRoomAttributes();
 
@@ -506,50 +519,32 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             $scope.datePickerSettings.date = $scope.bookingQuery.date;
         };
 
+        $scope.getSlotObjectByTime = function (array, time) {
+            var returnSlot = {};
+            angular.forEach(array, function (slot) {
+                if (time === slot.slotFloat) {
+                    returnSlot = slot;
+                }
+            });
+            return returnSlot;
+        }
+
         $scope.setCurrentBookingFromQuery = function () {
-            //            $scope.currentBooking.date = $scope.datePickerSettings.date;
-            //            $scope.showBookingSlots = true;
             if ('date' in $scope.bookingQuery) {
                 $scope.currentBooking.date = $scope.datePickerSettings.date;
-                $scope.showBookingSlots = true;
-                $scope.resetCurrentBooking();
-                $scope.fillBookingsOfChosenDay($scope.bookingsForRoom);
 
             } else {
                 $scope.datePickerSettings.date = $scope.getFormattedDate(new Date());
             }
             //If the user returns to the booking after logging in
             if ('startTime' in $scope.bookingQuery && 'endTime' in $scope.bookingQuery) {
-                $scope.currentBooking.startTime = parseInt($scope.bookingQuery.startTime);
-                $scope.currentBooking.endTime = parseInt($scope.bookingQuery.endTime);
-                $scope.currentBooking.duration = $scope.bookingQuery.endTime - $scope.bookingQuery.startTime;
-                $scope.selectedHoursToBook.value = $scope.currentBooking.duration;
-                $scope.currentBooking.roomId = $scope.currentRoom.id;
-                $scope.currentBooking.hostId = $scope.currentRoom.hostId;
-                $scope.currentBooking.roomName = $scope.currentRoom.title;
-                $scope.currentBooking.slot = $scope.formatHour($scope.currentBooking.startTime) + ":00-" + $scope.formatHour($scope.currentBooking.endTime) + ":00";
-                $scope.currentBooking.price = $scope.currentBooking.duration * $scope.currentRoom.price;
-                angular.forEach($scope.bookingsOfChosenDay, function (slot) {
-                    if (slot.startTime >= $scope.currentBooking.startTime && slot.endTime <= $scope.currentBooking.endTime) {
-                        slot.isAdded = true;
-                    };
-                });
+                $scope.currentRoom.bookingOptions.selectedStart = $scope.getSlotObjectByTime($scope.currentRoom.bookingOptions.bookableTimeSlots, parseFloat($scope.bookingQuery.startTime));
+                $scope.currentRoom.bookingOptions.selectedEnd = $scope.getSlotObjectByTime($scope.currentRoom.bookingOptions.bookableTimeSlots, parseFloat($scope.bookingQuery.endTime));
+                $scope.setBooking();
                 if ($scope.isMobileView) {
                     $scope.showBookingContainer = true;
                     jQuery("#booking-container").addClass('sticky-scrollable');
                 };
-
-                if ($scope.userIsLoggedIn && $scope.userInfoIsLoaded) {
-                    //The title of the booking is the username of the guest
-                    $scope.currentBooking.title = $scope.userInfo.nickname;
-                    $scope.currentBooking.email = $scope.userInfo.email;
-                    $scope.currentBooking.guestBiography = $scope.userInfo["biography"];
-                    $scope.currentBooking.contact = $scope.userInfo.firstname + " " + $scope.userInfo.lastname;
-                    $scope.currentBooking.phone = $scope.userInfo["phone"];
-                    $scope.currentBooking.billingAddress = $scope.userInfo.billingAddress;
-                    $scope.showBookingSlots = false;
-                    $scope.bookingIsSetFromQuery = true;
-                }
             };
         };
         //Getting the user info, then getting the query parameters and setting the booking from query
@@ -597,28 +592,6 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             }
         };
 
-
-        //Sets the isChecked prop for each checkbox option
-        $scope.setCheckboxValues = function (checkboxArray, funnyObject) {
-            angular.forEach(checkboxArray, function (checkbox) {
-                if (funnyObject.search(checkbox.value) > -1) {
-                    checkbox.isChecked = true;
-                }
-            });
-        };
-        $scope.setCheckboxValues($scope.weekdays, weekdays);
-        $scope.setCheckboxValues($scope.food, roomFood);
-        $scope.setCheckboxValues($scope.equipment, roomEquipment);
-
-        //Get the date from the url search query
-        $scope.getQueryDate = function () {
-            if (window.location.search.search('Invalid') > -1) {
-                return $scope.getFormattedDate(new Date());
-            } else {
-                return window.location.search.slice(6);
-            }
-        };
-
         $scope.showOrHideBookingContainer = function () {
             if ($scope.isMobileView) {
                 $scope.showBookingContainer = !$scope.showBookingContainer;
@@ -658,8 +631,10 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
         function scrollEvent(e) {
             if (!$scope.roomImgHeightIsSet) {
                 $scope.roomImg = document.getElementById('single-room-img');
-                $scope.roomImgHeight = $scope.roomImg.clientHeight;
-                $scope.roomImgHeightIsSet = true;
+                if ($scope.roomImg !== null) {
+                    $scope.roomImgHeight = $scope.roomImg.clientHeight;
+                    $scope.roomImgHeightIsSet = true;
+                }
             };
             var toTop = jQuery(document).scrollTop();
             var marginInPhoto = 15;
@@ -692,8 +667,6 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             }
             return stickyLimit;
         };
-        //jQuery(document).scroll();
-
         //Scope variables
 
 
@@ -767,6 +740,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             if ($scope.userIsLoggedIn && $scope.userInfoIsLoaded) {
                 //The title of the booking is the username of the guest
                 $scope.currentBooking.title = $scope.userInfo.nickname;
+                $scope.currentBooking.content = '';
                 $scope.currentBooking.email = $scope.userInfo.email;
                 $scope.currentBooking.guestBiography = $scope.userInfo["biography"];
                 $scope.currentBooking.contact = $scope.userInfo.firstname + " " + $scope.userInfo.lastname;
@@ -792,235 +766,6 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             };
             return range;
         };
-
-        bookingSvc.getBookingsForRoom($scope.currentRoom.id).then(function (response) {
-            angular.forEach(response.data.posts, function (booking) {
-                booking["creationDate"] = booking.date;
-                booking["date"] = moment.unix(booking['custom_fields']['wpcf-booking-date'][0]).format('YYYY-MM-DD');
-                booking["startTime"] = booking['custom_fields']['wpcf-booking-starttime'][0];
-                booking["endTime"] = booking['custom_fields']['wpcf-booking-endtime'][0];
-                booking["phone"] = booking['custom_fields']['wpcf-phone'][0];
-                booking["roomId"] = booking['custom_fields']['wpcf-room-id'][0];
-                booking["hostId"] = booking['custom_fields']['wpcf-host-id'][0];
-                booking["bookingStatus"] = parseInt(booking['custom_fields']['wpcf-booking-status'][0]);
-                booking["email"] = booking['custom_fields']['wpcf-e-mail'][0];
-                booking["price"] = booking['custom_fields']['wpcf-total-price'][0];
-                booking["duration"] = booking['custom_fields']['wpcf-duration'][0];
-                //Replace all ; by , since the opposite is done when updating. The url does not take commas.
-                if ('wpcf-billing-address' in booking['custom_fields']) {
-                    booking["billingAddress"] = booking['custom_fields']['wpcf-billing-address'][0].replace(/;/g, ",");
-                } else {
-                    booking["billingAddress"] = "";
-                }
-                if ('wpcf-guest-biography' in booking['custom_fields']) {
-                    //Replace the "" that is added when getting the description.
-                    booking["guestBiography"] = booking['custom_fields']['wpcf-guest-biography'][0].replace(/"/g, "").replace(/;/g, ",");
-                } else {
-                    booking["guestBiography"] = "";
-                }
-                $scope.bookingsForRoom.push(booking);
-            });
-            $scope.fillBookingsOfChosenDay($scope.bookingsForRoom);
-            setTimeout(function () {
-                $scope.$apply($scope.bookingsAreLoaded = true);
-
-            }, 50);
-
-
-        });
-
-        //Fills the bookingsChosenDay array with the existing bookings and creates empty slots for the unbooked hours
-        $scope.fillBookingsOfChosenDay = function (bookings) {
-            $scope.bookingsOfChosenDay = [];
-
-            var bookedHours = [];
-            $scope.maxHoursToBook = 0;
-            $scope.bookingHoursOptions = [];
-            //$scope.selectedHoursToBook = 1;
-            angular.forEach(bookings, function (booking) {
-                if (booking.date === $scope.datePickerSettings.date) {
-                    var start = parseInt(booking.startTime);
-                    var end = parseInt(booking.endTime);
-                    //Adding the bookings that have been confirmed to the list of booked hours
-                    if (booking.bookingStatus === 2) {
-                        for (var i = start; i < end; i++) {
-                            bookedHours.push(i.toString());
-                        }
-                    };
-                };
-            });
-
-            var index = 0;
-            for (var i = parseInt($scope.currentRoom.startTime); i < parseInt($scope.currentRoom.endTime); i++) {
-                var isBooked = jQuery.inArray(i.toString(), bookedHours) > -1;
-
-                if (isBooked) {
-                    $scope.bookingsOfChosenDay.push({
-                        index: index,
-                        slot: $scope.formatHour(i) + ":00 - " + $scope.formatHour(i + 1) + ":00",
-                        startTime: i,
-                        endTime: i + 1,
-                        status: "Bokat",
-                        isAdded: false,
-                        isChoosable: false,
-                        isFirstSlotOfBooking: false,
-                        isBooked: true
-                    })
-                } else {
-                    $scope.bookingsOfChosenDay.push({
-                        index: index,
-                        slot: $scope.formatHour(i) + ":00 - " + $scope.formatHour(i + 1) + ":00",
-                        startTime: i,
-                        endTime: i + 1,
-                        status: "Tillgängligt",
-                        isAdded: false,
-                        isChoosable: false,
-                        isFirstSlotOfBooking: false,
-                        isBooked: false
-                    })
-                }
-                index++;
-            };
-            $scope.calculateMaxHoursToBook();
-            $scope.setChoosableTimeSlots();
-        };
-
-
-
-        $scope.showEvents = function (events) {
-            alert(events.map(function (e) {
-                return e.title
-            }).join("\n"));
-        };
-
-        $scope.showBookings = function (bookings, date) {
-            // $scope.calendarIsShown = false;
-            // if (typeof (date) !== 'string') {
-            // 	date = date.format('YYYY-MM-DD');
-            // }
-            // //if (date !== $scope.options.selectedDate) {
-            // 	//If the chosen day is a different day, then reset the currentBooking and set the new date
-            // 	$scope.options.selectedDate = date;
-            // 	$scope.currentBooking.date = date;
-            // 	$scope.resetCurrentBooking();
-            // 	$scope.bookingsOfChosenDay = [];
-            // 	$scope.fillBookingsOfChosenDay(bookings);
-            // //}
-
-
-        };
-        $scope.showOrHideCalendar = function () {
-            $scope.calendarIsShown = !$scope.calendarIsShown;
-        };
-        $scope.showOrHideBookingSlots = function () {
-            $scope.showBookingSlots = !$scope.showBookingSlots;
-        };
-
-        $scope.showBookingForm = function () {
-            $scope.bookingFormIsShown = !$scope.bookingFormIsShown;
-            //$scope.calculateMaxHoursToBook();
-
-        };
-
-        $scope.dayIsAvailableForBooking = function (day) {
-            var bookedHours = [];
-            for (var i = $scope.currentRoom.startTime; i <= $scope.currentRoom.endTime; i++) {
-                bookedHours.push({
-                    startHour: i,
-                    isBooked: false
-                });
-            };
-
-
-        };
-
-        $scope.calculateMaxHoursToBook = function () {
-            var localMax = 0;
-            var localMaxes = [];
-            var allDayFree = true;
-            angular.forEach($scope.bookingsOfChosenDay, function (booking) {
-                if (booking.isBooked) {
-                    allDayFree = false;
-                    localMaxes.push(localMax);
-                    localMax = 0;
-                } else {
-                    localMax++;
-                }
-            });
-            localMaxes.push(localMax);
-
-            if (allDayFree) {
-                $scope.maxHoursToBook = $scope.bookingsOfChosenDay.length;
-            } else {
-                //Take the first element in the sorted list of local maxes (descending order)
-                $scope.maxHoursToBook = localMaxes.sort(numOrdD)[0];
-            }
-            //Set the options for nr of hours dropdown
-            for (var i = 1; i <= $scope.maxHoursToBook; i++) {
-                $scope.bookingHoursOptions.push(i);
-            }
-        };
-
-
-        $scope.setChoosableTimeSlots = function () {
-            var nrOfSlots = $scope.bookingsOfChosenDay.length;
-            angular.forEach($scope.bookingsOfChosenDay, function (slot) {
-                //If the slot is not booked and there are enough time slots after the chosen one to satisfy the max hours to book
-                var slotsAfterAreBooked = false;
-                if (!slot.isBooked && ((nrOfSlots - slot.index) >= $scope.selectedHoursToBook.value)) {
-
-                    //Check if the slots after the chosen one are already booked
-                    for (var i = 0; i < $scope.selectedHoursToBook.value; i++) {
-
-                        if ($scope.bookingsOfChosenDay[i + slot.index].isBooked) {
-                            slotsAfterAreBooked = true;
-                        }
-                    };
-                    slot.isChoosable = !slotsAfterAreBooked;
-                } else { //If there is not enought time slots after the chosen slot then set isChoosable to false
-                    slot.isChoosable = false;
-                }
-
-            });
-        };
-
-        $scope.addSlotsToBooking = function (startingSlot) {
-            if (startingSlot.isChoosable) {
-                $scope.resetCurrentBooking();
-                $scope.resetChosenSlots();
-                $scope.showBookingSlots = false;
-                //Setting the startingslot and the slots after to added
-                for (var i = startingSlot.index; i < $scope.selectedHoursToBook.value + startingSlot.index; i++) {
-                    $scope.bookingsOfChosenDay[i].isAdded = true;
-                    if (i === startingSlot.index) {
-                        $scope.bookingsOfChosenDay[i].isFirstSlotOfBooking = true;
-                    }
-                };
-                $scope.currentBooking.duration = $scope.getCurrentBookingTotalTime();
-                $scope.currentBooking.price = $scope.currentBooking.duration * $scope.currentRoom.price;
-                $scope.currentBooking.startTime = startingSlot.startTime;
-                $scope.currentBooking.endTime = startingSlot.startTime + $scope.selectedHoursToBook.value;
-                $scope.currentBooking.slot = $scope.formatHour($scope.currentBooking.startTime) + ":00-" + $scope.formatHour($scope.currentBooking.endTime) + ":00";
-            }
-        };
-
-        $scope.resetChosenSlots = function () {
-            angular.forEach($scope.bookingsOfChosenDay, function (slot) {
-                slot.isAdded = false;
-                slot.isFirstSlotOfBooking = false;
-            });
-        };
-
-        $scope.getCurrentBookingTotalTime = function () {
-            var time = 0;
-            angular.forEach($scope.bookingsOfChosenDay, function (slot) {
-                if (slot.isAdded) {
-                    time = time + 1;
-                };
-            });
-            return time;
-        };
-
 
         $scope.createBooking = function () {
             $scope.triedToConfirmBooking = true;
@@ -1147,14 +892,6 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 return false;
             });
         };
-
-
-
-        /*
-         *
-         * Send mail Example Angular JS
-         * By Jenssiii
-         */
         $scope.mailTemplates = [];
 
         $scope.getAllMailTemplates = function () {

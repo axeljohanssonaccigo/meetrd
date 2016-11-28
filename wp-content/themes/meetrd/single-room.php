@@ -84,7 +84,7 @@ $all_meta_for_host = get_user_meta($hostId);
                 </header>
                 <!-- .entry-header -->
 
-                <div class="entry-content" ng-if="bookingsAreLoaded">
+                <div class="entry-content">
 
                     <div class="row">
 
@@ -115,30 +115,24 @@ $all_meta_for_host = get_user_meta($hostId);
                                             GRATIS
                                         </div>
                                         <div class="col-xs-8 price-definition" ng-hide="isMobileView">
-                                            Se lediga tider & boka
+                                            Boka {{currentRoom.title}}
                                         </div>
                                         <div class="col-xs-8 price-definition" ng-show="isMobileView && showBookingContainer">
                                             Dölj
                                             <i class="fa fa-arrow-circle-up fa-lg"></i>
                                         </div>
                                         <div class="col-xs-8 price-definition" ng-show="isMobileView && !showBookingContainer">
-                                            Se lediga tider & boka
+                                            Boka {{currentRoom.title}}
                                             <i class="fa fa-arrow-circle-down fa-lg"></i>
                                         </div>
                                     </div>
                                     <div ng-show="showBookingContainer" id="booking-container-content" class="booking-options-price-container clearfix">
                                         <div class="booking-options">
                                             <div class="booking-option clearfix ">
-                                                <div class="booking-option-label col-xs-12 col-sm-3 col-md-7 no-padding">
-                                                    <div class="col-xs-2">
-                                                        <i class="fa fa-calendar fa-lg"></i>
-                                                    </div>
-                                                    <div class="col-xs-10" style="padding-top: 5px;">Datum</div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-3 col-md-5" ng-click="datePickerSettings.wasClicked = true">
-
-                                                    <datepicker date-min-limit="{{datePickerSettings.minDate}}" date-format="{{datePickerSettings.pattern}}" button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
-                                                        <input onfocus="blur();" type="text" autocomplete="off" placeholder="När är mötet?" ng-model="datePickerSettings.date" name="date" class="btn form-control" required/>
+                                                <div class="col-xs-12">
+                                                    <label for="date"> <i class="fa fa-calendar fa-lg"></i>&nbsp;Datum</label>
+                                                    <datepicker id="date" name="date" date-min-limit="{{datePickerSettings.minDate}}" date-format="{{datePickerSettings.pattern}}" button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>" date-disabled-dates="{{currentRoom.bookingOptions.disabledDates}}">
+                                                        <input onfocus="blur();" type="text" autocomplete="off" placeholder="När är mötet?" ng-change="setBooking()" ng-model="datePickerSettings.date" name="date" class="btn form-control" required/>
                                                     </datepicker>
 
                                                 </div>
@@ -146,6 +140,7 @@ $all_meta_for_host = get_user_meta($hostId);
                                             </div>
 
 
+                                            <!--
                                             <div class="booking-option clearfix" ng-show="datePickerSettings.date.length > 0">
                                                 <div class="booking-option-label col-md-7 col-sm-3 col-xs-7 no-padding">
                                                     <div class="col-xs-2">
@@ -169,39 +164,45 @@ $all_meta_for_host = get_user_meta($hostId);
                                                     <span type="text" class="col-xs-12 btn btn-primary chosen-slot" ng-click="showOrHideBookingSlots()">{{currentBooking.slot}}</span>
                                                 </div>
                                             </div>
+-->
                                         </div>
 
                                         <div class="booking-time-picker-container">
-                                            <!--                                            Booking start-->
-                                            <select ng-change="setBookingTime()" ng-model="currentRoom.bookingOptions.selectedStart" class="btn btn-primary col-xs-12" ng-options="slot for slot in currentRoom.bookingOptions.bookingStartSlots">
+                                            <div class="col-xs-6">
+                                                <label for="bookingStart"><i class="fa fa-clock-o fa-lg"></i>&nbsp;Från</label>
+                                                <select id="bookingStart" name="bookingStart" ng-change="setBooking()" ng-model="currentRoom.bookingOptions.selectedStart" class="btn btn-primary col-xs-12" ng-options="slot.slot for slot in currentRoom.bookingOptions.bookingStartSlots track by slot.slotFloat">
+                                                </select>
+                                            </div>
 
-                                            </select>
-                                            {{currentRoom.bookingOptions.selectedStart}}
-                                            <!--                                            Booking end-->
-                                            <select ng-change="setBookingTime()" ng-model="currentRoom.bookingOptions.selectedEnd" class="btn btn-primary col-xs-12" ng-options="slot for slot in currentRoom.bookingOptions.bookingEndSlots"></select>
-                                            {{currentRoom.bookingOptions.selectedEnd}}
-
+                                            <div class="col-xs-6">
+                                                <label for="bookingEnd"><i class="fa fa-clock-o fa-lg"></i>&nbsp;Till</label>
+                                                <select id="bookingEnd" name="bookingEnd" ng-change="setBooking()" ng-model="currentRoom.bookingOptions.selectedEnd" class="btn btn-primary col-xs-12" ng-options="slot.slot for slot in currentRoom.bookingOptions.bookingEndSlots | filter:slot.visible='true' track by slot.slotFloat"></select>
+                                            </div>
+                                            <div class="price-notification col-xs-12" ng-show="priceNotification.show">
+                                                <i class="fa fa-info-circle fa-2x"></i>
+                                                <span>
+                                                    &nbsp;{{priceNotification.notification}}
+                                                </span>
+                                            </div>
                                         </div>
 
+                                        <!--
                                         <div class="slots-of-today-container col-xs-12" ng-show="showBookingSlots">
                                             <h4>När börjar mötet?</h4>
                                             <div ng-repeat="slot in bookingsOfChosenDay">
                                                 <div class="col-xs-8 col-xs-offset-2 btn btn-xs booking-slot" ng-click="addSlotsToBooking(slot)" ng-class="{isBooked: slot.isBooked, 'btn-success': !slot.isBooked, isAdded: slot.isAdded, isNotChoosable: !slot.isChoosable && !slot.isBooked}">
                                                     {{formatHour(slot.startTime) + ":00 "}}
-                                                    <!-- <i class="fa fa-plus-square pointer" title="Välj denna starttid"  ng-show="userIsLoggedIn && slot.isChoosable && !slot.isBooked && !slot.isAdded"></i>
-                <i class="fa fa-minus-square pointer" title="Ta bort denna starttid" ng-click="resetChosenSlots()" ng-show="slot.isChoosable && !slot.isBooked && slot.isAdded && slot.isFirstSlotOfBooking"></i> -->
+                                                     <i class="fa fa-plus-square pointer" title="Välj denna starttid"  ng-show="userIsLoggedIn && slot.isChoosable && !slot.isBooked && !slot.isAdded"></i>
+                <i class="fa fa-minus-square pointer" title="Ta bort denna starttid" ng-click="resetChosenSlots()" ng-show="slot.isChoosable && !slot.isBooked && slot.isAdded && slot.isFirstSlotOfBooking"></i> 
                                                 </div>
                                             </div>
                                         </div>
+-->
 
-                                        <div ng-show="currentBooking.duration > 0">
+                                        <div ng-show="currentBookingIsSet">
                                             <div class="separator"></div>
-                                            <div class="booking-option col-md-7 col-xs-7 no-padding">
-                                                <div class="col-xs-2">
-                                                    <i class="fa fa-money fa-lg"></i>
-                                                </div>
-                                                <div class="col-xs-10" style="padding-top: 5px;">Pris </div>
-
+                                            <div class="booking-option col-md-7 col-xs-7">
+                                                <label><i class="fa fa-money fa-lg"></i>&nbsp;Pris</label>
                                             </div>
                                             <div class="col-xs-5 col-md-5 booking-price-container">
                                                 {{currentBooking.price}} kr
@@ -211,12 +212,16 @@ $all_meta_for_host = get_user_meta($hostId);
             </div> -->
                                             <div class="separator"></div>
                                             <div class="col-xs-12">
+                                                <button ng-if="userIsLoggedIn && userIsGuest" type="button" class="btn btn-primary col-xs-12" data-toggle="modal" data-target="#bookingModal" ng-disabled="!currentBookingIsSet">Skicka bokningsförfrågan</button>
+                                                <button ng-if="!userIsLoggedIn || (userIsLoggedIn && !userIsGuest)" type="button" class="btn btn-primary col-xs-12" ng-click="showRegisterUserForm()">Skicka bokningsförfrågan</button>
+                                                <!--
                                                 <div ng-if="userIsLoggedIn && userIsGuest" class="col-xs-12 btn btn-primary" ng-disabled="currentBooking.duration === 0" data-toggle="modal" data-target="#bookingModal">
                                                     Skicka bokningsförfrågan
                                                 </div>
                                                 <div ng-if="!registrationFormIsShown && (!userIsLoggedIn || (userIsLoggedIn && !userIsGuest))" class="col-xs-12 btn btn-primary" ng-disabled="currentBooking.duration === 0" ng-click="showRegisterUserForm()">
                                                     Skicka bokningsförfrågan
                                                 </div>
+-->
                                             </div>
                                         </div>
                                         <div class="login-container" ng-show="registrationFormIsShown">

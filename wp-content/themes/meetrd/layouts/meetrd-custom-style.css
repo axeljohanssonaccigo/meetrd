@@ -81,6 +81,8 @@ datepicker,
 ._720kb-datepicker-calendar-years-pagination a._720kb-datepicker-active._720kb-datepicker-disabled,
 ._720kb-datepicker-calendar-years-pagination a._720kb-datepicker-active._720kb-datepicker-disabled:hover {
     background: rgba(212, 22, 22, 0.7) !important;
+    color: #000 !important;
+    text-decoration: none;
 }
 
 ._720kb-datepicker-calendar-day:hover,
@@ -975,6 +977,11 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     padding-top: 5px;
     font-size: 15px;
 }
+.price-notification {
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+.price-notification span {}
 .big-price-tag {
     font-size: 26px;
 }
