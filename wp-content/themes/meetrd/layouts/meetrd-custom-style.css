@@ -603,8 +603,8 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     margin-bottom: 5px;
     font-weight: 300;
     text-shadow: 0px 0px 7px rgba(50, 50, 50, 0.5);
-    margin-top: 5px;
-    margin-bottom: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 .three-steps-container {
     text-align: center;
@@ -773,9 +773,9 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     padding-bottom: 15px;
 }
 #meetrd-fans .fan-logo {
-    width: 12.5%;
+    width: 9.09%;
     position: relative;
-    padding: 0 20px;
+    padding: 0 30px;
     display: inline-block;
     /*    min-height: 100px;*/
 }
@@ -1011,8 +1011,8 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     color: #fff !important;
 }
 .isWaitingForApproval {
-    background-color: #DA8000;
-    color: #000 !important;
+    background-color: rgb(230, 0, 138);
+    color: #fff !important;
 }
 .isPassed {
     background-color: #999;
@@ -1292,7 +1292,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     background-color: rgb(250, 250, 250);
 }
 .status-container {
-    background-color: #325d88;
+    background-color: rgb(100, 100, 100);
     color: #fff;
     margin: 5px 0;
     cursor: pointer;
@@ -1562,7 +1562,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     height: 350px;
     margin-bottom: 10px;
 }
-.update-search-container div #gmaps {
+.search-form-map-container #gmaps {
     width: 100%;
     height: 350px;
     margin-bottom: 10px;
@@ -1626,15 +1626,15 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     }
     
     .heading-text {
-        padding-top: 80px;
+        padding-top: 60px;
     }
     
     .heading-text h1 {
-        font-size: 55px;
+        font-size: 50px;
     }
     
     .heading-text h2 {
-        font-size: 25px;
+        font-size: 26px;
     }
     
     .search-container {
@@ -1690,7 +1690,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     }
     
     .heading-text {
-        padding-top: 80px;
+        padding-top: 50px;
     }
     
     .heading-text h1 {
@@ -1767,7 +1767,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
         padding-top: 0;
     }
 }
-@media(max-width: 990px) {
+@media(max-width: 991px) {
     #page {}
     
     .page-php-container {
@@ -1814,41 +1814,6 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
         color: #fff !important;
     }
     
-    .search-container .btn {
-        margin-top: 5px;
-    }
-    
-    .show-more-rooms-container button {
-        margin-right: 5px;
-    }
-    /*	.search-container .ng-pristine .ng-valid .ng-valid-min .ng-touched .ng-dirty .ng-valid-number{margin-top:3px;}
-	.search-container .ng-pristine {margin-top:3px;}*/
-    
-    .search-container input[type="number"] {
-        margin-top: 3px;
-    }
-    
-    .booking h3 {
-        font-size: 16px;
-    }
-    
-    .booking-brief-info {
-        font-size: 12px;
-    }
-    
-    .booking-count {
-        font-size: 12px;
-    }
-    
-    .meetrd-footer-container .social-media-container i {
-        margin: 0 10px;
-    }
-    
-    #cities .city-container .city-name {
-        font-size: 20px;
-    }
-}
-@media (max-width: 991px) {
     .booking-container {
         position: relative;
         width: 100% !important;
@@ -1877,6 +1842,26 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
         margin-right: 5px;
     }
     
+    .search-container .btn {
+        margin-top: 5px;
+    }
+    
+    .search-container input[type="number"] {
+        margin-top: 3px;
+    }
+    
+    .booking h3 {
+        font-size: 16px;
+    }
+    
+    .booking-brief-info {
+        font-size: 12px;
+    }
+    
+    .booking-count {
+        font-size: 12px;
+    }
+    
     .meetrd-footer-container .social-media-container i {
         margin: 0 10px;
     }
@@ -1884,7 +1869,24 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     #cities .city-container .city-name {
         font-size: 20px;
     }
+    
+    .heading-text {
+        padding-top: 40px;
+    }
+    
+    .heading-text h1 {
+        font-size: 25px;
+    }
+    
+    .heading-text h2 {
+        font-size: 20px;
+    }
+    
+    #meetrd-fans .fan-logo {
+        padding: 0 10px !important;
+    }
 }
+@media (max-width: 991px) {}
 @media(min-width: 991px) {
     .page-php-container {
         width: 85%;
@@ -1962,6 +1964,10 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
         -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         -moz-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         /*padding: 0 0 10px 0;*/
+    }
+    
+    #meetrd-fans .fan-logo {
+        padding: 0 20px;
     }
 }
 @media (max-width: 1399px) {

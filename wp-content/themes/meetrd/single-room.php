@@ -93,14 +93,7 @@ $all_meta_for_host = get_user_meta($hostId);
                         </div>
 
                     </div>
-                    <!--
-                  <div class="row">
-    <div class="send-mail-container col-xs-12 ng-hide">
-        <input type="text" ng-model="testMail"></input>
-        <div class="btn btn-lg btn-default" ng-click="sendMail()">Send test mail</div>
-    </div>
-</div>
--->
+
                     <div class="">
                         <div class="container-fluid row white-section">
                             <div class="container no-padding" id="single-room">
@@ -115,14 +108,14 @@ $all_meta_for_host = get_user_meta($hostId);
                                             GRATIS
                                         </div>
                                         <div class="col-xs-8 price-definition" ng-hide="isMobileView">
-                                            Boka {{currentRoom.title}}
+                                            Bokningsförfrågan
                                         </div>
                                         <div class="col-xs-8 price-definition" ng-show="isMobileView && showBookingContainer">
                                             Dölj
                                             <i class="fa fa-arrow-circle-up fa-lg"></i>
                                         </div>
                                         <div class="col-xs-8 price-definition" ng-show="isMobileView && !showBookingContainer">
-                                            Boka {{currentRoom.title}}
+                                            Bokningsförfrågan
                                             <i class="fa fa-arrow-circle-down fa-lg"></i>
                                         </div>
                                     </div>
@@ -170,7 +163,7 @@ $all_meta_for_host = get_user_meta($hostId);
                                         <div class="booking-time-picker-container">
                                             <div class="col-xs-6">
                                                 <label for="bookingStart"><i class="fa fa-clock-o fa-lg"></i>&nbsp;Från</label>
-                                                <select id="bookingStart" name="bookingStart" ng-change="setBooking()" ng-model="currentRoom.bookingOptions.selectedStart" class="btn btn-primary col-xs-12" ng-options="slot.slot for slot in currentRoom.bookingOptions.bookingStartSlots track by slot.slotFloat">
+                                                <select id="bookingStart" name="bookingStart" ng-change="setBooking()" ng-model="currentRoom.bookingOptions.selectedStart" class="btn btn-primary col-xs-12" ng-options="slot.slot for slot in currentRoom.bookingOptions.bookingStartSlots | filter:slot.visible='true' track by slot.slotFloat">
                                                 </select>
                                             </div>
 
@@ -633,8 +626,8 @@ $all_meta_for_host = get_user_meta($hostId);
                                         <div class="modal-footer clearfix">
                                             <div class="row">
                                                 <div ng-show="!bookingWasConfirmed && !triedToConfirmBooking" class="clearfix col-xs-12">
-                                                    <div class="btn btn-primary col-sm-8 col-xs-12" style="" ng-disabled="bookingForm.$invalid || !phoneNumberIsValid(currentBooking.phone)" ng-click="createBooking()">Bekräfta bokningsförfrågan</div>
-                                                    <div class="btn btn-danger col-sm-offset-1 col-sm-3 col-xs-12" data-dismiss="modal">Avbryt</div>
+                                                    <button type="button" class="btn btn-primary col-sm-8 col-xs-12" style="" ng-disabled="bookingForm.$invalid || !phoneNumberIsValid(currentBooking.phone)" ng-click="createBooking()">Bekräfta bokningsförfrågan</button>
+                                                    <button type="button" class="btn btn-danger col-sm-offset-1 col-sm-3 col-xs-12" data-dismiss="modal">Avbryt</button>
                                                 </div>
                                                 <div ng-show="bookingWasConfirmed && mailsAreDone" class="clearfix col-xs-12">
                                                     <button class="btn btn-primary col-xs-12 col-md-5" data-dismiss="modal" ng-click="reloadRoomPage()">OK</button>

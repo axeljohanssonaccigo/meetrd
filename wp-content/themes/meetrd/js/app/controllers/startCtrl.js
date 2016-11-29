@@ -57,6 +57,21 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
             name: 'Tele2',
             logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/tele2-logo.png'),
             website: 'http://www.tele2.se/'
+        },
+        {
+            name: 'Avida',
+            logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/avida-logo.png'),
+            website: 'http://www.avidafinance.com/'
+        },
+        {
+            name: 'SJ',
+            logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/sj-logo.png'),
+            website: 'http://www.sj.se/'
+        },
+        {
+            name: 'Schibsted',
+            logoUrl: $scope.homeUrl.concat('/wp-content/themes/meetrd/layouts/Images/schibsted-logo.png'),
+            website: 'http://www.schibsted.com/'
         }
     ];
 

@@ -49,10 +49,10 @@ bookingApp.service('bookingSvc', function ($http) {
         var billingAddress = currentBooking.billingAddress.replace(/,/g, ";");
         if (currentBooking.content !== "" && angular.isDefined(currentBooking.content)) {
             var content = currentBooking.content.replace(/,/g, ";"); //Comments
-        } else {
-            var content = "";
         }
-
+//        else {
+    //            var content = "Ingen kommentar";
+    //        }
 
         return $http({
             method: "GET",

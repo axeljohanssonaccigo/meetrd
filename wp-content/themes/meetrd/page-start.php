@@ -30,8 +30,8 @@ for ($i=0; $i < count($all_hosts); $i++) {
                 <div class="container">
                     <!--HEADING TEXT-->
                     <div class="col-xs-12 heading-text">
-                        <h1>Boka mötesrum hos andra företag</h1>
-                        <h2>✓ Socialt  ✓ Hållbart  ✓ Prisvärt</h2>
+                        <h1>Mötesrum för det moderna företaget</h1>
+                        <h2>Hyr personliga och prisvärda mötesrum hos andra företag</h2>
                     </div>
                     <!-- Search container -->
                     <div class=" col-xs-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
@@ -43,68 +43,20 @@ for ($i=0; $i < count($all_hosts); $i++) {
                     </div>
                 </div>
                 <div class="parallax" id="meetrd-banner">
-
                     <img ng-src="{{viewPort.bannerUrl}}" />
-
-
                 </div>
-
-
             </div>
-
-
-            <!--
-   <div class="row hidden">
-    <div class="container">
-        <div class="three-steps-container col-xs-12 no-padding">
-            <div class="col-xs-12 col-sm-4 one-step no-padding-mobile">
-                <a href="<?php echo get_home_url().'/hyra-ut'; ?>">
-                    <div class="col-xs-12">
-                        <i class="fa fa-key fa-3x"></i>
-                    </div>
-                    <h1>Att vara värd</h1>
-                    <p> </p>
-                </a>
-
-            </div>
-            <div class="col-xs-12 col-sm-4 one-step no-padding-mobile">
-                <a href="<?php echo get_home_url().'/att-hyra'; ?>">
-                    <div class="col-xs-12">
-                        <i class="fa fa-handshake-o fa-3x"></i>
-
-                    </div>
-                    <h1>Så bokar du mötesrum</h1>
-                    <p> </p>
-                </a>
-            </div>
-            <div class="col-xs-12 col-sm-4 one-step no-padding-mobile">
-                <a href="<?php echo get_home_url().'/sa-har-fungerar-det'; ?>">
-                    <div class="col-xs-12">
-                        <i class="fa fa-question fa-3x"></i>
-
-                    </div>
-                    <h1>Vi hjälper dig</h1>
-                    <p> </p>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
--->
 
             <div class="container-fluid off-white-section row no-padding-mobile hidden-xs">
-                <!--                <div class="container first-page">-->
-
                 <div id="meetrd-fans" class="clearfix">
-                    <h1 class="popular-hosts">
-                        VI HAR BOKAT GENOM MEETRD
-                    </h1>
+                    <h3>
+                        VI HAR BOKAT GENOM MEETRD.SE
+                    </h3>
                     <div class="fan-logo" ng-repeat="fan in meetrdFans | orderBy: 'name'">
                         <a href="{{fan.website}}" target="_blank"><img ng-src="{{fan.logoUrl}}" /></a>
                         <!--      ng-class="{'push-up flip-up': ($index % 2) > 0, 'push-down flip-down': ($index % 2) === 0}"                   -->
                     </div>
                 </div>
-                <!--                </div>-->
             </div>
             <div class="container-fluid white-section row no-padding-mobile">
                 <div class="container first-page">
@@ -147,14 +99,12 @@ for ($i=0; $i < count($all_hosts); $i++) {
                             SÅ ENKELT ÄR DET ATT BOKA MÖTESRUM
                         </h1>
                         <div class="col-md-4 col-sm-4 col-xs-12 ">
-
                             <div class="step-number">
                                 01
                             </div>
                             <div class="step-number-content">
                                 Klicka på <a href="<?php  echo get_home_url().'/search'; ?>">sök mötesrum</a> och hitta ett rum som passar ditt behov eller ett företag som du är nyfiken på. Skapa därefter ett konto och logga in.
                             </div>
-
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-12 buffer-top-desktop">
 
@@ -167,7 +117,6 @@ for ($i=0; $i < count($all_hosts); $i++) {
                             <div class="step-number hidden-xs">
                                 02
                             </div>
-
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-12">
                             <div class="step-placeholder">
@@ -178,7 +127,6 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                     Håll ditt inspirerande möte hos värdföretaget! Efter mötet skickar meetrd.se ut en faktura på överenskommen summa.
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -211,12 +159,6 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                                 the_widget('ALO_Easymail_Widget', $istance, $args );
                                                 ?>
                         </div>
-
-                        <!--
-                        <div class="parallax" id="newsletter-parallax">
-                            <img src="<?php echo get_home_url().'/wp-content/uploads/2016/06/Coffee_break.jpg'; ?>" />
-                        </div>
--->
                     </div>
                 </div>
             </div>

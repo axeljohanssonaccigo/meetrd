@@ -43,6 +43,10 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
             });
             return isOnMap;
         };
+        $scope.myFunction = function () {
+            console.log("printing");
+        };
+
         $scope.initPage = function () {
 
             //Get all rooms for host
@@ -78,6 +82,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
                             $scope.roomsOnMap.push(room);
                         }
                     });
+                    console.log($scope.roomsOnMap);
                     $scope.query.shownRooms = $scope.query.shownRoomsDefault;
                     $scope.allRoomsLoaded = true;
                 });
@@ -292,6 +297,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc) {
                 nrOfHits: 0,
                 companyName: null,
                 city: null,
+                address: null,
                 host: 0,
                 shownRooms: shownRoomsDefault,
                 moreRoomsIncrease: shownRoomsDefault,

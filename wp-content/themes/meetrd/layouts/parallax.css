@@ -40,7 +40,7 @@
 
 @media (min-width: 1750px) {
     #meetrd-banner-container.parallax-container {
-        height: 620px;
+        height: 600px;
     }
     #meetrd-banner.parallax {
         height: 470px;
@@ -49,7 +49,7 @@
 
 @media (max-width: 1750px) and (min-width: 1650px) {
     #meetrd-banner-container.parallax-container {
-        height: 550px;
+        height: 530px;
     }
     #meetrd-banner.parallax {
         height: 340px;
@@ -58,7 +58,7 @@
 
 @media (max-width: 1650px) and (min-width: 1550px) {
     #meetrd-banner-container.parallax-container {
-        height: 530px;
+        height: 500px;
     }
     #meetrd-banner.parallax {
         height: 330px;
@@ -136,10 +136,7 @@
         font-size: 35px;
     }
     .heading-text {
-        padding-top: 50px;
-    }
-    .heading-text h2 {
-        font-size: 25px;
+        padding-top: 40px;
     }
 }
 

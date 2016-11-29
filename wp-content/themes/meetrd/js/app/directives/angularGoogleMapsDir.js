@@ -36,7 +36,7 @@ directive('angularGoogleMaps', function () {
         }
 
         // place a marker
-        function setMarker(map, position, title, content) {
+        function setMarker(map, position) {
             var marker;
             var pinColor = "e6008a";
             //                    'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
@@ -47,36 +47,39 @@ directive('angularGoogleMaps', function () {
             var markerOptions = {
                 position: position,
                 map: map,
-                title: title,
                 icon: pinImage
             };
 
             marker = new google.maps.Marker(markerOptions);
+
+            google.maps.event.addListener(marker, 'click', scope.$parent.myFunction());
+            //                                          
+            //                                          function (scope) {
+            //                //                 close window
+            //                //    if not undefined
+            //                console.log('dd');
+            //                //                if (infoWindow !== void 0) {
+            //                //                    infoWindow.close();
+            //                //                }
+            //                //    create new window
+            //                //    var infoWindowOptions = {
+            //                //        content: content
+            //                //    };
+            //                //    infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+            //                //    infoWindow.open(map, marker);
+            //            });
             markers.push(marker); // add marker to array
 
-            google.maps.event.addListener(marker, 'click', function () {
-                // close window if not undefined
-                if (infoWindow !== void 0) {
-                    infoWindow.close();
-                }
-                // create new window
-                var infoWindowOptions = {
-                    content: content
-                };
-                infoWindow = new google.maps.InfoWindow(infoWindowOptions);
-                infoWindow.open(map, marker);
-            });
         }
+
 
         function setMarkers(roomsOnMap) {
             angular.forEach(roomsOnMap, function (room) {
                 var marker = {
-                    'address': room.address,
-                    'title': room.title,
-                    'content': room.title,
-                    'coordinates': {
-                        'longitude': 0,
-                        'latitude': 0
+                    address: room.address,
+                    coordinates: {
+                        longitude: 0,
+                        latitude: 0
                     }
                 };
                 var geocoder = new google.maps.Geocoder();
@@ -86,7 +89,7 @@ directive('angularGoogleMaps', function () {
                     if (status == google.maps.GeocoderStatus.OK) {
                         marker.coordinates.latitude = results[0].geometry.location.lat();
                         marker.coordinates.longitude = results[0].geometry.location.lng();
-                        setMarker(map, new google.maps.LatLng(marker.coordinates.latitude, marker.coordinates.longitude), marker.title, marker.content)
+                        setMarker(map, new google.maps.LatLng(marker.coordinates.latitude, marker.coordinates.longitude))
                     }
                 });
             });
@@ -134,7 +137,8 @@ directive('angularGoogleMaps', function () {
         scope: {
             roomsOnMap: '=',
             center: '=',
-            zoom: '='
+            zoom: '=',
+            myFunction: '='
         },
         link: link
     };

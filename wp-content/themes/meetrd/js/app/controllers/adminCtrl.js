@@ -158,6 +158,20 @@ adminApp.controller('adminCtrl', function ($scope, adminSvc) {
 
             });
         });
+        $scope.getBookingSlot = function (startTime, endTime) {
+            var slot = '';
+            if (startTime % 1 > 0) {
+                slot = slot.concat(parseInt(startTime).toString()).concat(':30-');
+            } else {
+                slot = slot.concat(startTime).concat(':00-');
+            }
+            if (endTime % 1 > 0) {
+                slot = slot.concat(parseInt(endTime).toString()).concat(':30');
+            } else {
+                slot = slot.concat(endTime).concat(':00');
+            }
+            return slot;
+        };
 
         adminSvc.getAllBookings().then(function (response) {
             angular.forEach(response.data.posts, function (booking) {
@@ -198,7 +212,7 @@ adminApp.controller('adminCtrl', function ($scope, adminSvc) {
                     booking["roomName"] = booking['custom_fields']['wpcf-room-name'][0];
                 };
                 if ('wpcf-booking-starttime' in booking['custom_fields'] && 'wpcf-booking-endtime' in booking['custom_fields']) {
-                    booking["slot"] = $scope.formatHour(booking.startTime) + ":00-" + $scope.formatHour(booking.endTime) + ":00";
+                    booking["slot"] = $scope.getBookingSlot(booking.startTime, booking.endTime);
                 };
                 if ('wpcf-guest-biography' in booking['custom_fields']) {
                     booking['guestBiography'] = booking['custom_fields']['wpcf-guest-biography'][0];

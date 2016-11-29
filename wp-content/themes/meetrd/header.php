@@ -106,7 +106,7 @@
                                 <!-- #site-navigation MOBILE-->
                                 <nav id="mobile-nav" class="clearfix visible-xs visible-sm hidden-md hidden-lg col-xs-12 no-padding" role="navigation" ng-show="showMobileMenu">
                                     <div class="mobile-menu-item">
-                                        <a href="<?php echo get_home_url().'/om-oss'; ?>">Om Meetrd</a>
+                                        <a href="<?php echo get_home_url().'/om-oss'; ?>">Om Meetrd.se</a>
                                     </div>
                                     <div class="mobile-menu-item">
                                         <a href="<?php echo get_home_url().'/sa-fungerar-det'; ?>">Så fungerar det</a>

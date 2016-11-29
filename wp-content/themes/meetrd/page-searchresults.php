@@ -35,24 +35,24 @@ for ($i=0; $i < count($all_hosts); $i++) {
                 </div>
                 <div class="" ng-show="!isHostPage">
                     <div class="row search-form-container">
-                        <form name="updateSearchForm" id="updateSearchForm">
-                            <div class="col-xs-12 col-md-3 text-center search-input">
+                        <form name="updateSearchForm" id="updateSearchForm" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                            <div class="col-xs-12 text-center search-input">
                                 <label class="control-label" for="nrOfPeople">Hur många är ni?</label>
                                 <input type="number" min="1" ng-model="query.nrOfPeople" name="nrOfPeople" id="nrOfPeople" class="form-control" />
                             </div>
-                            <div class="col-xs-12 col-md-3 text-center search-input">
+                            <div class="col-xs-12 text-center search-input">
                                 <label class="control-label" for="city">Vilken stad vill du boka i?</label>
                                 <select class="form-control" placeholder="Välj stad" name="city" id="city" ng-model="query.city">
                                     <option ng-repeat="city in allCities" value="{{city}}">{{city}}</option>
                                 </select>
                             </div>
-                            <div class="col-xs-12 col-md-4 text-center search-input">
+                            <div class="col-xs-12 text-center search-input">
                                 <label class=" control-label" for="company">Vet du vilket företag du vill boka hos?</label>
                                 <select class="form-control" name="company" id="company" ng-model="query.companyName" ng-change="setCompanyCity()">
                                     <option ng-repeat="company in allCompanies | unique:'name' | orderBy:'name'" value="{{company.name}}">{{company.name}}</option>
                                 </select>
                             </div>
-                            <div class="col-xs-12 col-md-2">
+                            <div class="col-xs-12">
                                 <label class=" control-label" for="company">&nbsp;</label>
                                 <button type="button" ng-click="resetSearchQuery()" class="form-control btn btn-primary">Rensa sök</button>
                             </div>
@@ -60,11 +60,12 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                 <h4> Din sökning gav {{query.nrOfHits}} rum</h4>
                             </div>
                         </form>
+                        <div class="col-sm-8 col-md-8 col-lg-8 hidden-xs search-form-map-container" ng-if="allRoomsLoaded">
+                            <angular-google-maps rooms-on-map="roomsOnMap" zoom="5"></angular-google-maps>
+                        </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 hidden" ng-if="allRoomsLoaded">
-                    <angular-google-maps rooms-on-map="roomsOnMap" center="" zoom="5"></angular-google-maps>
-                </div>
+
             </div>
 
 
@@ -82,37 +83,19 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                 <a href="{{currentHost.data.user_url}}" target="_blank"><img src="{{currentHost.logotype}}" /></a>
                             </div>
                         </div>
-
                         <div class="col-xs-12 no-padding" ng-show="isHostPage">
                             <div class="col-xs-12 host-biography-container hidden-xs hidden-sm visible-md visible-lg">
                                 <h1>{{currentHost.slogan}}</h1>
                                 <span class="preserve-paragraphs">{{currentHost.biography}}
-
 									För mer information, besök vår <a target="_blank" href="{{currentHost.data.user_url}}">hemsida</a>.
-
 								</span>
                             </div>
                             <div class="col-xs-12 host-biography-container visible-xs visible-sm hidden-md hidden-lg">
                                 <span ng-hide="showMoreInfo" class="preserve-paragraphs">{{currentHost.biography.slice(0,hostBiographyBreakpoint)}}... <span class="more-info-link link-color" ng-hide="showMoreInfo" ng-click="showMoreInfo = !showMoreInfo">Läs mer</span></span>
                                 <span ng-show="showMoreInfo" class="preserve-paragraphs">{{currentHost.biography}}
-
 									För mer information, besök vår <a target="_blank" href="{{currentHost.data.user_url}}">hemsida</a>.
-
 									<span class="more-info-link link-color" ng-show="showMoreInfo" ng-click="showMoreInfo = !showMoreInfo">Dölj</span></span>
                             </div>
-
-
-                            <!--
-                                <div class="separator"></div>
-                                <div class="col-xs-12 host-rating-container">
-                                    <div ng-repeat="star in hostRatingRange" class="rating-star">
-                                        <i class="fa fa-star fa-lg" ng-if="star <= currentHost.rating"></i>
-                                        <i class="fa fa-star-o fa-lg" ng-if="star > currentHost.rating"></i>
-                                    </div>
-                                    baserat på {{currentHost.votes.length}} röster.
-                                </div>
-                                <div class="separator"></div>
--->
                             <div class="host-review-container" ng-repeat="review in currentHost.reviews">
                                 <div class="col-xs-12 host-review">
                                     "{{review}}"

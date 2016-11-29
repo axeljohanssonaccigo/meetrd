@@ -211,6 +211,40 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
         $scope.setCheckboxValues($scope.food, roomFood);
         $scope.setCheckboxValues($scope.equipment, roomEquipment);
 
+        //Initiate the current booking object
+        $scope.resetCurrentBooking = function () {
+            $scope.currentBooking = {
+                "duration": 0,
+                "price": 0,
+                "startTimes": [],
+                "startTime": 0,
+                "endTime": 0,
+                "slot": "",
+                "date": $scope.datePickerSettings.date,
+                "title": "",
+                "content": "",
+                "roomId": $scope.currentRoom.id,
+                "roomName": $scope.currentRoom.title,
+                "hostId": $scope.currentRoom.hostId,
+                "phone": "",
+                "email": "",
+                "guestBiography": "",
+                "contact": "",
+                "billingAddress": "",
+                "bookingStatus": 1,
+                "readByHost": 0
+            };
+            if ($scope.userIsLoggedIn && $scope.userInfoIsLoaded) {
+                //The title of the booking is the username of the guest
+                $scope.currentBooking.title = $scope.userInfo.nickname;
+                $scope.currentBooking.content = '';
+                $scope.currentBooking.email = $scope.userInfo.email;
+                $scope.currentBooking.guestBiography = $scope.userInfo["biography"];
+                $scope.currentBooking.contact = $scope.userInfo.firstname + " " + $scope.userInfo.lastname;
+                $scope.currentBooking.phone = $scope.userInfo["phone"];
+                $scope.currentBooking.billingAddress = $scope.userInfo.billingAddress;
+            }
+        };
 
         $scope.getDisabledDates = function () {
             var thisMoment = moment(new Date());
@@ -265,7 +299,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 return hour.toString();
             }
 
-        }
+        };
         $scope.getRoomSetting = function () {
             switch (roomSettingIndex) {
             case 1:
@@ -382,6 +416,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 $scope.currentBooking.roomId = $scope.currentRoom.id;
                 $scope.currentBooking.hostId = $scope.currentRoom.hostId;
                 $scope.currentBooking.roomName = $scope.currentRoom.title;
+
             }
             console.log($scope.currentBooking);
         };
@@ -420,6 +455,8 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 }
             }
             angular.copy($scope.currentRoom.bookingOptions.bookableTimeSlots, $scope.currentRoom.bookingOptions.bookingStartSlots);
+            //Set last element to hidden for start times
+            $scope.currentRoom.bookingOptions.bookingStartSlots[$scope.currentRoom.bookingOptions.bookingStartSlots.length - 1].visible = false;
             angular.copy($scope.currentRoom.bookingOptions.bookableTimeSlots, $scope.currentRoom.bookingOptions.bookingEndSlots);
         };
 
@@ -507,7 +544,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
         $scope.defineCurrentRoomAttributes();
 
         $scope.getQueryParams = function () {
-
+            $scope.resetCurrentBooking();
             jQuery.extend({
                 getQueryParameters: function (str) {
                     return (str || document.location.search).replace(/(^\?)/, '').split("&").map(function (n) {
@@ -612,7 +649,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             //Height of the room photo
             $scope.roomImgHeightIsSet = false;
             $scope.img = document.getElementById('single-room-img');
-            if ($scope.img !== typeof 'undefined') {
+            if (angular.isDefined($scope.roomImg)) {
                 $scope.roomImgHeight = $scope.roomImg.clientHeight;
             }
 
@@ -712,42 +749,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 }
             };
         };
-        //Initiate the current booking array
-        $scope.resetCurrentBooking = function () {
 
-            $scope.currentBooking = {
-                "duration": 0,
-                "price": 0,
-                "startTimes": [],
-                "startTime": 0,
-                "endTime": 0,
-                "slot": "",
-                "date": $scope.datePickerSettings.date,
-                "title": "",
-                "content": "",
-                "roomId": $scope.currentRoom.id,
-                "roomName": $scope.currentRoom.title,
-                "hostId": $scope.currentRoom.hostId,
-                "phone": "",
-                "email": "",
-                "guestBiography": "",
-                "contact": "",
-                "billingAddress": "",
-                "bookingStatus": 1,
-                "readByHost": 0
-
-            };
-            if ($scope.userIsLoggedIn && $scope.userInfoIsLoaded) {
-                //The title of the booking is the username of the guest
-                $scope.currentBooking.title = $scope.userInfo.nickname;
-                $scope.currentBooking.content = '';
-                $scope.currentBooking.email = $scope.userInfo.email;
-                $scope.currentBooking.guestBiography = $scope.userInfo["biography"];
-                $scope.currentBooking.contact = $scope.userInfo.firstname + " " + $scope.userInfo.lastname;
-                $scope.currentBooking.phone = $scope.userInfo["phone"];
-                $scope.currentBooking.billingAddress = $scope.userInfo.billingAddress;
-            }
-        };
 
         //Sorting functions
         function numOrdA(a, b) {
@@ -770,11 +772,16 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
         $scope.createBooking = function () {
             $scope.triedToConfirmBooking = true;
             $scope.bookingMessageToUser = "Din bokningsförfrågan behandlas...";
+            if (angular.isUndefined($scope.currentBooking.content) || $scope.currentBooking.content === '') {
+                $scope.currentBooking.content = 'Ingen kommentar';
+            }
             bookingSvc.getNonce().then(function (response) {
                 bookingSvc.createBooking(response, $scope.currentBooking).then(function (response) {
                     $scope.currentBooking["id"] = response.data.post.id;
                     //If the booking has been created but no custom fields have been filled, check this by checking for the custom field room id. Then update booking.
                     if (!('wpcf-room-id' in response.data.post.custom_fields)) {
+                        //Reset the booking content
+                        // booking['content'] = $scope.currentBooking.content;
                         bookingSvc.getUpdatingNonce().then(function (response) {
                             bookingSvc.updateBooking(response, $scope.currentBooking).then(function (response) {
                                 $scope.bookingWasConfirmed = true;
@@ -1037,11 +1044,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             }
         };
         $scope.reloadRoomPage = function () {
-
-            var date = moment($scope.datePickerSettings.date).format('YYYY-MM-DD');
-            var dateQuery = '/?date=' + date;
-            //Splt removes all the query params, adding the current date to the url and then reload the room.
-            window.location.href = window.location.href.split("?")[0] + dateQuery;
+            location.href = location.origin.concat(location.pathname);
         };
     };
 
@@ -1049,6 +1052,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
     jQuery(document).ready(function () {
         OnFirstLoad();
         $scope.$apply($scope.pageIsLoaded = true);
+
     });
 
 });
