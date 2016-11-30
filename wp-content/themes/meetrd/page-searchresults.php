@@ -38,7 +38,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         <form name="updateSearchForm" id="updateSearchForm" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                             <div class="col-xs-12 text-center search-input">
                                 <label class="control-label" for="nrOfPeople">Hur många är ni?</label>
-                                <input type="number" min="1" ng-model="query.nrOfPeople" name="nrOfPeople" id="nrOfPeople" class="form-control" />
+                                <input type="number" min="1" ng-model="query.nrOfPeople" name="nrOfPeople" id="nrOfPeople" class="form-control" ng-disabled="!mapIsRendered" />
                             </div>
                             <div class="col-xs-12 text-center search-input">
                                 <label class="control-label" for="city">Vilken stad vill du boka i?</label>
@@ -61,8 +61,9 @@ for ($i=0; $i < count($all_hosts); $i++) {
                             </div>
                         </form>
                         <div class="col-sm-8 col-md-8 col-lg-8 hidden-xs search-form-map-container" ng-if="allRoomsLoaded">
-                            <angular-google-maps rooms-on-map="roomsOnMap" zoom="5"></angular-google-maps>
+                            <angular-google-maps ng-if="mapIsRendered" rooms-on-map="roomsOnMap" zoom="5"></angular-google-maps>
                         </div>
+                        On map: {{roomsOnMap.length}} In result: {{filteredRooms.length}}
                     </div>
                 </div>
 
@@ -125,7 +126,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                     Din sökning gav inga träffar.
                                 </div>
                             </div>
-                            <div data-ng-repeat="room in filtered = (allRooms | roomFilter:query) | orderBy: sortField" class="search-result-room-container col-sm-4 clearfix" ng-show="$index + 1 <= query.shownRooms">
+                            <div data-ng-repeat="room in filteredRooms = (allRooms | roomFilter:query) | orderBy: sortField" class="search-result-room-container col-sm-4 clearfix" ng-show="$index + 1 <= query.shownRooms">
                                 <div>
                                     <div class="search-result-room-photo-container">
                                         <a href="{{room.url}}">

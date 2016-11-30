@@ -1,11 +1,23 @@
 angular.module('roomSearchFilter', []).filter('roomFilter', [function () {
     return function (rooms, query) {
 
+        function addressIsMarkedOnMap(address) {
+            var isOnMap = false;
+            angular.forEach(query.roomsOnMap, function (room) {
+                if (room.address === address) {
+                    isOnMap = true;
+                }
+            });
+            return isOnMap;
+        };
+
+
         if (!angular.isUndefined(rooms) && !angular.isUndefined(query)) {
             //            query.hasFiltered = false;
             var filteredRooms = [];
-
+            // query.roomsOnMap = [];
             angular.forEach(rooms, function (room) {
+
                 var pushRoom;
                 //Are there any inputs
                 var hasNrOfPeople = query.nrOfPeople !== '';
@@ -43,6 +55,10 @@ angular.module('roomSearchFilter', []).filter('roomFilter', [function () {
                 }
                 if (pushRoom) {
                     filteredRooms.push(room);
+                    //Check if the address is on the map and push it if not
+                    if (!addressIsMarkedOnMap(room.address)) {
+                        //query.roomsOnMap.push(room);
+                    }
                 }
             });
             query.nrOfHits = filteredRooms.length;
@@ -52,7 +68,6 @@ angular.module('roomSearchFilter', []).filter('roomFilter', [function () {
             return filteredRooms;
         } else {
             query.nrOfHits = rooms.length;
-            //            query.hasFiltered = true;
             return rooms;
         }
     };

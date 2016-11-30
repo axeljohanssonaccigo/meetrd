@@ -51,47 +51,46 @@ directive('angularGoogleMaps', function () {
             };
 
             marker = new google.maps.Marker(markerOptions);
-
-            google.maps.event.addListener(marker, 'click', scope.$parent.myFunction());
-            //                                          
-            //                                          function (scope) {
-            //                //                 close window
-            //                //    if not undefined
-            //                console.log('dd');
-            //                //                if (infoWindow !== void 0) {
-            //                //                    infoWindow.close();
-            //                //                }
-            //                //    create new window
-            //                //    var infoWindowOptions = {
-            //                //        content: content
-            //                //    };
-            //                //    infoWindow = new google.maps.InfoWindow(infoWindowOptions);
-            //                //    infoWindow.open(map, marker);
-            //            });
             markers.push(marker); // add marker to array
 
+            google.maps.event.addListener(marker, 'click', function () {
+                // close window if not undefined
+                //                if (infoWindow !== void 0) {
+                //                    infoWindow.close();
+                //                }
+                //                // create new window
+                //                var infoWindowOptions = {
+                //                    content: content
+                //                };
+                //                infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+                //                infoWindow.open(map, marker);
+            });
         }
-
 
         function setMarkers(roomsOnMap) {
             angular.forEach(roomsOnMap, function (room) {
-                var marker = {
-                    address: room.address,
-                    coordinates: {
-                        longitude: 0,
-                        latitude: 0
-                    }
-                };
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({
-                    'address': marker.address
-                }, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        marker.coordinates.latitude = results[0].geometry.location.lat();
-                        marker.coordinates.longitude = results[0].geometry.location.lng();
-                        setMarker(map, new google.maps.LatLng(marker.coordinates.latitude, marker.coordinates.longitude))
-                    }
-                });
+                //                var marker = {
+                //                    'address': room.address,
+                //                    'title': room.title,
+                //                    'content': room.title,
+                //                    'coordinates': {
+                //                        'longitude': 0,
+                //                        'latitude': 0
+                //                    }
+                //                };
+                if (room.lat > 0 && room.long > 0) {
+                    setMarker(map, new google.maps.LatLng(room.lat, room.long));
+                }
+                //                var geocoder = new google.maps.Geocoder();
+                //                geocoder.geocode({
+                //                    'address': marker.address
+                //                }, function (results, status) {
+                //                    if (status == google.maps.GeocoderStatus.OK) {
+                //                        marker.coordinates.latitude = results[0].geometry.location.lat();
+                //                        marker.coordinates.longitude = results[0].geometry.location.lng();
+                //                        setMarker(map, new google.maps.LatLng(marker.coordinates.latitude, marker.coordinates.longitude), marker.title, marker.content)
+                //                    }
+                //                });
             });
         }
         initMap();
@@ -137,8 +136,7 @@ directive('angularGoogleMaps', function () {
         scope: {
             roomsOnMap: '=',
             center: '=',
-            zoom: '=',
-            myFunction: '='
+            zoom: '='
         },
         link: link
     };

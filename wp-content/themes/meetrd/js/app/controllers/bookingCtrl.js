@@ -488,6 +488,8 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 "hostEmail": "",
                 "hostSlogan": "",
                 "city": roomCity,
+                "lat": roomLat,
+                "long": roomLong,
                 "bookingOptions": {
                     bookableTimeSlots: [],
                     bookingStartSlots: [],
