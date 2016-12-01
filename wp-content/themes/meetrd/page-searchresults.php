@@ -38,7 +38,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         <form name="updateSearchForm" id="updateSearchForm" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                             <div class="col-xs-12 text-center search-input">
                                 <label class="control-label" for="nrOfPeople">Hur många är ni?</label>
-                                <input type="number" min="1" ng-model="query.nrOfPeople" name="nrOfPeople" id="nrOfPeople" class="form-control" ng-disabled="!mapIsRendered" />
+                                <input type="number" min="1" ng-model="query.nrOfPeople" name="nrOfPeople" id="nrOfPeople" class="form-control" />
                             </div>
                             <div class="col-xs-12 text-center search-input">
                                 <label class="control-label" for="city">Vilken stad vill du boka i?</label>
@@ -58,12 +58,14 @@ for ($i=0; $i < count($all_hosts); $i++) {
                             </div>
                             <div class="col-xs-12" ng-show="query.isSearchResult">
                                 <h4> Din sökning gav {{query.nrOfHits}} rum</h4>
+                                <h5 ng-show="query.address !== null"> {{query.address}}</h5>
                             </div>
+
                         </form>
-                        <div class="col-sm-8 col-md-8 col-lg-8 hidden-xs search-form-map-container" ng-if="allRoomsLoaded">
-                            <angular-google-maps ng-if="mapIsRendered" rooms-on-map="roomsOnMap" zoom="5"></angular-google-maps>
+                        <div class="col-sm-8 col-md-8 col-lg-8 hidden-xs search-form-map-container">
+                            <angular-google-maps ng-if="mapSettings.loadingControl.hasRooms" map-settings="mapSettings"></angular-google-maps>
                         </div>
-                        On map: {{roomsOnMap.length}} In result: {{filteredRooms.length}}
+                        <!--                        On map: {{mapSettings.rooms.length}} Zoom: {{mapSettings.zoom}} Center: {{mapSettings.center}} {{mapSettings.loadingControl}}-->
                     </div>
                 </div>
 
@@ -146,7 +148,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                             <h1 ng-show="isHostPage"><a href="{{room.url}}">{{room.title}}</a></h1>
 
                                             <!--                                    <span class="hidden-sm hidden-md">{{room.area}} - {{room.city}}</span>-->
-                                            <span class="block-display">{{room.area}} - {{room.city}}</span>
+                                            <span class="block-display">{{room.area}} - {{room.city}} - {{room.street}}</span>
 
                                         </div>
                                         <span class="col-xs-12 ng-hide" ng-click="goToRoom(room.url, query.date)"><a href="">{{room.title}}</a></span>

@@ -19,12 +19,38 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         $scope.allHosts = [];
         $scope.sortField = '-host.rating';
         $scope.allRoomsLoaded = false;
+        var meetrdHeadQuarters = {
+            lat: 59.3320652,
+            lng: 18.05767990000004
+        };
+        var mapDefaultCenter = {
+            lat: 58.410807,
+            lng: 15.621373
+        };
         $scope.mapSettings = {
             rooms: [],
-            zoom: 5,
-            center: ''
+            zoom: {
+                current: 5,
+                default: 5,
+                city: 10,
+                address: 13,
+                markerSwitch: 8
+            },
+            center: {
+                current: mapDefaultCenter,
+                default: mapDefaultCenter
+            },
+            enableMarkerClick: true,
+            type: google.maps.MapTypeId.ROADMAP,
+            enableScroll: false,
+            pinColor: 'e6008a',
+            cityCenters: [],
+            loadingControl: {
+                hasRooms: false,
+                hasCityCenters: false
+            }
         };
-        $scope.roomsOnMap = [];
+
         $scope.allRooms = [];
         $scope.allCompanies = [];
         $scope.allCities = [];
@@ -38,87 +64,73 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         $scope.showMoreInfo = false;
         $scope.hostInfoHeightIsSet = false;
         $scope.isSearchResult = true;
-        $scope.mapIsRendered = false;
-        $scope.uniqueAddresses = [];
+        $scope.cityIsSetFromParam = false;
 
-        //        $scope.getCoordinates = function (currentRoomIndex, rooms) {
-        //            console.log("index at top: " + currentRoomIndex);
-        //
-        //            if (rooms.length > 0) {
-        //                //check if the coordinates have been fetched
-        //                var isUniqueAddress = true;
-        ////                if (currentRoomIndex % 20 === 0) {
-        //    //                    $timeout(function () {
-        //    //                        console.log("hej");
-        //    //                    }, 300);
-        //    //                }
-        //                angular.forEach($scope.uniqueAddresses, function (adr) {
-        //                    if (adr.address === rooms[currentRoomIndex].address) {
-        //                        isUniqueAddress = false;
-        //                        rooms[currentRoomIndex].lat = adr.lat;
-        //                        rooms[currentRoomIndex].long = adr.long;
-        //                    }
-        //                });
-        //
-        //
-        //                //Get the coordinates if uniqueaddress
-        //                if (isUniqueAddress) {
-        //                    var geocoder = new google.maps.Geocoder();
-        //                    geocoder.geocode({
-        //                        'address': rooms[currentRoomIndex].address
-        //                    }, function (results, status) {
-        //                        if (status == google.maps.GeocoderStatus.OK) {
-        //                            rooms[currentRoomIndex].lat = results[0].geometry.location.lat();
-        //                            rooms[currentRoomIndex].long = results[0].geometry.location.lng();
-        //                            var uniqueAddress = {
-        //                                address: rooms[currentRoomIndex].address,
-        //                                lat: rooms[currentRoomIndex].lat,
-        //                                long: rooms[currentRoomIndex].long
-        //                            };
-        //                            $scope.uniqueAddresses.push(uniqueAddress);
-        //                            currentRoomIndex++;
-        //                            console.log("index at bottom: " + currentRoomIndex);
-        //                            console.log(rooms.length);
-        //                            if (currentRoomIndex < rooms.length) {
-        //
-        //                                $timeout(function () {
-        //                                    $scope.getCoordinates(currentRoomIndex, rooms);
-        //                                }, 300);
-        //
-        //                            }
-        //                        }
-        //                    });
-        //                } else {
-        //                    currentRoomIndex++;
-        //                    console.log("index at bottom: " + currentRoomIndex);
-        //                    console.log(rooms.length);
-        //                    if (currentRoomIndex < rooms.length) {
-        //                        //                        $timeout(function () {
-        //                        $scope.getCoordinates(currentRoomIndex, rooms);
-        //                        //                        }, 300);
-        //                    }
-        //                }
-        //
-        //            }
-        //        }
 
-        $scope.setRoomsOnMap = function () {
-            $scope.mapIsRendered = false;
-            $scope.roomsOnMap = [];
-            angular.forEach($scope.filteredRooms, function (room) {
-                if (!$scope.roomAddressIsOnMap(room.address)) {
-                    $scope.roomsOnMap.push(room);
+        $scope.setCityCenters = function (currentCityIndex) {
+            if ($scope.allCities.length > 0) {
+                //check if the coordinates have been fetched for the city center
+                var isUniqueCity = true;
+
+                angular.forEach($scope.mapSettings.cityCenters, function (cityCenter) {
+                    if (cityCenter.name === $scope.allCities[currentCityIndex]) {
+                        isUniqueCity = false;
+                    }
+                });
+                //Get the coordinates if unique city center
+                if (isUniqueCity) {
+                    var geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({
+                        'address': $scope.allCities[currentCityIndex]
+                    }, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            var cityCenter = {
+                                name: $scope.allCities[currentCityIndex],
+                                lat: results[0].geometry.location.lat(),
+                                lng: results[0].geometry.location.lng()
+                            };
+                            $scope.mapSettings.cityCenters.push(cityCenter);
+                            currentCityIndex++;
+                            console.log($scope.mapSettings.cityCenters);
+                            if (currentCityIndex < $scope.allCities.length) {
+                                $scope.setCityCenters(currentCityIndex);
+                            } else {
+                                $scope.mapSettings.loadingControl.hasCityCenters = true;
+                            }
+                        }
+                    });
+                }
+            } else {
+                $scope.mapSettings.loadingControl.hasCityCenters = true;
+            }
+        };
+
+        $scope.getCityCenter = function (cityName) {
+            var cityCenter = {};
+            angular.forEach($scope.mapSettings.cityCenters, function (cityC) {
+                if (cityC.name === cityName) {
+                    cityCenter = cityC;
                 }
             });
-            console.log($scope.roomsOnMap);
+            return cityCenter;
+        };
+
+        $scope.setRoomsOnMap = function () {
+            $scope.mapSettings.loadingControl.hasRooms = false;
+            $scope.mapSettings.rooms = [];
+            angular.forEach($scope.filteredRooms, function (room) {
+                if (!$scope.roomAddressIsOnMap(room.address)) {
+                    $scope.mapSettings.rooms.push(room);
+                }
+            });
             $timeout(function () {
-                $scope.mapIsRendered = true;
+                $scope.mapSettings.loadingControl.hasRooms = true;
             });
         };
 
         $scope.roomAddressIsOnMap = function (address) {
             var isOnMap = false;
-            angular.forEach($scope.roomsOnMap, function (room) {
+            angular.forEach($scope.mapSettings.rooms, function (room) {
                 if (room.address === address) {
                     isOnMap = true;
                 }
@@ -126,22 +138,37 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             return isOnMap;
         };
 
-        //        $scope.addressIsUnique = function () {
-        //            var isUniqueAddress = false;
-        //            angular.forEach($scope.allRooms, function (room) {
-        //                if (room.address === address) {
-        //                    isUniqueAddress = true;
-        //                }
-        //            });
-        //            return isUniqueAddress;
-        //        };
+        $scope.setMapCenter = function () {
+            if ($scope.query.city !== null) {
+                var cityCenter = $scope.getCityCenter($scope.query.city);
+                $scope.mapSettings.center.current.lat = cityCenter.lat;
+                $scope.mapSettings.center.current.lng = cityCenter.lng;
+                $scope.mapSettings.zoom.current = $scope.mapSettings.zoom.city;
+            };
+        };
 
-        $scope.myFunction = function () {
-            console.log("printing");
+        $scope.resetMapToDefault = function () {
+            var centerReset = false;
+            var zoomReset = false;
+            if (!angular.equals($scope.mapSettings.center.default, $scope.mapSettings.center.current)) {
+                $scope.mapSettings.center.current = $scope.mapSettings.center.default;
+                centerReset = true;
+            }
+            if (!angular.equals($scope.mapSettings.zoom.default, $scope.mapSettings.zoom.current)) {
+                $scope.mapSettings.zoom.current = $scope.mapSettings.zoom.default;
+                zoomReset = true;
+            }
+            if (centerReset || zoomReset) {
+                // rerender map
+                $scope.mapSettings.loadingControl.hasRooms = false;
+                $timeout(function () {
+                    $scope.mapSettings.loadingControl.hasRooms = true;
+                }, 500);
+
+            }
         };
 
         $scope.initPage = function () {
-
             //Get all rooms for host
             if (location.search.search('host') > -1) {
                 $scope.isHostPage = true;
@@ -156,9 +183,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                     $scope.allRooms = response.data.posts;
                     $scope.query.shownRooms = 1000;
                     $scope.allRoomsLoaded = true;
-                    //console.log($scope.allRooms);
                 });
-
             }
 
             //Get all rooms
@@ -175,15 +200,14 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                         //Push to roomsOnMap if the room address is unique
                         var isOnMap = $scope.roomAddressIsOnMap(room.address);
                         if (!isOnMap) {
-                            $scope.roomsOnMap.push(room);
-                            console.log("pushing: " + room.title + " " + room.address + " lat: " + room.lat + " long: " + room.long);
+                            $scope.mapSettings.rooms.push(room);
                         }
                     });
-                    //console.log($scope.roomsOnMap);
                     $scope.query.shownRooms = $scope.query.shownRoomsDefault;
                     $scope.allRoomsLoaded = true;
-                    //$scope.setRoomsOnMap();
-                    $scope.mapIsRendered = true;
+                    $scope.mapSettings.loadingControl.hasRooms = true;
+                    $scope.setCityCenters(0);
+                    console.log($scope.mapSettings.cityCenters);
 
                 });
             }
@@ -198,7 +222,6 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 } else {
                     returnRange.push(null);
                 }
-
             };
             return returnRange;
         };
@@ -320,19 +343,19 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 room['city'] = room['custom_fields']['wpcf-city'][0];
             }
             if ('wpcf-street-address' in room['custom_fields']) {
-                room['address'] = room['custom_fields']['wpcf-street-address'][0] + ", " + room.city;
+                room['street'] = room['custom_fields']['wpcf-street-address'][0];
+                room['address'] = room.street + ", " + room.city;
             }
             if ('wpcf-lat' in room['custom_fields']) {
-                room['lat'] = room['custom_fields']['wpcf-lat'][0];
+                room['lat'] = parseFloat(room['custom_fields']['wpcf-lat'][0]);
             } else {
                 room['lat'] = 0;
             }
             if ('wpcf-long' in room['custom_fields']) {
-                room['long'] = room['custom_fields']['wpcf-long'][0];
+                room['lng'] = parseFloat(room['custom_fields']['wpcf-long'][0]);
             } else {
-                room['long'] = 0;
+                room['lng'] = 0;
             }
-            room["isOnMap"] = false;
             room["index"] = index;
 
             var companyObject = {
@@ -356,7 +379,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 room["index"] = index;
                 index++;
             });
-        }
+        };
 
         //Sorting functions
         function numOrdA(a, b) {
@@ -367,8 +390,8 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             return (b - a);
         };
 
-
         $scope.setCompanyCity = function () {
+            $scope.query.address = null;
             var companyCities = $scope.getCitiesForCompany($scope.query.companyName);
             angular.forEach($scope.allCompanies, function (company) {
                 if ($scope.query.companyName === company.name) {
@@ -384,12 +407,9 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                     else {
                         $scope.query.city = null;
                     }
-
                 }
             });
         };
-
-
 
         $scope.getCitiesForCompany = function (companyName) {
             var companyCitites = [];
@@ -433,8 +453,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                     }
                 ]
             };
-            //  $scope.setRoomsOnMap();
-
+            $scope.resetMapToDefault();
         };
         $scope.setCityParam = function () {
             if (location.search.search('city') > -1) {
@@ -453,6 +472,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                     $scope.query.city = null;
                     break;
                 }
+                $scope.cityIsSetFromParam = true;
             }
         };
 
@@ -472,7 +492,10 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         };
 
         $scope.$watch('query', function (newQuery, oldQuery) {
+            //if (!angular.equals(newQuery, oldQuery)) {
             $timeout(function () {
+
+
                 //If the city is changed from one to another and the company in query has only one city - then reset company drop
                 var companyCities = $scope.getCitiesForCompany(newQuery.companyName);
                 if (oldQuery.city !== null && oldQuery.city !== newQuery.city && oldQuery.companyName === newQuery.companyName && !(jQuery.inArray(newQuery.city, companyCities) > -1)) {
@@ -481,13 +504,13 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 if (($scope.query.shownRooms < $scope.query.shownRoomsDefault && $scope.query.nrOfHits > $scope.query.shownRoomsDefault) || $scope.query.shownRooms > $scope.query.nrOfHits) {
                     $scope.query.shownRooms = $scope.query.shownRoomsDefault;
                 }
-                if (!$scope.queriesAreIdentic(newQuery, oldQuery)) {
-                    $scope.setRoomsOnMap();
-                }
-                //console.log($scope.uniqueAddresses);
+                if (!$scope.queriesAreIdentic(newQuery, oldQuery) || $scope.cityIsSetFromParam) {
 
-                //                
+                    $scope.setRoomsOnMap();
+                    $scope.setMapCenter();
+                }
             }, 250);
+            //}
 
             // 
         }, true);
