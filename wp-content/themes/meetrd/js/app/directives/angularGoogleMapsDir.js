@@ -62,20 +62,49 @@ directive('angularGoogleMaps', ['$timeout', function ($timeout) {
         if (angular.isUndefined(scope.mapSettings.enableMarkerClick)) {
             scope.mapSettings.enableMarkerClick = false;
         }
-        if (angular.isUndefined(scope.mapSettings.pinColor)) {
-            scope.mapSettings.pinColor = 'ff0000';
+        if (angular.isUndefined(scope.mapSettings.marker)) {
+            scope.mapSettings.marker = {
+                urlBase: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|',
+                color: 'ff0000',
+                clickedColor: 'ff0000',
+                fullUrl: '',
+                size: new google.maps.Size(21, 34),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(10, 34)
+            };
         }
+        if (angular.isUndefined(scope.mapSettings.marker.urlBase)) {
+            scope.mapSettings.marker.urlBase = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|';
+        }
+        if (angular.isUndefined(scope.mapSettings.marker.color)) {
+            scope.mapSettings.marker.color = 'ff0000';
+        }
+        if (angular.isUndefined(scope.mapSettings.marker.clickedColor)) {
+            scope.mapSettings.marker.color = 'ff0000';
+        }
+        if (angular.isUndefined(scope.mapSettings.marker.fullUrl)) {
+            scope.mapSettings.marker.fullUrl = '';
+        }
+        if (angular.isUndefined(scope.mapSettings.marker.size)) {
+            scope.mapSettings.marker.size = new google.maps.Size(21, 34);
+        }
+        if (angular.isUndefined(scope.mapSettings.marker.origin)) {
+            scope.mapSettings.marker.origin = new google.maps.Point(0, 0);
+        }
+        if (angular.isUndefined(scope.mapSettings.marker.anchor)) {
+            scope.mapSettings.marker.anchor = new google.maps.Point(10, 34);
+        }
+        scope.mapSettings.marker.fullUrl = scope.mapSettings.marker.urlBase.concat(scope.mapSettings.marker.color);
         if (angular.isUndefined(scope.mapSettings.cityCenters)) {
             scope.mapSettings.cityCenters = [];
         }
-
-        var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + scope.mapSettings.pinColor,
-            new google.maps.Size(21, 34),
-            new google.maps.Point(0, 0),
-            new google.maps.Point(10, 34));
+        var pinImage = new google.maps.MarkerImage(scope.mapSettings.marker.urlBase + scope.mapSettings.marker.color,
+            scope.mapSettings.marker.size,
+            scope.mapSettings.marker.origin,
+            scope.mapSettings.anchor);
 
         var mapOptions = {
-            center: null, //new google.maps.LatLng(scope.mapSettings.center.default.lat, scope.mapSettings.center.default.lng),
+            center: null,
             zoom: scope.mapSettings.zoom.current,
             mapTypeId: scope.mapSettings.type,
             scrollwheel: scope.mapSettings.enableScroll
@@ -133,9 +162,6 @@ directive('angularGoogleMaps', ['$timeout', function ($timeout) {
                 //Filter on room address
                 $timeout(function () {
                     currentScope.$parent.query.address = marker.room.address;
-
-                    //currentScope.$parent.setRoomsOnMap();
-
                     var newCenter = {
                         lat: marker.room.lat,
                         lng: marker.room.lng
@@ -158,23 +184,44 @@ directive('angularGoogleMaps', ['$timeout', function ($timeout) {
             }
         };
 
+        function setMarkerIcon(marker, iconUrl, markers, onClick) {
+            // set new icon color if click on address 
+            marker.setIcon(new google.maps.MarkerImage(iconUrl,
+                currentScope.$parent.mapSettings.marker.size,
+                currentScope.$parent.mapSettings.marker.origin,
+                currentScope.$parent.mapSettings.marker.anchor));
+            if (onClick) {
+                // reset other markers 
+
+            }
+
+        }
+
+        // pinImage = currentScope.$parent.mapSettings.pin.markerUrl.concat(currentScope.$parent.mapSettings.pin.clickedColor);
+
+
         function setMarker(map, position, room) {
             var markerOptions = {
                 position: position,
                 map: map,
-                icon: pinImage
+                icon: ''
             };
-
             var marker = new google.maps.Marker(markerOptions);
             marker['room'] = room;
             markers.push(marker);
+            setMarkerIcon(marker, currentScope.$parent.mapSettings.marker.fullUrl, markers, false);
+
             // listener for clicks
             if (scope.mapSettings.enableMarkerClick) {
-                google.maps.event.addListener(marker, 'click', (function (marker) {
+                google.maps.event.addListener(marker, 'click', (function (marker, markers) {
                     return function () {
+                        // set new marker color
+                        if (marker.map.zoom >= currentScope.$parent.mapSettings.zoom.markerSwitch && marker.room.address === currentScope.$parent.query.address) {
+                            setMarkerIcon(marker, currentScope.$parent.mapSettings.marker.urlBase.concat(currentScope.$parent.mapSettings.marker.clickedColor), markers, true);
+                        }
                         filterRoomsOnMarker(marker);
                     }
-                })(marker));
+                })(marker, markers));
             }
             // listener for hover
             google.maps.event.addListener(marker, 'mouseover', (function (marker) {
@@ -210,7 +257,7 @@ directive('angularGoogleMaps', ['$timeout', function ($timeout) {
                     setMarker(map, new google.maps.LatLng(room.lat, room.lng), room);
                 }
             });
-        }
+        };
         /*********************/
         /****** GO MAP! ******/
         /*********************/

@@ -42,7 +42,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                             </div>
                             <div class="col-xs-12 text-center search-input">
                                 <label class="control-label" for="city">Vilken stad vill du boka i?</label>
-                                <select class="form-control" placeholder="Välj stad" name="city" id="city" ng-model="query.city">
+                                <select class="form-control" placeholder="Välj stad" name="city" id="city" ng-model="query.city" ng-change="resetQueryAddress()">
                                     <option ng-repeat="city in allCities" value="{{city}}">{{city}}</option>
                                 </select>
                             </div>

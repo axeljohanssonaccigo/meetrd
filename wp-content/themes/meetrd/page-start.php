@@ -31,7 +31,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                     <!--HEADING TEXT-->
                     <div class="col-xs-12 heading-text">
                         <h1>Mötesrum för det moderna företaget</h1>
-                        <h2>Hyr personliga och prisvärda mötesrum hos andra företag</h2>
+                        <h2>Hyr personliga och prisvärda mötesrum av andra företag</h2>
                     </div>
                     <!-- Search container -->
                     <div class=" col-xs-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">

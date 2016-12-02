@@ -19,11 +19,11 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         $scope.allHosts = [];
         $scope.sortField = '-host.rating';
         $scope.allRoomsLoaded = false;
-        var meetrdHeadQuarters = {
+        $scope.meetrdHeadQuarters = {
             lat: 59.3320652,
             lng: 18.05767990000004
         };
-        var mapDefaultCenter = {
+        $scope.mapDefaultCenter = {
             lat: 58.410807,
             lng: 15.621373
         };
@@ -37,13 +37,21 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 markerSwitch: 8
             },
             center: {
-                current: mapDefaultCenter,
-                default: mapDefaultCenter
+                current: $scope.mapDefaultCenter,
+                default: $scope.mapDefaultCenter
             },
             enableMarkerClick: true,
             type: google.maps.MapTypeId.ROADMAP,
             enableScroll: false,
-            pinColor: 'e6008a',
+            marker: {
+                urlBase: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|',
+                color: 'e6008a',
+                clickedColor: 'f1f1f1',
+                fullUrl: '',
+                size: new google.maps.Size(21, 34),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(10, 34)
+            },
             cityCenters: [],
             loadingControl: {
                 hasRooms: false,
@@ -65,6 +73,10 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         $scope.hostInfoHeightIsSet = false;
         $scope.isSearchResult = true;
         $scope.cityIsSetFromParam = false;
+
+        function isNullOrUndefined(value) {
+            return value === null || angular.isUndefined(value);
+        };
 
 
         $scope.setCityCenters = function (currentCityIndex) {
@@ -138,13 +150,57 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             return isOnMap;
         };
 
-        $scope.setMapCenter = function () {
-            if ($scope.query.city !== null) {
+        $scope.getQueryCoordinates = function () {
+            var coordinates = {
+                lat: 0,
+                lng: 0
+            };
+            angular.forEach($scope.allCompanies, function (company) {
+                if (company.name === $scope.query.companyName && company.city === $scope.query.city) {
+                    coordinates.lat = company.coordinates.lat;
+                    coordinates.lng = company.coordinates.lng;
+                }
+            });
+            return coordinates;
+        };
+
+        $scope.setMapOptions = function () {
+            //            if ($scope.query.city !== null) {
+            //                var cityCenter = $scope.getCityCenter($scope.query.city);
+            //                $scope.mapSettings.center.current.lat = cityCenter.lat;
+            //                $scope.mapSettings.center.current.lng = cityCenter.lng;
+            //                // set zoom
+            //                if ($scope.query.companyName === null) {
+            //                    $scope.mapSettings.zoom.current = $scope.mapSettings.zoom.city;
+            //                } else if ($scope.query.company !== null) {
+            //                    $scope.mapSettings.zoom.current = $scope.mapSettings.zoom.address;
+            //                }
+            //            }
+
+            if (!isNullOrUndefined($scope.query.city) && !isNullOrUndefined($scope.query.companyName)) {
+                // center for address
+                var coordinates = $scope.getQueryCoordinates();
+                $scope.mapSettings.center.current.lat = coordinates.lat;
+                $scope.mapSettings.center.current.lng = coordinates.lng;
+                // zoom for address
+                $scope.mapSettings.zoom.current = $scope.mapSettings.zoom.address;
+            } else if (!isNullOrUndefined($scope.query.city) && isNullOrUndefined($scope.query.companyName)) {
+                // center for city
                 var cityCenter = $scope.getCityCenter($scope.query.city);
                 $scope.mapSettings.center.current.lat = cityCenter.lat;
                 $scope.mapSettings.center.current.lng = cityCenter.lng;
+                // zoom for city
                 $scope.mapSettings.zoom.current = $scope.mapSettings.zoom.city;
-            };
+            } else if (isNullOrUndefined($scope.query.city) && !isNullOrUndefined($scope.query.companyName)) {
+                // center for multiple cities = default center
+                $scope.mapSettings.center.current = $scope.mapDefaultCenter;
+                //                $scope.mapSettings.center.current.lng = $scope.mapDefaultCenter.lng;
+                // zoom for multiple cities = default zoom
+                $scope.mapSettings.zoom.current = $scope.mapSettings.zoom.default;
+            } else {
+                $scope.mapSettings.center.current = $scope.mapDefaultCenter;
+                $scope.mapSettings.zoom.current = $scope.mapSettings.zoom.default;
+            }
         };
 
         $scope.resetMapToDefault = function () {
@@ -295,7 +351,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         function containsCompany(companyObject) {
             var containsCompany = false;
             angular.forEach($scope.allCompanies, function (company) {
-                if (company.name === companyObject.name && company.city === companyObject.city) {
+                if (company.name === companyObject.name && company.city === companyObject.city && companyObject.street === company.street) {
                     containsCompany = true;
                 }
             });
@@ -359,8 +415,14 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             room["index"] = index;
 
             var companyObject = {
-                'name': room.company,
-                'city': room.city
+                name: room.company,
+                city: room.city,
+                street: room.street,
+                address: room.street.concat(', ').concat(room.city),
+                coordinates: {
+                    lat: room.lat,
+                    lng: room.lng
+                }
             };
             //Push unique companies to array
             if (!angular.isUndefined(room.company) && !angular.isUndefined(room.city) && !containsCompany(companyObject)) {
@@ -389,6 +451,13 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         function numOrdD(a, b) {
             return (b - a);
         };
+
+        $scope.resetQueryAddress = function () {
+            // if the city is changed when an address is selected - then reset rooms on map
+            if (!isNullOrUndefined($scope.query.address)) {
+                $scope.query.address = null;
+            }
+        }
 
         $scope.setCompanyCity = function () {
             $scope.query.address = null;
@@ -494,8 +563,6 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         $scope.$watch('query', function (newQuery, oldQuery) {
             //if (!angular.equals(newQuery, oldQuery)) {
             $timeout(function () {
-
-
                 //If the city is changed from one to another and the company in query has only one city - then reset company drop
                 var companyCities = $scope.getCitiesForCompany(newQuery.companyName);
                 if (oldQuery.city !== null && oldQuery.city !== newQuery.city && oldQuery.companyName === newQuery.companyName && !(jQuery.inArray(newQuery.city, companyCities) > -1)) {
@@ -505,9 +572,8 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                     $scope.query.shownRooms = $scope.query.shownRoomsDefault;
                 }
                 if (!$scope.queriesAreIdentic(newQuery, oldQuery) || $scope.cityIsSetFromParam) {
-
                     $scope.setRoomsOnMap();
-                    $scope.setMapCenter();
+                    $scope.setMapOptions();
                 }
             }, 250);
             //}
