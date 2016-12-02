@@ -161,7 +161,7 @@ directive('angularGoogleMaps', ['$timeout', function ($timeout) {
             if (marker.map.zoom >= currentScope.mapSettings.zoom.markerSwitch) {
                 //Filter on room address
                 $timeout(function () {
-                    currentScope.$parent.query.address = marker.room.address;
+                    //                    currentScope.$parent.query.address = marker.room.address;
                     var newCenter = {
                         lat: marker.room.lat,
                         lng: marker.room.lng
@@ -184,15 +184,23 @@ directive('angularGoogleMaps', ['$timeout', function ($timeout) {
             }
         };
 
-        function setMarkerIcon(marker, iconUrl, markers, onClick) {
+        function setMarkerIcon(clickedMarker, iconUrl, markers, onClick) {
             // set new icon color if click on address 
-            marker.setIcon(new google.maps.MarkerImage(iconUrl,
+            clickedMarker.setIcon(new google.maps.MarkerImage(iconUrl,
                 currentScope.$parent.mapSettings.marker.size,
                 currentScope.$parent.mapSettings.marker.origin,
                 currentScope.$parent.mapSettings.marker.anchor));
             if (onClick) {
                 // reset other markers 
-
+                angular.forEach(markers, function (marker) {
+                    // reset previously clicked marker color
+                    if (marker.room.address !== clickedMarker.room.address && marker.icon.url === clickedMarker.icon.url) {
+                        marker.setIcon(new google.maps.MarkerImage(currentScope.$parent.mapSettings.marker.urlBase.concat(currentScope.$parent.mapSettings.marker.color),
+                            currentScope.$parent.mapSettings.marker.size,
+                            currentScope.$parent.mapSettings.marker.origin,
+                            currentScope.$parent.mapSettings.marker.anchor));
+                    }
+                });
             }
 
         }
@@ -216,7 +224,9 @@ directive('angularGoogleMaps', ['$timeout', function ($timeout) {
                 google.maps.event.addListener(marker, 'click', (function (marker, markers) {
                     return function () {
                         // set new marker color
-                        if (marker.map.zoom >= currentScope.$parent.mapSettings.zoom.markerSwitch && marker.room.address === currentScope.$parent.query.address) {
+
+                        if (marker.map.zoom >= currentScope.$parent.mapSettings.zoom.markerSwitch) {
+                            currentScope.$parent.query.address = marker.room.address;
                             setMarkerIcon(marker, currentScope.$parent.mapSettings.marker.urlBase.concat(currentScope.$parent.mapSettings.marker.clickedColor), markers, true);
                         }
                         filterRoomsOnMarker(marker);
