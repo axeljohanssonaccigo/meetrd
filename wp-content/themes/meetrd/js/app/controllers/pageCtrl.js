@@ -78,10 +78,11 @@ pageApp.controller('pageCtrl', function ($scope, pageSvc) {
                 //Update user info to get the custom user fields in
                 pageSvc.generateUserCookie($scope.newUser.username, $scope.newUser.password).then(function (response) {
                     pageSvc.updateUserInfo(response.data.cookie, $scope.newUser).then(function (response) {
-                        $scope.userWasRegistered = true;
-                        $scope.registerMessageToUser = "Ditt konto har skapats!"
-                            //Auto click the login button to come to the login form
-                        jQuery("#loginButton")[0].click();
+                        location.reload();
+                        //                        $scope.userWasRegistered = true;
+                        //                        $scope.registerMessageToUser = "Ditt konto har skapats!"
+                        //                            //Auto click the login button to come to the login form
+                        //                        jQuery("#loginButton")[0].click();
                     });
                 });
 

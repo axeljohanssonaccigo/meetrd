@@ -167,7 +167,12 @@ directive('angularGoogleMaps', ['$timeout', function ($timeout) {
                         lng: marker.room.lng
                     };
                     setMapCenter(newCenter);
-                    setMapZoom(currentScope.mapSettings.zoom.address, true);
+                    if (marker.map.zoom < currentScope.mapSettings.zoom.current) {
+                        var zoom = currentScope.mapSettings.zoom.address;
+                    } else {
+                        var zoom = marker.map.zoom;
+                    }
+                    setMapZoom(zoom, true);
                 });
 
             } else {

@@ -122,11 +122,13 @@ headerApp.controller('headerCtrl', function ($scope, headerSvc) {
             headerSvc.registerUser(response.data.nonce, $scope.newUser).then(function (response) {
                 //Update user info to get the custom user fields in
                 headerSvc.generateUserCookie($scope.newUser.username, $scope.newUser.password).then(function (response) {
-                    headerSvc.updateUserInfo(response.data.cookie, $scope.newUser).then(function (response) {
-                        $scope.userWasRegistered = true;
-                        $scope.registerMessageToUser = "Ditt konto har skapats!"
-                            //Auto click the login button to come to the login form
-                        jQuery("#loginButton")[0].click();
+                    var cookie = response.data.cookie;
+                    headerSvc.updateUserInfo(cookie, $scope.newUser).then(function (response) {
+                        location.reload();
+                        //$scope.userWasRegistered = true;
+                        //$scope.registerMessageToUser = "Ditt konto har skapats!"
+                        //Auto click the login button to come to the login form
+                        //jQuery("#loginButton")[0].click();
                         //<?php echo $_SERVER['REQUEST_URI']; ?>";
                         //jQuery("#createGuestAccountButton").addClass('simplemodal-login');
                     });

@@ -209,7 +209,8 @@ $all_meta_for_host = get_user_meta($hostId);
             </div> -->
                                             <div class="separator"></div>
                                             <div class="col-xs-12">
-                                                <button ng-if="userIsLoggedIn && userIsGuest" type="button" class="btn btn-primary col-xs-12" data-toggle="modal" data-target="#bookingModal" ng-disabled="!currentBookingIsSet">Skicka bokningsförfrågan</button>
+                                                <button ng-if="userIsLoggedIn && userIsGuest" id="openBookingModal" type="button" class="btn btn-primary col-xs-12" data-toggle="modal" data-target="#bookingModal" ng-disabled="!currentBookingIsSet">Skicka bokningsförfrågan</button>
+
                                                 <button ng-if="!userIsLoggedIn || (userIsLoggedIn && !userIsGuest)" type="button" class="btn btn-primary col-xs-12" ng-click="showRegisterUserForm()">Skicka bokningsförfrågan</button>
                                                 <!--
                                                 <div ng-if="userIsLoggedIn && userIsGuest" class="col-xs-12 btn btn-primary" ng-disabled="currentBooking.duration === 0" data-toggle="modal" data-target="#bookingModal">
@@ -315,9 +316,7 @@ $all_meta_for_host = get_user_meta($hostId);
           </div>
            -->
                                     <div class="col-xs-12">
-
-
-                                        <angular-google-maps rooms-on-map="roomsOnMap" center="mapCenter" zoom="12"></angular-google-maps>
+                                        <angular-google-maps map-settings="mapSettings" ng-if="mapSettings.loadingControl.hasRooms"></angular-google-maps>
                                     </div>
                                     <div class="separator"></div>
                                     <!-- other info -->
@@ -604,8 +603,9 @@ $all_meta_for_host = get_user_meta($hostId);
                                                                         <label for="comments" class="bold">Övriga kommentarer</label>
                                                                         <textarea class="col-xs-12 form-control" name="comments" ng-model="currentBooking.content"></textarea>
                                                                     </div>
+
+                                                                </form>
                                                             </div>
-                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -625,8 +625,10 @@ $all_meta_for_host = get_user_meta($hostId);
                                                 </div>
 
 
+
                                             </div>
                                         </div>
+
                                         <div class="modal-footer clearfix">
                                             <div class="row">
                                                 <div ng-show="!bookingWasConfirmed && !triedToConfirmBooking" class="clearfix col-xs-12">
@@ -643,8 +645,6 @@ $all_meta_for_host = get_user_meta($hostId);
                                 </div>
                             </div>
                             <!-- Booking Modal END-->
-
-
                         </div>
                     </div>
                 </div>

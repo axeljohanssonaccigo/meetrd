@@ -118,7 +118,7 @@ add_action( 'widgets_init', 'meetrd_widgets_init' );
  */
 function meetrd_scripts() {
 
-$version = 1.48;
+$version = 1.52;
 	//Scripts and styles used on all pages
 	//Scripts
 	//angular
@@ -135,10 +135,10 @@ $version = 1.48;
 	wp_enqueue_script( 'meetrd-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120206', true );
 	wp_enqueue_script( 'meetrd-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20130115', true );
 	//header app
-	wp_enqueue_script( 'headerCtrl', get_template_directory_uri() . '/js/app/controllers/headerCtrl.js');
-	wp_enqueue_script( 'headerSvc', get_template_directory_uri() . '/js/app/services/headerSvc.js');
+	wp_enqueue_script( 'headerCtrl', get_template_directory_uri() . '/js/app/controllers/headerCtrl.js', array(), $version, true );
+	wp_enqueue_script( 'headerSvc', get_template_directory_uri() . '/js/app/services/headerSvc.js', array(), $version, true );
 	//footer app
-	wp_enqueue_script( 'footerCtrl', get_template_directory_uri() . '/js/app/controllers/footerCtrl.js');
+	wp_enqueue_script( 'footerCtrl', get_template_directory_uri() . '/js/app/controllers/footerCtrl.js', array(), $version, true );
     //Loader directive
     wp_enqueue_script( 'meetrd_loader_directive', get_template_directory_uri() . '/js/app/directives/meetrdLoaderDir.js', array(), $version, false);
     //Filters

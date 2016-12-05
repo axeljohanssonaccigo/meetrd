@@ -37,7 +37,45 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
         $scope.roomImgHeightIsSet = false;
         $scope.mailsAreDone = false;
         $scope.userIsGuest = false;
-        $scope.roomsOnMap = [];
+
+        $scope.meetrdHeadQuarters = {
+            lat: 59.3320652,
+            lng: 18.05767990000004
+        };
+        $scope.mapDefaultCenter = $scope.meetrdHeadQuarters;
+
+        $scope.mapSettings = {
+            rooms: [],
+            zoom: {
+                current: 13,
+                default: 5,
+                city: 10,
+                address: 13,
+                markerSwitch: 8
+            },
+            center: {
+                current: $scope.mapDefaultCenter,
+                default: $scope.mapDefaultCenter
+            },
+            enableMarkerClick: false,
+            type: google.maps.MapTypeId.ROADMAP,
+            enableScroll: false,
+            marker: {
+                urlBase: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|',
+                color: 'e6008a',
+                clickedColor: 'f1f1f1',
+                fullUrl: '',
+                size: new google.maps.Size(21, 34),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(10, 34)
+            },
+            cityCenters: [],
+            loadingControl: {
+                hasRooms: false,
+                hasCityCenters: false
+            }
+        };
+        //        $scope.roomsOnMap = [];
 
         //Check for window size
         if ($scope.windowWidth < $scope.mobileBreakpoint) {
@@ -332,23 +370,19 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             nickname = hostMetaData.nickname[0];
         }
         //Sets scope variable mapCenter to the current room's address
-        $scope.setMapCenter = function (address) {
-            var geocoder = new google.maps.Geocoder();
-            geocoder.geocode({
-                'address': address
-            }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    var latitude = results[0].geometry.location.lat();
-                    var longitude = results[0].geometry.location.lng();
-
-                    $scope.mapCenter = {
-                        'latitude': latitude,
-                        'longitude': longitude
-                    };
-                    //new google.maps.LatLng(latitude, longitude);
-                }
-            });
-        };
+        //        $scope.setMapCenter = function (address) {
+        //            var geocoder = new google.maps.Geocoder();
+        //            geocoder.geocode({
+        //                'address': address
+        //            }, function (results, status) {
+        //                if (status == google.maps.GeocoderStatus.OK) {
+        //                    $scope.mapSettings.center.lat = results[0].geometry.location.lat();
+        //                    $scope.mapSettings.center.lng = results[0].geometry.location.lng();
+        //                };
+        //                //new google.maps.LatLng(latitude, longitude);
+        //
+        //            });
+        //        };
 
 
 
@@ -488,8 +522,8 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 "hostEmail": "",
                 "hostSlogan": "",
                 "city": roomCity,
-                "lat": roomLat,
-                "long": roomLong,
+                "lat": parseFloat(roomLat),
+                "lng": parseFloat(roomLong),
                 "bookingOptions": {
                     bookableTimeSlots: [],
                     bookingStartSlots: [],
@@ -502,8 +536,10 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             };
             $scope.getDisabledDates();
             $scope.setRoomTimeSlots();
-            $scope.setMapCenter($scope.currentRoom.address);
-            $scope.roomsOnMap.push($scope.currentRoom);
+            $scope.mapSettings.center.current.lat = $scope.currentRoom.lat;
+            $scope.mapSettings.center.current.lng = $scope.currentRoom.lng;
+            // $scope.setMapCenter($scope.currentRoom.address);
+
 
             if ('description' in hostMetaData) {
                 //Replace the "" that is added when getting the description.
@@ -542,6 +578,8 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 "phone": false,
                 "biography": false
             };
+            $scope.mapSettings.rooms.push($scope.currentRoom);
+            $scope.mapSettings.loadingControl.hasRooms = true;
         };
         $scope.defineCurrentRoomAttributes();
 
@@ -580,6 +618,9 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 $scope.currentRoom.bookingOptions.selectedStart = $scope.getSlotObjectByTime($scope.currentRoom.bookingOptions.bookableTimeSlots, parseFloat($scope.bookingQuery.startTime));
                 $scope.currentRoom.bookingOptions.selectedEnd = $scope.getSlotObjectByTime($scope.currentRoom.bookingOptions.bookableTimeSlots, parseFloat($scope.bookingQuery.endTime));
                 $scope.setBooking();
+
+
+
                 if ($scope.isMobileView) {
                     $scope.showBookingContainer = true;
                     jQuery("#booking-container").addClass('sticky-scrollable');
@@ -615,6 +656,15 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 $scope.userInfoIsLoaded = true;
                 $scope.getQueryParams();
                 $scope.setCurrentBookingFromQuery();
+                setTimeout(function () {
+                    jQuery("#openBookingModal")[0].click();
+                    //                    $scope.showOrHideBookingContainer();
+                }, 50);
+
+
+                //                jQuery("#bookingModal").modal('show');
+                //                jQuery("body").addClass('modal-open');
+                //                jQuery("#bookingModal").addClass('in');
             });
             //If the user is not logged in, set the date in the datepicker from the search query
         } else {
@@ -980,10 +1030,11 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                     //Update user info to get the custom user fields in
                     bookingSvc.generateUserCookie($scope.newUser.username, $scope.newUser.password).then(function (response) {
                         bookingSvc.updateUserInfo(response.data.cookie, $scope.newUser).then(function (response) {
-                            $scope.userWasRegistered = true;
-                            $scope.registerMessageToUser = "Ditt konto har skapats!"
-                                //Auto click the login button to come to the login form
-                            jQuery("#loginButton")[0].click();
+                            location.reload();
+                            //                            $scope.userWasRegistered = true;
+                            //                            $scope.registerMessageToUser = "Ditt konto har skapats!"
+                            //Auto click the login button to come to the login form
+                            //jQuery("#loginButton")[0].click();
                         });
                     });
 
@@ -1055,6 +1106,8 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
         OnFirstLoad();
         $scope.$apply($scope.pageIsLoaded = true);
 
+
     });
+    //jQuery("#openBookingModal")[0].click();
 
 });
