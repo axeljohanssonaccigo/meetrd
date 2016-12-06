@@ -24,8 +24,8 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             lng: 18.05767990000004
         };
         $scope.mapDefaultCenter = {
-            lat: 58.410807,
-            lng: 15.621373
+            lat: 57.669034,
+            lng: 15.858857
         };
         $scope.mapSettings = {
             rooms: [],
@@ -41,6 +41,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 default: $scope.mapDefaultCenter
             },
             enableMarkerClick: true,
+            enableInfoWindow: true,
             type: google.maps.MapTypeId.ROADMAP,
             enableScroll: false,
             marker: {
@@ -71,8 +72,10 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         $scope.hostBiographyBreakpoint = 250;
         $scope.showMoreInfo = false;
         $scope.hostInfoHeightIsSet = false;
-        $scope.isSearchResult = true;
+        $scope.showSearchResultMessage = false;
         $scope.cityIsSetFromParam = false;
+        $scope.searchResultMessage = '';
+        $scope.searchAddressMessage = '';
 
         function isNullOrUndefined(value) {
             return value === null || angular.isUndefined(value);
@@ -127,17 +130,21 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             return cityCenter;
         };
 
-        $scope.setRoomsOnMap = function () {
+        $scope.reDrawMap = function () {
             $scope.mapSettings.loadingControl.hasRooms = false;
+            $timeout(function () {
+                $scope.mapSettings.loadingControl.hasRooms = true;
+            }, 250);
+        }
+
+        $scope.setRoomsOnMap = function () {
             $scope.mapSettings.rooms = [];
             angular.forEach($scope.filteredRooms, function (room) {
                 if (!$scope.roomAddressIsOnMap(room.address)) {
                     $scope.mapSettings.rooms.push(room);
                 }
             });
-            $timeout(function () {
-                $scope.mapSettings.loadingControl.hasRooms = true;
-            });
+            $scope.reDrawMap();
         };
 
         $scope.roomAddressIsOnMap = function (address) {
@@ -165,18 +172,6 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         };
 
         $scope.setMapOptions = function () {
-            //            if ($scope.query.city !== null) {
-            //                var cityCenter = $scope.getCityCenter($scope.query.city);
-            //                $scope.mapSettings.center.current.lat = cityCenter.lat;
-            //                $scope.mapSettings.center.current.lng = cityCenter.lng;
-            //                // set zoom
-            //                if ($scope.query.companyName === null) {
-            //                    $scope.mapSettings.zoom.current = $scope.mapSettings.zoom.city;
-            //                } else if ($scope.query.company !== null) {
-            //                    $scope.mapSettings.zoom.current = $scope.mapSettings.zoom.address;
-            //                }
-            //            }
-
             if (!isNullOrUndefined($scope.query.city) && !isNullOrUndefined($scope.query.companyName)) {
                 // center for address
                 var coordinates = $scope.getQueryCoordinates();
@@ -215,12 +210,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 zoomReset = true;
             }
             if (centerReset || zoomReset) {
-                // rerender map
-                $scope.mapSettings.loadingControl.hasRooms = false;
-                $timeout(function () {
-                    $scope.mapSettings.loadingControl.hasRooms = true;
-                }, 500);
-
+                $scope.reDrawMap();
             }
         };
 
@@ -452,11 +442,74 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             return (b - a);
         };
 
+        $scope.setSearchResultMessage = function () {
+            if (isNullOrUndefined($scope.query.address)) {
+                $scope.searchAddressMessage = '';
+            } else {
+                $scope.searchAddressMessage = $scope.query.address;
+            }
+            if (isNullOrUndefined($scope.query.city) && isNullOrUndefined($scope.query.companyName) && ($scope.query.nrOfPeople === 0 || isNullOrUndefined($scope.query.nrOfPeople))) {
+                $scope.searchResultMessage = '';
+                $scope.searchAddressMessage = '';
+            }
+            if ($scope.query.nrOfHitsWithoutAddress > 0) {
+
+
+                //Set messagge if company name is chosen
+                if (!isNullOrUndefined($scope.query.companyName)) {
+                    $scope.searchResultMessage = $scope.query.companyName.concat(' har ').concat($scope.query.nrOfHits).concat(' rum');
+                    if ($scope.query.nrOfPeople > 0) {
+                        $scope.searchResultMessage = $scope.searchResultMessage.concat(' för ').concat($scope.query.nrOfPeople).concat(' eller fler personer ');
+                        //                        if ($scope.query.nrOfPeople === 1) {
+                        //                            $scope.searchResultMessage = $scope.searchResultMessage.concat(' person eller mer');
+                        //                        } else {
+                        //                            $scope.searchResultMessage = $scope.searchResultMessage.concat(' eller fler personer');
+                        //                        }
+                    }
+                    if (!isNullOrUndefined($scope.query.city)) {
+                        $scope.searchResultMessage = $scope.searchResultMessage.concat(' i ').concat($scope.query.city);
+
+                        //                        var companyCities = $scope.getCitiesForCompany($scope.query.companyName);
+                        //                        if (companyCities.length === 1) {
+                        //                            $scope.searchAddressMessage = $scope.query.address;
+                        //                        } else {
+                        //                            $scope.searchAddressMessage = $scope.query.companyName.concat(' finns på flera adresser');
+                        //                        }
+                        //                        if (!isNullOrUndefined($scope.query.address)) {
+                        //                            $scope.searchResultMessage = $scope.searchResultMessage.concat(' på adressen ').concat($scope.query.address.replace(',', ' i'));
+                        //                        } else {
+                        //                            $scope.searchResultMessage = $scope.searchResultMessage.concat(' i ').concat($scope.query.city);
+                        //                        }
+
+                    } else {
+                        $scope.searchAddressMessage = '';
+                    }
+
+                    // set message if only city is chosen
+                } else if (!isNullOrUndefined($scope.query.city) && isNullOrUndefined($scope.query.companyName)) {
+                    $scope.searchResultMessage = 'I '.concat($scope.query.city).concat(' finns ').concat($scope.query.nrOfHitsWithoutAddress).concat(' rum');
+                    if (!isNullOrUndefined($scope.query.address)) {
+                        $scope.searchAddressMessage = $scope.query.nrOfHits.toString().concat(' av dem finns på ').concat($scope.query.address);
+                    }
+                    if ($scope.query.nrOfPeople > 0) {
+                        $scope.searchResultMessage = $scope.searchResultMessage.concat(' för ').concat($scope.query.nrOfPeople).concat(' eller fler personer ');
+                    }
+                } else if ($scope.query.nrOfPeople > 0) {
+                    $scope.searchResultMessage = 'Meetrd har '.concat($scope.query.nrOfHits).concat(' rum för ').concat($scope.query.nrOfPeople).concat(' eller fler personer ');
+                }
+
+            } else {
+                $scope.searchResultMessage = 'Din sökning gav inga rum.';
+            }
+        };
+
         $scope.resetQueryAddress = function () {
             // if the city is changed when an address is selected - then reset rooms on map
             if (!isNullOrUndefined($scope.query.address)) {
                 $scope.query.address = null;
             }
+            $scope.setSearchResultMessage();
+            $scope.reDrawMap();
         }
 
         $scope.setCompanyCity = function () {
@@ -478,6 +531,8 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                     }
                 }
             });
+            // $scope.setMapOptions();
+            //$scope.reDrawMap();
         };
 
         $scope.getCitiesForCompany = function (companyName) {
@@ -495,6 +550,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             $scope.query = {
                 nrOfPeople: '',
                 nrOfHits: 0,
+                nrOfHitsWithoutAddress: 0,
                 companyName: null,
                 city: null,
                 address: null,
@@ -523,6 +579,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 ]
             };
             $scope.resetMapToDefault();
+            $scope.setSearchResultMessage();
         };
         $scope.setCityParam = function () {
             if (location.search.search('city') > -1) {
@@ -565,8 +622,17 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             $timeout(function () {
                 //If the city is changed from one to another and the company in query has only one city - then reset company drop
                 var companyCities = $scope.getCitiesForCompany(newQuery.companyName);
+                if (isNullOrUndefined($scope.query.city) && isNullOrUndefined($scope.query.companyName) && ($scope.query.nrOfPeople === '' || isNullOrUndefined($scope.query.nrOfPeople))) {
+                    $scope.showSearchResultMessage = false;
+                } else {
+                    $scope.showSearchResultMessage = true;
+                }
                 if (oldQuery.city !== null && oldQuery.city !== newQuery.city && oldQuery.companyName === newQuery.companyName && !(jQuery.inArray(newQuery.city, companyCities) > -1)) {
                     $scope.query.companyName = null;
+                }
+                if (oldQuery.companyName !== newQuery.companyName) {
+                    $scope.query.address = null;
+                    // $scope.setSearchResultMessage();
                 }
                 if (($scope.query.shownRooms < $scope.query.shownRoomsDefault && $scope.query.nrOfHits > $scope.query.shownRoomsDefault) || $scope.query.shownRooms > $scope.query.nrOfHits) {
                     $scope.query.shownRooms = $scope.query.shownRoomsDefault;
@@ -574,7 +640,12 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 if (!$scope.queriesAreIdentic(newQuery, oldQuery) || $scope.cityIsSetFromParam) {
                     $scope.setRoomsOnMap();
                     $scope.setMapOptions();
+                    if ($scope.mapSettings.rooms.length > 0) {
+                        // make sure the rooms are set once for the city from the url, then disable this to not reset the rooms on map.
+                        $scope.cityIsSetFromParam = false;
+                    }
                 }
+                $scope.setSearchResultMessage();
             }, 250);
             //}
 
@@ -583,5 +654,8 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         $scope.resetSearchQuery();
         $scope.initPage();
         $scope.setCityParam();
+        angular.element(document).ready(function () {
+            console.log("ereadyy!!");
+        });
     };
 });

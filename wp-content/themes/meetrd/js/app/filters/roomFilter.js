@@ -2,63 +2,93 @@ angular.module('roomSearchFilter', []).filter('roomFilter', [function () {
     return function (rooms, query) {
 
         if (!angular.isUndefined(rooms) && !angular.isUndefined(query)) {
-            //            query.hasFiltered = false;
             var filteredRooms = [];
-            console.log("filters");
-            // query.roomsOnMap = [];
+            var pushRoom, pushRoomWithoutAddress;
+            //Are there any inputs
+            var hasNrOfPeople = query.nrOfPeople !== '' || query.nrOfPeople !== null;
+            var hasCompany = query.companyName !== null;
+            var hasCity = query.city !== null;
+            var hasAddress = query.address !== null;
+
+
+            var nrOfHitsWithoutAddress = 0;
+
+            //The logix
+//            if (!hasNrOfPeople && !hasCompany && !hasCity) {
+    //                query.isSearchResult = false;
+    //            } else {
+    //                query.isSearchResult = true;
+    //            }
+
+
             angular.forEach(rooms, function (room) {
-
-                var pushRoom;
-                //Are there any inputs
-                var hasNrOfPeople = query.nrOfPeople !== '';
-                var hasCompany = query.companyName !== null;
-                var hasCity = query.city !== null;
-                var hasAddress = query.address !== null;
-
                 //The conditions
                 var nrOfPeopleCondition = room.nrOfPeople >= query.nrOfPeople;
                 var companyCondition = room.company === query.companyName;
                 var cityCondition = room.city === query.city;
                 var addressCondition = room.address === query.address;
 
-                //The logix
-                if (!hasNrOfPeople && !hasCompany && !hasCity && !hasAddress) {
-                    query.isSearchResult = false;
-                } else {
-                    query.isSearchResult = true;
-                }
+
                 if (hasNrOfPeople && hasCompany && hasCity && hasAddress) {
-                    pushRoom = nrOfPeopleCondition && companyCondition && cityCondition && addressCondition;
+                    pushRoomWithoutAddress = nrOfPeopleCondition && companyCondition && cityCondition;
+                    if (pushRoomWithoutAddress) {
+                        nrOfHitsWithoutAddress++;
+                    }
+                    pushRoom = pushRoomWithoutAddress && addressCondition;
                 } else if (hasNrOfPeople && hasCompany && hasCity && !hasAddress) {
                     pushRoom = nrOfPeopleCondition && companyCondition && cityCondition;
 
                 } else if (hasNrOfPeople && hasCompany && !hasCity && hasAddress) {
-                    pushRoom = nrOfPeopleCondition && companyCondition && addressCondition;
+                    pushRoomWithoutAddress = nrOfPeopleCondition && companyCondition;
+                    if (pushRoomWithoutAddress) {
+                        nrOfHitsWithoutAddress++;
+                    }
+                    pushRoom = pushRoomWithoutAddress && addressCondition;
                 } else if (hasNrOfPeople && hasCompany && !hasCity && !hasAddress) {
                     pushRoom = nrOfPeopleCondition && companyCondition;
 
                 } else if (hasNrOfPeople && !hasCompany && hasCity && hasAddress) {
-                    pushRoom = nrOfPeopleCondition && cityCondition && addressCondition;
+                    pushRoomWithoutAddress = nrOfPeopleCondition && cityCondition;
+                    if (pushRoomWithoutAddress) {
+                        nrOfHitsWithoutAddress++;
+                    }
+                    pushRoom = pushRoomWithoutAddress && addressCondition;
                 } else if (hasNrOfPeople && !hasCompany && hasCity && !hasAddress) {
                     pushRoom = nrOfPeopleCondition && cityCondition;
 
                 } else if (hasNrOfPeople && !hasCompany && !hasCity && hasAddress) {
-                    pushRoom = nrOfPeopleCondition && addressCondition;
+                    pushRoomWithoutAddress = nrOfPeopleCondition;
+                    if (pushRoomWithoutAddress) {
+                        nrOfHitsWithoutAddress++;
+                    }
+                    pushRoom = pushRoomWithoutAddress && addressCondition;
                 } else if (hasNrOfPeople && !hasCompany && !hasCity && !hasAddress) {
                     pushRoom = nrOfPeopleCondition;
 
                 } else if (!hasNrOfPeople && hasCompany && hasCity && hasAddress) {
-                    pushRoom = companyCondition && cityCondition && addressCondition;
-                } else if (!hasNrOfPeople && hasCompany && hasCity && !addressCondition) {
+                    pushRoomWithoutAddress = companyCondition && cityCondition;
+                    if (pushRoomWithoutAddress) {
+                        nrOfHitsWithoutAddress++;
+                    }
+                    pushRoom = pushRoomWithoutAddress && addressCondition;
+                } else if (!hasNrOfPeople && hasCompany && hasCity && !hasAddress) {
                     pushRoom = companyCondition && cityCondition;
 
                 } else if (!hasNrOfPeople && !hasCompany && hasCity && hasAddress) {
-                    pushRoom = cityCondition && addressCondition;
+                    pushRoomWithoutAddress = cityCondition;
+                    if (pushRoomWithoutAddress) {
+                        nrOfHitsWithoutAddress++;
+                    }
+                    pushRoom = pushRoomWithoutAddress && addressCondition;
                 } else if (!hasNrOfPeople && !hasCompany && hasCity && !hasAddress) {
                     pushRoom = cityCondition;
 
                 } else if (!hasNrOfPeople && hasCompany && !hasCity && hasAddress) {
-                    pushRoom = companyCondition && addressCondition;
+                    pushRoomWithoutAddress = companyCondition;
+                    if (pushRoomWithoutAddress) {
+                        nrOfHitsWithoutAddress++;
+                    }
+                    pushRoom = pushRoomWithoutAddress && addressCondition;
                 } else if (!hasNrOfPeople && hasCompany && !hasCity && !hasAddress) {
                     pushRoom = companyCondition;
 
@@ -70,14 +100,17 @@ angular.module('roomSearchFilter', []).filter('roomFilter', [function () {
                 }
 
                 if (pushRoom) {
-                    if (addressCondition) {
-                        console.log(room.address + " i " + room.city);
-                    }
-
                     filteredRooms.push(room);
                 }
             });
+
+            // If there is no address - set nr of hits withoutaddress to nr of hits value
+            if (!hasAddress) {
+                nrOfHitsWithoutAddress = filteredRooms.length;
+            }
+            query.nrOfHitsWithoutAddress = nrOfHitsWithoutAddress;
             query.nrOfHits = filteredRooms.length;
+            console.log("nrofhits: " + query.nrOfHits + " nrofhitswithoutaddress: " + nrOfHitsWithoutAddress);
             if (query.nrOfHits < query.shownRoomsDefault) {
                 query.shownRooms = query.nrOfHits;
             }

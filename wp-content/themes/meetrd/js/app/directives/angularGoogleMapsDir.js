@@ -62,6 +62,10 @@ directive('angularGoogleMaps', ['$timeout', function ($timeout) {
         if (angular.isUndefined(scope.mapSettings.enableMarkerClick)) {
             scope.mapSettings.enableMarkerClick = false;
         }
+        if (angular.isUndefined(scope.mapSettings.enableInfoWindow)) {
+            scope.mapSettings.enableInfoWindow = false;
+
+        }
         if (angular.isUndefined(scope.mapSettings.marker)) {
             scope.mapSettings.marker = {
                 urlBase: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|',
@@ -235,26 +239,29 @@ directive('angularGoogleMaps', ['$timeout', function ($timeout) {
                             setMarkerIcon(marker, currentScope.$parent.mapSettings.marker.urlBase.concat(currentScope.$parent.mapSettings.marker.clickedColor), markers, true);
                         }
                         filterRoomsOnMarker(marker);
+                        currentScope.$parent.setSearchResultMessage();
                     }
                 })(marker, markers));
             }
             // listener for hover
-            google.maps.event.addListener(marker, 'mouseover', (function (marker) {
-                return function () {
-                    if (infoWindow !== void 0) {
-                        infoWindow.close();
-                    }
-                    if (currentScope.$parent.mapSettings.zoom.current < currentScope.$parent.mapSettings.zoom.markerSwitch) {
-                        var content = marker.room.city;
-                    } else {
-                        var content = marker.room.street;
-                    }
-                    if (angular.isDefined(infoWindow) && content !== infoWindow.getContent()) {
-                        infoWindow.setContent(content);
-                    }
-                    infoWindow.open(map, marker);
-                };
-            })(marker));
+            if (scope.mapSettings.enableInfoWindow) {
+                google.maps.event.addListener(marker, 'mouseover', (function (marker) {
+                    return function () {
+                        if (infoWindow !== void 0) {
+                            infoWindow.close();
+                        }
+                        if (currentScope.$parent.mapSettings.zoom.current < currentScope.$parent.mapSettings.zoom.markerSwitch) {
+                            var content = marker.room.city;
+                        } else {
+                            var content = marker.room.street;
+                        }
+                        if (angular.isDefined(infoWindow) && content !== infoWindow.getContent()) {
+                            infoWindow.setContent(content);
+                        }
+                        infoWindow.open(map, marker);
+                    };
+                })(marker));
+            }
             // listener for mouseout
             google.maps.event.addListener(marker, 'mouseout', (function (marker) {
                 return function () {

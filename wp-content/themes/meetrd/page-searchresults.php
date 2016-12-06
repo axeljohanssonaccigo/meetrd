@@ -29,43 +29,76 @@ for ($i=0; $i < count($all_hosts); $i++) {
             <!-- FILTER SEARCH RESULT -->
             <div class="white-section container">
                 <div class="row">
+                    <!--
                     <h1 class="popular-hosts" ng-show="!isHostPage">
                         SÖK MÖTESRUM
                     </h1>
+-->
                 </div>
                 <div class="" ng-show="!isHostPage">
                     <div class="row search-form-container">
-                        <form name="updateSearchForm" id="updateSearchForm" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                            <div class="col-xs-12 text-center search-input">
-                                <label class="control-label" for="nrOfPeople">Hur många är ni?</label>
-                                <input type="number" min="1" ng-model="query.nrOfPeople" name="nrOfPeople" id="nrOfPeople" class="form-control" />
-                            </div>
-                            <div class="col-xs-12 text-center search-input">
-                                <label class="control-label" for="city">Vilken stad vill du boka i?</label>
-                                <select class="form-control" placeholder="Välj stad" name="city" id="city" ng-model="query.city" ng-change="resetQueryAddress()">
-                                    <option ng-repeat="city in allCities" value="{{city}}">{{city}}</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-12 text-center search-input">
-                                <label class=" control-label" for="company">Vet du vilket företag du vill boka hos?</label>
-                                <select class="form-control" name="company" id="company" ng-model="query.companyName" ng-change="setCompanyCity()">
-                                    <option ng-repeat="company in allCompanies | unique:'name' | orderBy:'name'" value="{{company.name}}">{{company.name}}</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-12">
-                                <label class=" control-label" for="company">&nbsp;</label>
-                                <button type="button" ng-click="resetSearchQuery()" class="form-control btn btn-primary">Rensa sök</button>
-                            </div>
-                            <div class="col-xs-12" ng-show="query.isSearchResult">
-                                <h4> Din sökning gav {{query.nrOfHits}} rum</h4>
-                                <h5 ng-show="query.address !== null"> {{query.address}}</h5>
+
+                        <form name="updateSearchForm" id="updateSearchForm" class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-9 text-center search-heading">
+                                    <h3>SÖK MÖTESRUM</h3>
+                                </div>
+                                <div class="col-md-9 col-xs-8 text-center search-input">
+                                    <label class="control-label" for="nrOfPeople">Hur många är ni?</label>
+                                    <input type="number" min="1" ng-model="query.nrOfPeople" name="nrOfPeople" id="nrOfPeople" class="form-control" />
+                                </div>
+                                <div class="col-xs-4 col-md-3 remove-input">
+                                    <div>
+                                        <label class="control-label">&nbsp;</label>
+                                    </div>
+                                    <button type="button" class="btn btn-remove form-control" ng-click="query.nrOfPeople = ''; resetQueryAddress();" ng-disabled="query.nrOfPeople === '' || query.nrOfPeople === null ">Rensa</button>
+                                </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-9 col-xs-8 text-center search-input">
+                                    <label class="control-label" for="city">Vilken stad vill du boka i?</label>
+                                    <select class="form-control" placeholder="Välj stad" name="city" id="city" ng-model="query.city">
+                                        <option ng-repeat="city in allCities" value="{{city}}">{{city}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-4 col-md-3 remove-input">
+                                    <div>
+                                        <label class="control-label">&nbsp;</label>
+                                    </div>
+                                    <button type="button" class="btn btn-remove form-control" ng-click="resetQueryAddress();query.city = null" ng-disabled="query.city === null">Rensa</button>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <label class="control-label hidden-xs hidden-md hidden-lg" for="company">Vet du vilket företag du vill boka hos?</label>
+                                <div class="col-md-9 col-xs-8 text-center search-input">
+                                    <label class=" control-label hidden-sm" for="company">Vet du vilket företag du vill boka hos?</label>
+                                    <select class="form-control" name="company" id="company" ng-model="query.companyName" ng-change="setCompanyCity()">
+                                        <option ng-repeat="company in allCompanies | unique:'name' | orderBy:'name'" value="{{company.name}}">{{company.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-4 col-md-3 remove-input">
+                                    <div>
+                                        <label class="control-label hidden-sm">&nbsp;</label>
+                                    </div>
+                                    <button type="button" class="btn btn-remove form-control" ng-click="resetQueryAddress(); query.companyName = null" ng-disabled="query.companyName === null">Rensa</button>
+                                </div>
+                            </div>
+                            <!--
+                           <div class="row">
+    <div class="col-xs-12">
+        <label class=" control-label" for="company">&nbsp;</label>
+        <button type="button" ng-click="resetSearchQuery()" class="form-control btn btn-primary">Rensa sök</button>
+    </div>
+</div>
+-->
+
                         </form>
-                        <div class="col-sm-8 col-md-8 col-lg-8 hidden-xs search-form-map-container">
+
+                        <div class="col-sm-7 col-md-7 col-lg-7 hidden-xs search-form-map-container">
                             <angular-google-maps ng-if="mapSettings.loadingControl.hasRooms" map-settings="mapSettings"></angular-google-maps>
                         </div>
-                        <!--                        On map: {{mapSettings.rooms.length}} Zoom: {{mapSettings.zoom}} Center: {{mapSettings.center}} {{mapSettings.loadingControl}}-->
                     </div>
                 </div>
 
@@ -114,7 +147,24 @@ for ($i=0; $i < count($all_hosts); $i++) {
             <div class="row">
                 <div class="container-fluid off-white-section" ng-show="allRoomsLoaded">
                     <div class="container">
-                        <div class="search-result-container ">
+                        <div class="search-result-container">
+                            <div ng-show="!isHostPage">
+                                <div ng-show="showSearchResultMessage">
+                                    <div class="text-center search-result-message">
+                                        <span class="">{{searchResultMessage}}</span>
+                                    </div>
+
+                                    <div class="text-center search-address-message" ng-show="query.address !== null">
+                                        <span class="">{{searchAddressMessage}}&nbsp;&nbsp;&nbsp;</span><span class="btn btn-sm btn-remove" ng-click="resetQueryAddress()" ng-show="query.companyName === null">Visa alla adresser i {{query.city}}</span>
+                                    </div>
+
+                                </div>
+                                <div ng-hide="showSearchResultMessage">
+                                    <div class="text-center search-result-message">
+                                        <span class="">Meetrd har {{allRooms.length}} rum i Sverige</span>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row" ng-show="query.nrOfHits > 0">
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <label class="control-label" for="sort">Sortera</label>
@@ -123,11 +173,13 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                     </select>
                                 </div>
                             </div>
+                            <!--
                             <div class="row" ng-show="query.nrOfHits === 0">
                                 <div class="col-xs-12">
                                     Din sökning gav inga träffar.
                                 </div>
                             </div>
+-->
                             <div data-ng-repeat="room in filteredRooms = (allRooms | roomFilter:query) | orderBy: sortField" class="search-result-room-container col-sm-4 clearfix" ng-show="$index + 1 <= query.shownRooms">
                                 <div>
                                     <div class="search-result-room-photo-container">
@@ -148,7 +200,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                             <h1 ng-show="isHostPage"><a href="{{room.url}}">{{room.title}}</a></h1>
 
                                             <!--                                    <span class="hidden-sm hidden-md">{{room.area}} - {{room.city}}</span>-->
-                                            <span class="block-display">{{room.area}} - {{room.city}} - {{room.street}}</span>
+                                            <span class="block-display">{{room.area}} - {{room.city}}</span>
 
                                         </div>
                                         <span class="col-xs-12 ng-hide" ng-click="goToRoom(room.url, query.date)"><a href="">{{room.title}}</a></span>

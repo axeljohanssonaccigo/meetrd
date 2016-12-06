@@ -1080,12 +1080,13 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 }
 
 /* SEARCH RESULT PAGE */
-#updateSearchForm .control-label {
+#updateSearchForm .row {
     margin-top: 15px;
 }
 .search-form-container {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     padding-right: 10px;
+    margin-top: 30px;
 }
 .update-search-container {
     padding: 5px 0;
@@ -1168,6 +1169,43 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     position: absolute;
     right: 0;
     top: 0;
+}
+.search-result-message {
+    background-color: rgb(230, 0, 138);
+    color: #fff;
+    margin: -20px 10px 10px 0;
+    padding: 10px;
+}
+.search-address-message {
+    font-size: 16px;
+    min-height: 39px;
+}
+.search-input {
+    padding-right: 0 !important;
+}
+.remove-input {
+    padding-left: 0 !important;
+}
+.remove-input .control-label {
+    min-height: 12px;
+    width: 20px;
+}
+.btn-remove {
+    background-color: rgb(100, 100, 100) !important;
+    color: #fff !important;
+    font-size: 16px !important;
+}
+.btn-remove:hover {
+    background-color: rgba(100, 100, 100, 0.9) !important;
+}
+.btn-remove:disabled {
+    background-color: rgba(100, 100, 100, 0.5) !important;
+}
+label.control-label.hidden-xs.hidden-md.hidden-lg {
+    margin-left: 30px;
+}
+.search-heading {
+    padding-right: 0 !important;
 }
 #map-container {
     padding: 0;
@@ -1567,8 +1605,7 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 }
 .search-form-map-container #gmaps {
     width: 100%;
-    height: 350px;
-    margin-bottom: 10px;
+    height: 330px;
 }
 
 /* Responsive Views */
@@ -1602,6 +1639,14 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     
     #step-number-container .buffer-top-desktop {
         padding-top: 0;
+    }
+    
+    .search-input .control-label {
+        font-size: 10px;
+    }
+    
+    .remove-input .control-label {
+        font-size: 10px;
     }
 }
 @media(min-width: 768px) {
@@ -1769,6 +1814,10 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     #step-number-container .buffer-top-desktop {
         padding-top: 0;
     }
+    
+    .search-result-message {
+        width: 100%;
+    }
 }
 @media(max-width: 991px) {
     #page {}
@@ -1888,6 +1937,14 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     #meetrd-fans .fan-logo {
         padding: 0 10px !important;
     }
+    
+    .search-heading h3 {
+        font-size: 22px;
+    }
+    
+    .search-result-message {
+        font-size: 18px;
+    }
 }
 @media (max-width: 991px) {}
 @media(min-width: 991px) {
@@ -1930,6 +1987,14 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     
     .booking-count {
         font-size: 15px;
+    }
+    
+    .search-heading h3 {
+        font-size: 28px;
+    }
+    
+    .search-result-message {
+        font-size: 22px;
     }
 }
 @media(max-width: 1199px) {
