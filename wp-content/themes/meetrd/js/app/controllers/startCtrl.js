@@ -14,7 +14,7 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
     };
     $scope.bannerUrls = {
         mobile: location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-mobile.jpg',
-        desktop: location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-desktop.jpg'
+        desktop: location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd_banner_desktop_2500x1019.jpg'
     };
     $scope.homeUrl = location.href;
     $scope.meetrdFans = [

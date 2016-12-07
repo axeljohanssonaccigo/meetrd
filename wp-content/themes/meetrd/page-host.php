@@ -36,43 +36,129 @@ get_header();
 
                         <div class="room-list grey-section clearfix user-content-container" ng-show="tabs.roomTab.isOpen">
 
-                            <div class="room col-xs-12" ng-repeat="room in roomsForUser">
-                                <div class="host-admin-photo-container col-xs-4 col-md-3">
-                                    <img src="{{room.photo}}">
-                                </div>
+                            <div class="room" ng-repeat="room in roomsForUser">
 
-                                <div class="col-xs-8 col-md-9 no-padding">
+                                <div class="col-xs-12 col-md-12">
                                     <h3><a href="{{room.url}}">{{room.title}}</a>
 									<button type="button" class="btn btn-primary btn-xs" title="Redigera rum" ng-click="editRoom(room.id)"><i class="fa fa-edit fa-1"></i></button>
 								</h3>
-                                    <div class="room-info">
-                                        <div class="edit-room" ng-show="room.inEditMode">
-                                            <form name="editRoomForm">
-                                                <div class="col-xs-12 col-sm-3 no-padding">
-                                                    <label for="startTime" class="col-xs-12 no-padding">Första timmen rummet går att hyra</label>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-9 no-padding">
-                                                    <input type="text" class="col-xs-12 form-control" name="startTime" ng-model="room.startTime" required>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-3 no-padding">
-                                                    <label for="endTime" class="col-xs-12 no-padding">Sista tillgängliga timme</label>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-9 no-padding">
-                                                    <input type="text" class="col-xs-12 form-control" name="endTime" ng-model="room.endTime" required>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-3 no-padding">
-                                                    <label for="price" class="col-xs-12 no-padding">Pris per timme (exkl. moms)</label>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-9 no-padding">
-                                                    <input type="text" class="col-xs-12 form-control" name="price" ng-model="room.price" required>
-                                                </div>
-                                            </form>
+                                </div>
 
-                                            <button type="button" class="btn btn-primary btn-sm pull-right button-margin-top" ng-disabled="editRoomForm.$invalid && !editRoomForm.$dirty" ng-click="updateRoom(room)">Spara ändringar av {{room.title}}</button>
 
-                                        </div>
+                                <div class="host-admin-photo-container col-xs-12 col-md-4">
+                                    <img src="{{room.photo}}">
+                                </div>
+                                <div class="room-info">
+                                    <div class="edit-room" ng-show="room.inEditMode">
+                                        <form name="editRoomForm">
+                                            <div class="col-xs-12 col-md-12">
+                                                <label for="title" class="control-label">Namn</label>
+                                                <input type="text" class="form-control" name="title" ng-model="room.title" required>
+                                            </div>
+                                            <div class="col-xs-12 col-md-12">
+                                                <label for="description" class="control-label">Beskrivning</label>
+                                                <textarea class="form-control" rows="6" name="description" ng-model="room.content" required></textarea>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="startTime" class="control-label">Rummet öppnar (Hel eller halv timme, ex: 9.30)</label>
+                                                <input type="text" class="form-control" name="startTime" ng-model="room.startTime" required>
+                                            </div>
+
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="endTime" class="control-label">Rummet stänger (Hel eller halv timme, ex: 9)</label>
+                                                <input type="text" class="form-control" name="endTime" ng-model="room.endTime" required>
+                                            </div>
+
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="price" class="control-label">Pris per timme (exkl. moms)</label>
+                                                <input type="text" class="form-control" name="price" ng-model="room.price" required>
+                                            </div>
+
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="nrOfPeople" class="control-label">Antal personer</label>
+                                                <input type="text" class="form-control" name="nrOfPeople" ng-model="room.nrOfPeople" required>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="street" class="control-label">Gatuadress</label>
+                                                <input type="text" class="form-control" name="street" ng-model="room.street" required>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="city" class="control-label">Stad</label>
+                                                <input type="text" class="form-control" name="city" ng-model="room.city" required>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="area" class="control-label">Stadsdel</label>
+                                                <input type="text" class="form-control" name="area" ng-model="room.area" required>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="contactPerson" class="control-label">Kontaktperson</label>
+                                                <input type="text" class="form-control" name="contactPerson" ng-model="room.contactPerson" required>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="contactEmail" class="control-label">Kontakt-email</label>
+                                                <input type="text" class="form-control" name="contactEmail" ng-model="room.contactEmail" required>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="contactPhone" class="control-label">Kontakttelefon</label>
+                                                <input type="text" class="form-control" name="contactPhone" ng-model="room.contactPhone" required>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="equipment" class="control-label"><i class="fa fa-paperclip fa-lg"></i> Utrustning</label>
+                                                <div ng-repeat="eq in room.equipment.equipment" ng-class="{isTonedOut: !eq.isChecked}">
+                                                    <div class="row">
+                                                        <div class="col-xs-2">
+                                                            <input type="checkbox" ng-model="eq.isChecked" class="">
+                                                        </div>
+                                                        <div class="col-xs-10">
+                                                            {{eq.displayName}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="food" class="control-label"><i class="fa fa-cutlery fa-lg"></i> Mat & dryck</label>
+                                                <div ng-repeat="food in room.food.food" ng-class="{isTonedOut: !food.isChecked}">
+                                                    <div class="row">
+                                                        <div class="col-xs-2">
+                                                            <input type="checkbox" ng-model="food.isChecked" class="">
+                                                        </div>
+                                                        <div class="col-xs-10">
+                                                            {{food.displayName}}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="separator"></div>
+
+                                            <div class="col-xs-12 col-md-6">
+                                                <label for="food" class="control-label"><i class="fa fa-cutlery fa-lg"></i> Kan hyras</label>
+                                                <div ng-repeat="day in room.weekdays.days" ng-class="{isTonedOut: !day.isChecked}">
+                                                    <div class="row">
+                                                        <div class="col-xs-2">
+
+                                                            <input type="checkbox" ng-model="day.isChecked" class="">
+                                                        </div>
+                                                        <div class="col-xs-10">
+                                                            {{day.displayName}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6">
+
+                                                <button type="button" class="btn btn-primary form-control button-margin-top" ng-disabled="editRoomForm.$invalid && !editRoomForm.$dirty" ng-click="updateRoom(room)">Spara ändringar av {{room.title}}</button>
+                                            </div>
+                                        </form>
+
+
+
+
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -359,16 +445,16 @@ get_header();
                                             <input type="tel" class="form-control" name="phone" ng-model="userInfo.phone" required>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-xs-12 no-padding input-container">
-									<div class="col-sm-3 col-xs-12">
-										<label>E-mail</label>
-										<div class="user-info-help-text">Ändras av Meetrd</div>
+                                    <div class="col-xs-12 no-padding input-container">
+                                        <div class="col-sm-3 col-xs-12">
+                                            <label>E-mail</label>
+                                            <!--										<div class="user-info-help-text">Ändras av Meetrd</div>-->
 
-									</div>
-									<div class="col-sm-9 col-xs-12">
-										{{userInfo.email}}
-									</div>
-								</div> -->
+                                        </div>
+                                        <div class="col-sm-9 col-xs-12">
+                                            <input type="email" class="form-control" name="email" ng-model="userInfo.email" required>
+                                        </div>
+                                    </div>
                                     <div class="col-xs-12 no-padding input-container">
                                         <div class="col-sm-3 col-xs-12">
                                             <label>Hemsida</label>

@@ -1,13 +1,5 @@
 <?php
-/**
- * The template for displaying all pages.
- *
- * This is the template that displays all pages by default.
- * Please note that this is the WordPress construct of pages
- * and that other 'pages' on your WordPress site may use a
- * different template.
- *
- * @link https://codex.wordpress.org/Template_Hierarchy
+/* Template Name: Så fungerar det
  *
  * @package Meetrd
  */
@@ -187,52 +179,35 @@ get_header(); ?>
                                 <!-- Register user Modal END-->
                                 <div class="sign-up-as-host-form-container" ng-if="isPage('bli-vard')">
                                     <form ng-submit="createMailFromForm()" name="registerHostForm">
-                                        <label for="name" class="col-xs-12 no-padding">För- och efternamn *</label>
+                                        <label for="name" class="col-xs-12 no-padding">Ditt för- och efternamn *</label>
                                         <input type="text" autocomplete="off" class="col-xs-12 form-control" name="name" ng-model="newHost.name" required>
                                         <div class="error" ng-show="registerHostForm.name.$dirty && registerHostForm.name.$invalid">
-                                            Ange för- och efternamn
+                                            Ange ditt för- och efternamn
                                         </div>
 
-                                        <label for="company" class="col-xs-12 no-padding">Företag *</label>
-                                        <input type="text" autocomplete="off" class="col-xs-12 form-control" name="company" ng-model="newHost.company" required>
-                                        <div class="error" ng-show="registerHostForm.company.$dirty && registerHostForm.company.$invalid">
-                                            Ange företag
-                                        </div>
-
-                                        <label for="email" class="col-xs-12 no-padding">E-post *</label>
+                                        <label for="email" class="col-xs-12 no-padding">Din e-post *</label>
                                         <input type="email" autocomplete="off" class="col-xs-12 form-control" name="email" ng-model="newHost.email" required>
                                         <div class="error" ng-show="registerHostForm.email.$dirty && registerHostForm.email.$error.email">
                                             Ange en giltig e-postadress
                                         </div>
 
-                                        <label for="phone" class="col-xs-12 no-padding">Telefonnummer *</label>
-                                        <input type="text" autocomplete="off" class="col-xs-12 form-control" name="phone" ng-model="newHost.phone" required>
-                                        <div class="error" ng-show="registerHostForm.phone.$dirty && registerHostForm.phone.$invalid">
-                                            Ange företag
-                                        </div>
-
-                                        <!--
                                         <label for="website" class="col-xs-12 no-padding">Ditt företags webbplats</label>
                                         <input type="text" autocomplete="off" class="col-xs-12 form-control" name="website" ng-model="newHost.website">
                                         <div class="error" ng-show="registerHostForm.website.$dirty && !isUrlValid(registerHostForm, registerHostForm.website.$viewValue)">
                                             Ange en giltig adress
                                         </div>
--->
 
-                                        <label for="comments" class="col-xs-12 no-padding">Kommentar</label>
-                                        <textarea autocomplete="off" class="col-xs-12 form-control" name="comments" ng-model="newHost.comments"></textarea>
-                                        <!--
+                                        <label for="comments" class="col-xs-12 no-padding">Kommentar *</label>
+                                        <textarea autocomplete="off" class="col-xs-12 form-control" name="comments" ng-model="newHost.comments" required></textarea>
                                         <div class="error" ng-show="registerHostForm.comments.$dirty && registerHostForm.comments.$invalid">
                                             Ange en kommentar
                                         </div>
--->
 
 
                                         <div class="col-xs-12 no-padding">
                                             * Obligatoriskt fält
                                         </div>
-                                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#newHostConfirmation" ng-disabled="registerHostForm.$invalid">Skicka</button>
-                                        <!--                                        !isUrlValid(registerHostForm, registerHostForm.website.$viewValue) || -->
+                                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#newHostConfirmation" ng-disabled="!isUrlValid(registerHostForm, registerHostForm.website.$viewValue) || registerHostForm.$invalid">Skicka</button>
                                     </form>
 
 

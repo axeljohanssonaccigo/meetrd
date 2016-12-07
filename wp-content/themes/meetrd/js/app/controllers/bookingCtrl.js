@@ -75,6 +75,10 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 hasCityCenters: false
             }
         };
+
+        function isNullOrUndefined(value) {
+            return value === null || angular.isUndefined(value);
+        };
         //        $scope.roomsOnMap = [];
 
         //Check for window size
@@ -559,12 +563,18 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 $scope.currentRoom.hostVotes = hostMetaData['wpcf-votes'];
                 $scope.currentRoom.hostRating = $scope.calculateHostRating($scope.currentRoom.hostVotes);
             }
-            if ('user_email' in hostData.data) {
+            //Prioritized email
+            if ('wpcf-priomail' in hostMetaData && !isNullOrUndefined(hostMetaData['wpcf-priomail'][0])) {
+                $scope.currentRoom.hostEmail = hostMetaData['wpcf-priomail'][0];
+            } else if ('user_email' in hostData.data) {
                 $scope.currentRoom.hostEmail = hostData.data.user_email;
-            };
+            } else {
+                $scope.currentRoom.hostEmail = '';
+            }
             if ('wpcf-slogan' in hostMetaData) {
                 $scope.currentRoom.hostSlogan = hostMetaData['wpcf-slogan'][0];
             };
+
             //Get additional host info
             bookingSvc.getUserInfo(hostId).then(function (response) {
                 $scope.hostInfo = response.data;

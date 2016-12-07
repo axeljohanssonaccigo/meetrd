@@ -12,6 +12,10 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
         var urlPathNameAddOn = "";
     }
 
+    function isNullOrUndefined(value) {
+        return value === null || angular.isUndefined(value);
+    };
+
     //redirecting the user to login page if not already logged in
     $scope.userIsLoggedIn = userIsLoggedIn;
     if (!$scope.userIsLoggedIn) {
@@ -20,6 +24,7 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
             jQuery("#menuLoginButton")[0].click()
         });
     } else {
+
 
         $scope.userId = userData.data.ID;
         $scope.triedToUpdateUserInfo = false;
@@ -65,6 +70,14 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
             } else {
                 $scope.userInfo["cancelDeadline"] = 0;
             }
+            //Prioritized email
+            if ('wpcf-priomail' in userMetaData && !isNullOrUndefined(userMetaData['wpcf-priomail'][0])) {
+                $scope.userInfo["email"] = userMetaData['wpcf-priomail'][0];
+            } else if ('user_email' in userData.data) {
+                $scope.userInfo["email"] = userData.data.user_email;
+            } else {
+                $scope.userInfo["email"] = '';
+            }
             $scope.userInfoIsLoaded = true;
             $scope.getRoomsForUser();
             $scope.getBookingsForUser();
@@ -91,12 +104,12 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
             bookingTab: {
                 "id": 1,
                 "name": "Bokningar",
-                "isOpen": true
+                "isOpen": false
             },
             roomTab: {
                 "id": 2,
                 "name": "Rum",
-                "isOpen": false
+                "isOpen": true
             },
             userTab: {
                 "id": 3,
@@ -157,6 +170,161 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
                 "bookings": 0
             }
 	];
+        $scope.weekdays = [
+            {
+                "index": 1,
+                "value": "monday",
+                "displayName": "Måndag",
+                "isChecked": false,
+                "fieldName": "wpcf-fields-checkboxes-option-7a641ce9576c8e26d7faa64c75e9148f-1"
+            },
+            {
+                "index": 2,
+                "value": "tuesday",
+                "displayName": "Tisdag",
+                "isChecked": false,
+                "fieldName": "wpcf-fields-checkboxes-option-55199bbd95148fe5905ba5d3bcccb9ed-1"
+            },
+            {
+                "index": 3,
+                "value": "wednesday",
+                "displayName": "Onsdag",
+                "isChecked": false,
+                "fieldName": "wpcf-fields-checkboxes-option-5edb138b8c58f9b55ad25fd6cd890a23-1"
+            },
+            {
+                "index": 4,
+                "value": "thursday",
+                "displayName": "Torsdag",
+                "isChecked": false,
+                "fieldName": "wpcf-fields-checkboxes-option-68f7c374a56aefa5cb16b22b9f055dd1-1"
+            },
+            {
+                "index": 5,
+                "value": "friday",
+                "displayName": "Fredag",
+                "isChecked": false,
+                "fieldName": "wpcf-fields-checkboxes-option-307d9b3003cb28a30b486100d3a850bd-1"
+            },
+            {
+                "index": 6,
+                "value": "saturday",
+                "displayName": "Lördag",
+                "isChecked": false,
+                "fieldName": "wpcf-fields-checkboxes-option-2e1cd86eb650ca8c8a124bdcbf5ffee8-1"
+            },
+            {
+                "index": 7,
+                "value": "sunday",
+                "displayName": "Söndag",
+                "isChecked": false,
+                "fieldName": "wpcf-fields-checkboxes-option-a383b71a669dd5f90d2c5029960e43d5-1"
+            },
+	];
+        $scope.food = [
+            {
+                "index": 1,
+                "value": "own-food",
+                "displayName": "Egen mat tillåten",
+                "isChecked": false
+            },
+            {
+                "index": 2,
+                "value": "own-bevs",
+                "displayName": "Egen dryck tillåten",
+                "isChecked": false
+            },
+            {
+                "index": 3,
+                "value": "liqour-provided",
+                "displayName": "Utskänkningstillstånd",
+                "isChecked": false
+            },
+            {
+                "index": 4,
+                "value": "coffee",
+                "displayName": "Kaffe finns att tillgå",
+                "isChecked": false
+            },
+            {
+                "index": 5,
+                "value": "catering",
+                "displayName": "Catering via värd möjlig",
+                "isChecked": false
+            },
+            {
+                "index": 6,
+                "value": "pay-for-coffee",
+                "displayName": "Kaffe och kaka mot avgift",
+                "isChecked": false
+            },
+	];
+        $scope.equipment = [
+            {
+                "index": 1,
+                "value": "whiteboard",
+                "displayName": "Whiteboard",
+                "isChecked": false
+            },
+            {
+                "index": 2,
+                "value": "projector",
+                "displayName": "Projektor",
+                "isChecked": false
+            },
+            {
+                "index": 3,
+                "value": "tv",
+                "displayName": "TV",
+                "isChecked": false
+            },
+            {
+                "index": 4,
+                "value": "video-conference",
+                "displayName": "Videokonferens",
+                "isChecked": false
+            },
+            {
+                "index": 5,
+                "value": "conference-phone",
+                "displayName": "Konferenstelefon",
+                "isChecked": false
+            },
+            {
+                "index": 6,
+                "value": "flip-chart",
+                "displayName": "Blädderblock",
+                "isChecked": false
+            },
+            {
+                "index": 7,
+                "value": "note-material",
+                "displayName": "Anteckningsmaterial",
+                "isChecked": false
+            },
+            {
+                "index": 8,
+                "value": "wifi",
+                "displayName": "Wi-fi",
+                "isChecked": false
+            },
+            {
+                "index": 9,
+                "value": "sound-system",
+                "displayName": "Ljudanläggning",
+                "isChecked": false
+            },
+	];
+        //Sets the isChecked prop for each checkbox option
+        $scope.setCheckboxValues = function (checkboxArray, funnyObject) {
+            angular.forEach(checkboxArray, function (checkbox) {
+                if (funnyObject.search(checkbox.value) > -1) {
+                    checkbox.isChecked = true;
+                }
+            });
+        };
+
+
         $scope.bookingsForUser = [];
         $scope.addNewRoomFormIsShown = false;
         $scope.hostComment = "";
@@ -216,11 +384,42 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
                     if ('wpcf-photo' in room['custom_fields']) {
                         room['photo'] = room['custom_fields']['wpcf-photo'][0];
                     }
-                    if ('wpcf-street-address' in room['custom_fields']) {
-                        room['address'] = room['custom_fields']['wpcf-street-address'][0] + ", Stockholm";
+                    if ('wpcf-city' in room['custom_fields']) {
+                        room['city'] = room['custom_fields']['wpcf-city'][0];
                     }
+                    if ('wpcf-street-address' in room['custom_fields']) {
+                        room['street'] = room['custom_fields']['wpcf-street-address'][0];
+                        room['address'] = room.street + ", " + room.city;
+                    }
+                    if ('wpcf-days' in room['custom_fields']) {
+                        room['weekdays'] = {
+                            src: room['custom_fields']['wpcf-days'][0],
+                            days: angular.copy($scope.weekdays)
+                        };
+                    }
+                    if ('wpcf-food' in room['custom_fields']) {
+                        room['food'] = {
+                            src: room['custom_fields']['wpcf-food'][0],
+                            food: $scope.food
+                        };
+                    }
+                    if ('wpcf-equipment' in room['custom_fields']) {
+                        room['equipment'] = {
+                            src: room['custom_fields']['wpcf-equipment'][0],
+                            equipment: $scope.equipment
+                        };
+                    }
+
+                    $scope.setCheckboxValues(room.weekdays.days, room.weekdays.src);
+                    $scope.setCheckboxValues(room.food.food, room.food.src);
+                    $scope.setCheckboxValues(room.equipment.equipment, room.equipment.src);
+
+
+
                     room['inEditMode'] = false;
                     $scope.roomsForUser.push(room);
+                    console.log(room.food);
+                    console.log(room.equipment);
 
                 });
             });

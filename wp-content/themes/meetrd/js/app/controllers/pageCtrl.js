@@ -19,7 +19,8 @@ pageApp.controller('pageCtrl', function ($scope, pageSvc) {
     $scope.newHost = {
         "name": "",
         "email": "",
-        "website": "http://",
+        "company": "",
+        "phone": "",
         "comments": ""
     };
 
@@ -131,8 +132,9 @@ pageApp.controller('pageCtrl', function ($scope, pageSvc) {
         formInfo = formInfo.
         concat('<h2>Ny värd</h2>').
         concat('<p><b>För- och efternamn</b><br>' + $scope.newHost.name + '<br>').
+        concat('<b>Företag</b><br>' + $scope.newHost.company + '<br>').
         concat('<b>E-mail</b><br>' + $scope.newHost.email + '<br>').
-        concat('<b>Hemsida</b><br>' + $scope.newHost.website + '<br>').
+        concat('<b>Telefonnummer</b><br>' + $scope.newHost.phone + '<br>').
         concat('<b>Kommentar</b><br>' + $scope.newHost.comments + '</p>');
 
 

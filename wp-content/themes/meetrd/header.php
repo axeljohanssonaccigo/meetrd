@@ -31,12 +31,41 @@
         <link rel="profile" href="http://gmpg.org/xfn/11">
         <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
         <?php wp_enqueue_script("jquery"); ?>
-            <title>Meetrd - Boka mötesrum hos andra företag</title>
+
+            <title></title>
             <?php wp_head(); ?>
+
                 <script type="text/javascript">
                     var userIsLoggedIn = <?php echo json_encode( is_user_logged_in() ); ?>;
+
+                    function getPageTitle(pathname) {
+                        var pageTitle = 'Hyr mötesrum av andra företag';
+                        if (pathname.search('om-oss') > -1) {
+                            pageTitle = 'Om oss';
+                        } else if (pathname.search('att-hyra') > -1) {
+                            pageTitle = 'Att hyra mötesrum via meetrd.se';
+                        } else if (pathname.search('hyra-ut') > -1) {
+                            pageTitle = 'Att hyra ut sina möteslokaler';
+                        } else if (pathname.search('sa-fungerar-det') > -1) {
+                            pageTitle = 'Så fungerar det';
+                        } else if (pathname.search('kontakt') > -1) {
+                            pageTitle = 'Kontakt';
+                        } else if (pathname.search('faq') > -1) {
+                            pageTitle = 'FAQ';
+                        } else if (pathname.search('allmanna-villkor') > -1) {
+                            pageTitle = 'Allmänna villkor';
+                        } else if (pathname.search('bli-vard') > -1) {
+                            pageTitle = 'Bli värd';
+                        }
+                        return pageTitle;
+                    }
+
+                    document.querySelector('title').innerHTML = getPageTitle(location.pathname);
+                    //                    console.log(location.pathname);
                 </script>
+
                 <?php
+        
 
   if (is_user_logged_in()) {
     $userData = wp_get_current_user();
