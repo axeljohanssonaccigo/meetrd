@@ -62,6 +62,7 @@ hostApp.service('hostSvc', function ($http) {
             method: "GET",
             params: {
                 post_type: 'room',
+                status: room.status,
                 nonce: data.data.nonce,
                 post_id: room.id,
                 title: room.title,
@@ -75,7 +76,14 @@ hostApp.service('hostSvc', function ($http) {
                 'custom[wpcf-street-address]': room.street,
                 'custom[wpcf-city]': room.city,
                 'custom[wpcf-area]': room.area,
+                'custom[wpcf-lat]': room.lat,
+                'custom[wpcf-long]': room.lng,
                 'custom[wpcf-price]': room.price,
+                'custom[wpcf-host-id]': room.hostId,
+                'custom[wpcf-room-setting]': room.setting,
+                'custom[wpcf-webpage]': room.webPage,
+                'custom[wpcf-show-on-meetrd]': room.showOnMeetrd,
+                'custom[wpcf-photo]': room.photo,
                 'custom[wpcf-cancel-deadline]': room.cancelDeadline,
                 // days
                 'custom[wpcf-days][wpcf-fields-checkboxes-option-7a641ce9576c8e26d7faa64c75e9148f-1]': getCheckboxValue(room.weekdays.days[0]),
@@ -108,22 +116,15 @@ hostApp.service('hostSvc', function ($http) {
     };
 
     this.createRoom = function (data, room) {
-        var title = room.title;
-        var content = room.content;
-        var contactPerson = room.contactPerson;
-        var webPage = room.webPage;
-        var hostId = room.hostId;
-        var startDate = room.startDate; //Room is avaailable from this date
-        var endDate = room.endDate; //Last day the room is available
-        var nrOfPeople = room.nrOfPeople;
-        var price = room.price; //Price per hour
-        var startTime = room.startTime; //Room is available from this hour of the day
-        var endTime = room.endTime; //The last hour of the day that is possible to book
-
-
         return $http({
             method: "GET",
-            url: urlPathNameAddOn + '/?json=posts.create_post&nonce=' + data.data.nonce + '&title=' + title + '&content=' + content + '&status=publish&type=room&custom_fields={"wpcf-contact-person": "' + contactPerson + '","wpcf-webpage":"' + webPage + '","wpcf-host-id":"' + hostId + '", "wpcf-startdate":"' + startDate + '", "wpcf-enddate":"' + endDate + '","wpcf-nr-of-people":' + nrOfPeople + ', "wpcf-starttime":' + startTime + ',"wpcf-endtime":' + endTime + ', "wpcf-area":' + area + ', "wpcf-price":' + price + ' }'
+            params: {
+                type: 'room',
+                status: room.status,
+                nonce: data.data.nonce,
+                title: room.title
+            },
+            url: urlPathNameAddOn + '/?json=posts.create_post'
         });
     };
 

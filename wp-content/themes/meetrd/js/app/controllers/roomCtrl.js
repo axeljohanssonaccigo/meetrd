@@ -239,7 +239,10 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                     angular.forEach(response.data.posts, function (room) {
                         $scope.defineRoomAttributes(room, index);
                         index++;
-                        $scope.allRooms.push(room);
+                        if (room.showOnMeetrd) {
+                            $scope.allRooms.push(room);
+                        }
+
                         //                        Get coordinates for the room if the address is unique
 
 
@@ -387,6 +390,16 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             }
             if ('wpcf-city' in room['custom_fields']) {
                 room['city'] = room['custom_fields']['wpcf-city'][0];
+            }
+            if ('wpcf-show-on-meetrd' in room['custom_fields']) {
+                room['showOnMeetrd'] = parseInt(room['custom_fields']['wpcf-show-on-meetrd'][0]);
+            } else {
+                room['showOnMeetrd'] = 1;
+            }
+            if (room.showOnMeetrd === 1) {
+                room.showOnMeetrd === true;
+            } else {
+                room.showOnMeetrd === false;
             }
             if ('wpcf-street-address' in room['custom_fields']) {
                 room['street'] = room['custom_fields']['wpcf-street-address'][0];

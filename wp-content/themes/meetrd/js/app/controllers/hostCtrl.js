@@ -2,7 +2,7 @@ var hostApp = angular.module('hostApp', []);
 
 
 
-hostApp.controller('hostCtrl', function ($scope, hostSvc) {
+hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
     //Custom hack to fix the /Meetrd url in dev and test. urlPathNameAddOn is added at the beginning of the urls.
     if (window.location.pathname.substr(0, 7) === "/Meetrd") {
         var urlPathNameAddOn = "/Meetrd";
@@ -28,6 +28,7 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
 
         $scope.userId = userData.data.ID;
         $scope.triedToUpdateUserInfo = false;
+
 
         //Get additional userinfo from API
         hostSvc.getUserInfo($scope.userId).then(function (response) {
@@ -78,6 +79,7 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
             } else {
                 $scope.userInfo["email"] = '';
             }
+            $scope.initNewRoom();
             $scope.userInfoIsLoaded = true;
             $scope.getRoomsForUser();
             $scope.getBookingsForUser();
@@ -315,6 +317,20 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
                 "isChecked": false
             },
 	];
+        $scope.roomSettings = [
+            {
+                index: 1,
+                value: 'Aula'
+            },
+            {
+                index: 2,
+                value: 'Konferensrum'
+            },
+            {
+                index: 3,
+                value: 'Mötesrum'
+            }
+        ];
         //Sets the isChecked prop for each checkbox option
         $scope.setCheckboxValues = function (checkboxArray, funnyObject) {
             angular.forEach(checkboxArray, function (checkbox) {
@@ -324,28 +340,115 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
             });
         };
 
+        $scope.getCoordinates = function (room) {
+            if (room.city !== '' && !isNullOrUndefined(room.city) && room.street !== '' && !isNullOrUndefined(room.street)) {
+                room.validation.checkingAddress = true;
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({
+                    'address': room.street.concat(', ').concat(room.city)
+                }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        room.lat = results[0].geometry.location.lat();
+                        room.lng = results[0].geometry.location.lng();
+                        // set address variables from response 
+                        $timeout(function () {
+                            room.street = results[0].address_components[1].long_name.concat(' ').concat(results[0].address_components[0].long_name);
+                            room.area = results[0].address_components[2].long_name;
+                            room.city = results[0].address_components[3].long_name;
+                            room.validation.addressIsValid = true;
+                        });
+
+                    } else {
+                        $timeout(function () {
+                            room.lat = 0;
+                            room.lng = 0;
+                            room.validation.addressIsValid = false;
+                        });
+
+                    }
+                    $timeout(function () {
+                        room.validation.checkingAddress = false;
+                    });
+
+                });
+
+            }
+        };
+
+        $scope.setRoomValidity = function (room) {
+            room.validation.isValid = true;
+            //var coords = $scope.getCoordinates(room.street.concat(', ').concat(room.city));
+            if (room.lat === 0 || room.lng === 0) {
+                room.validation.addressIsValid = false;
+                room.validation.isValid = false;
+            } else {
+                room.validation.addressIsValid = true;
+            }
+            if (parseFloat(room.endTime) < parseFloat(room.startTime)) {
+                room.validation.endTimeToLittle = true;
+                room.validation.isValid = false;
+            } else {
+                room.validation.endTimeToLittle = false;
+            }
+            if (parseInt(room.setting) < 1) {
+                room.validation.roomTypeSelected = false;
+                room.validation.isValid = false;
+            } else {
+                room.validation.roomTypeSelected = true;
+            }
+        };
 
         $scope.bookingsForUser = [];
         $scope.addNewRoomFormIsShown = false;
         $scope.hostComment = "";
         $scope.bookingStatusIsUpdated = false;
 
-        //$scope.userSlug = userSlug;
-        $scope.newRoom = {
-            title: "",
-            content: "",
-            contactPerson: "",
-            webPage: "",
-            hostId: "",
-            startDate: "",
-            endDate: "",
-            nrOfPeople: "",
-            price: "",
-            area: "",
-            startTime: "8",
-            endTime: "17"
+        $scope.initNewRoom = function () {
+            $scope.newRoom = {
+                id: 0,
+                title: "",
+                content: "",
+                contactPerson: $scope.userInfo.displayname,
+                contactEmail: $scope.userInfo.email,
+                contactPhone: $scope.userInfo.phone,
+                hostId: $scope.userInfo.id,
+                cancelDeadline: $scope.userInfo.cancelDeadline,
+                nrOfPeople: "",
+                price: "",
+                area: "",
+                startTime: "",
+                endTime: "",
+                street: "",
+                city: "",
+                status: 'publish',
+                webPage: $scope.userInfo.url,
+                setting: 0,
+                showOnMeetrd: 0,
+                lat: 0,
+                lng: 0,
+                photo: 'http://www.meetrd.se/wp-content/themes/meetrd/layouts/Images/rumsbild-admin-vard.jpg',
+                food: {
+                    src: "",
+                    food: angular.copy($scope.food)
+                },
+                weekdays: {
+                    src: "",
+                    days: angular.copy($scope.weekdays)
+                },
+                equipment: {
+                    src: "",
+                    equipment: angular.copy($scope.equipment)
+                },
+                validation: {
+                    checkingAddress: false,
+                    addressIsValid: true,
+                    endTimeToLittle: false,
+                    roomTypeSelected: true,
+                    isValid: true
+                }
+            };
+        }
 
-        };
 
         $scope.getRoomsForUser = function () {
             hostSvc.getRoomsForUser($scope.userId).then(function (response) {
@@ -367,10 +470,10 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
                         room['hostId'] = room['custom_fields']['wpcf-host-id'][0];
                     }
                     if ('wpcf-nr-of-people' in room['custom_fields']) {
-                        room['nrOfPeople'] = room['custom_fields']['wpcf-nr-of-people'][0];
+                        room['nrOfPeople'] = parseInt(room['custom_fields']['wpcf-nr-of-people'][0]);
                     }
                     if ('wpcf-price' in room['custom_fields']) {
-                        room['price'] = room['custom_fields']['wpcf-price'][0];
+                        room['price'] = parseInt(room['custom_fields']['wpcf-price'][0]);
                     }
                     if ('wpcf-area' in room['custom_fields']) {
                         room['area'] = room['custom_fields']['wpcf-area'][0];
@@ -387,6 +490,29 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
                     if ('wpcf-city' in room['custom_fields']) {
                         room['city'] = room['custom_fields']['wpcf-city'][0];
                     }
+                    if ('wpcf-lat' in room['custom_fields']) {
+                        room['lat'] = parseFloat(room['custom_fields']['wpcf-lat'][0]);
+                    } else {
+                        room['lat'] = 0;
+                    }
+                    if ('wpcf-long' in room['custom_fields']) {
+                        room['lng'] = parseFloat(room['custom_fields']['wpcf-long'][0]);
+                    } else {
+                        room['lng'] = 0;
+                    }
+                    if ('wpcf-room-setting' in room['custom_fields']) {
+                        room['setting'] = parseInt(room['custom_fields']['wpcf-room-setting'][0]);
+                    }
+                    if ('wpcf-show-on-meetrd' in room['custom_fields']) {
+                        room['showOnMeetrd'] = parseInt(room['custom_fields']['wpcf-show-on-meetrd'][0]);
+                    } else {
+                        room['showOnMeetrd'] = 1;
+                    }
+                    if (room.showOnMeetrd === 1) {
+                        room.showOnMeetrd === true;
+                    } else {
+                        room.showOnMeetrd === false;
+                    }
                     if ('wpcf-street-address' in room['custom_fields']) {
                         room['street'] = room['custom_fields']['wpcf-street-address'][0];
                         room['address'] = room.street + ", " + room.city;
@@ -400,27 +526,29 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
                     if ('wpcf-food' in room['custom_fields']) {
                         room['food'] = {
                             src: room['custom_fields']['wpcf-food'][0],
-                            food: $scope.food
+                            food: angular.copy($scope.food)
                         };
                     }
                     if ('wpcf-equipment' in room['custom_fields']) {
                         room['equipment'] = {
                             src: room['custom_fields']['wpcf-equipment'][0],
-                            equipment: $scope.equipment
+                            equipment: angular.copy($scope.equipment)
                         };
                     }
+                    room['validation'] = {
+                        checkingAddress: false,
+                        addressIsValid: false,
+                        endTimeToLittle: false,
+                        roomTypeSelected: true,
+                        isValid: true
+                    };
 
                     $scope.setCheckboxValues(room.weekdays.days, room.weekdays.src);
                     $scope.setCheckboxValues(room.food.food, room.food.src);
                     $scope.setCheckboxValues(room.equipment.equipment, room.equipment.src);
-
-
-
                     room['inEditMode'] = false;
                     $scope.roomsForUser.push(room);
-                    console.log(room.food);
-                    console.log(room.equipment);
-
+                    console.log(room);
                 });
             });
         };
@@ -620,25 +748,35 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc) {
 
         $scope.createRoom = function () {
             //Add predefined variabled
-            $scope.newRoom.contactPerson = $scope.userInfo['email'];
-            $scope.newRoom.hostId = $scope.userInfo.id;
-            hostSvc.getCreationNonce().then(function (response) {
-                hostSvc.createRoom(response, $scope.newRoom).then(function (response) {});
+            //$scope.newRoom.contactPerson = $scope.userInfo['email'];
+            //$scope.newRoom.hostId = $scope.userInfo.id;
+            $scope.setRoomValidity($scope.newRoom);
+            if ($scope.newRoom.validation.isValid) {
+                hostSvc.getCreationNonce().then(function (response) {
+                    hostSvc.createRoom(response, $scope.newRoom).then(function (response) {
+                        console.log(response);
+                        $scope.newRoom.id = response.data.post.id;
+                        $scope.updateRoom($scope.newRoom);
+                    });
 
-            }).catch(function () {
-                console.log('Error in createRoom!');
-            });
+                }).catch(function () {
+                    console.log('Error in createRoom!');
+                });
+            }
         };
 
         $scope.updateRoom = function (room) {
-            hostSvc.getUpdatingNonce().then(function (response) {
-                hostSvc.updateRoom(response, room).then(function (response) {
-                    location.reload();
-                });
+            $scope.setRoomValidity(room);
+            if (room.validation.isValid) {
+                hostSvc.getUpdatingNonce().then(function (response) {
+                    hostSvc.updateRoom(response, room).then(function (response) {
+                        location.reload();
+                    });
 
-            }).catch(function () {
-                console.log('Error in updateRoom!');
-            });
+                }).catch(function () {
+                    console.log('Error in updateRoom!');
+                });
+            }
         };
 
         $scope.setUpdateModalTexts = function (isApproval, booking) {

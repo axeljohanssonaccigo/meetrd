@@ -192,6 +192,11 @@ img {
     /*    color: #fff !important;*/
 }
 
+.btn-primary:active,
+.btn-primary:focus {
+    outline: 0 !important;
+}
+
 .btn-danger {
     background-color: #f1f1f1 !important;
     color: rgb(35, 35, 35) !important;
@@ -359,6 +364,15 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
 .error {
     color: #c9302c;
     font-size: 12px;
+}
+
+.error-big {
+    color: #c9302c;
+    font-size: 16px;
+}
+
+.min-height {
+    min-height: 20px;
 }
 
 .higlight-error {
@@ -1345,6 +1359,34 @@ label.control-label.hidden-xs.hidden-md.hidden-lg {
     font-size: 10px;
     font-style: italic;
 }
+.edit-room textarea {
+    max-height: 146px;
+}
+.edit-room .control-label,
+.add-new-room-form .control-label {
+    margin-bottom: 0;
+}
+.edit-room .separator,
+.add-new-room-form .separator {
+    border-color: transparent;
+}
+.edit-room input[type="checkbox"].form-control,
+.add-new-room-form input[type="checkbox"].form-control,
+.edit-room input[type="radio"].form-control,
+.add-new-room-form input[type="radio"].form-control {
+    height: 20px;
+    width: 20px;
+    margin-top: 0 !important;
+    cursor: pointer;
+}
+.edit-room a,
+.add-new-room-form a {
+    color: rgb(230, 0, 138) !important;
+}
+h3.edit-room-heading {}
+.user-creds-container textarea {
+    max-height: 146px;
+}
 
 /* page-admin.php */
 .user {
@@ -1817,6 +1859,10 @@ label.control-label.hidden-xs.hidden-md.hidden-lg {
     
     .search-result-message {
         width: 100%;
+    }
+    
+    h3.edit-room-heading {
+        font-size: 20px !important;
     }
 }
 @media(max-width: 991px) {
