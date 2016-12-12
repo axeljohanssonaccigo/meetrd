@@ -391,6 +391,14 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             if ('wpcf-city' in room['custom_fields']) {
                 room['city'] = room['custom_fields']['wpcf-city'][0];
             }
+            if ('wpcf-postal-city' in room['custom_fields']) {
+                room['postalCity'] = room['custom_fields']['wpcf-postal-city'][0];
+            } else {
+                room['postalCity'] = '';
+            }
+            if (room.postalCity === '') {
+                room.postalCity = angular.copy(room.city);
+            }
             if ('wpcf-show-on-meetrd' in room['custom_fields']) {
                 room['showOnMeetrd'] = parseInt(room['custom_fields']['wpcf-show-on-meetrd'][0]);
             } else {
@@ -403,7 +411,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
             }
             if ('wpcf-street-address' in room['custom_fields']) {
                 room['street'] = room['custom_fields']['wpcf-street-address'][0];
-                room['address'] = room.street + ", " + room.city;
+                room['address'] = room.street + ", " + room.postalCity;
             }
             if ('wpcf-lat' in room['custom_fields']) {
                 room['lat'] = parseFloat(room['custom_fields']['wpcf-lat'][0]);
@@ -421,7 +429,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 name: room.company,
                 city: room.city,
                 street: room.street,
-                address: room.street.concat(', ').concat(room.city),
+                address: room.street.concat(', ').concat(room.postalCity),
                 coordinates: {
                     lat: room.lat,
                     lng: room.lng

@@ -37,55 +37,60 @@ get_header();
                         <div class="room-list grey-section clearfix user-content-container" ng-show="tabs.roomTab.isOpen">
 
                             <div class="col-xs-12">
-                                <button class="btn btn-primary btn-sm" type="button" ng-click="addNewRoom = !addNewRoom">
+                                <button class="btn btn-primary btn-sm" type="button" ng-click="showOrHideNewRoom()">
                                     <span ng-hide="addNewRoom"><i class="fa fa-plus"></i>&nbsp;Skapa nytt rum</span><span ng-show="addNewRoom"><i class="fa fa-minus"></i>&nbsp;Dölj nytt rum</span>
                                 </button>
                             </div>
-                            <div class="add-new-room-form" ng-show="addNewRoom">
+                            <div ng-show="newRoom.validation.isUpdating" class="col-xs-12">
+                                <meetrd-loader></meetrd-loader>
+                            </div>
 
-                                <form ng-submit="createRoom()" name="addNewRoomForm">
+                            <div class="add-new-room-form" ng-show="addNewRoom">
+                                <form ng-submit="createRoom()" name="forms.addNewRoomForm" id="forms.addNewRoomForm" ng-hide="newRoom.validation.isUpdating" novalidate>
                                     <div class="col-xs-12 col-md-12">
                                         <label for="title" class="control-label">Namn</label>
                                         <input type="text" class="form-control" name="title" ng-model="newRoom.title" required>
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.title.$error.required && addNewRoomForm.title.$dirty" class="error">
+                                            <span ng-show="forms.addNewRoomForm.title.$error.required && forms.addNewRoomForm.title.$dirty" class="error">
                                                 Ange namn
                                             </span>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-md-12">
                                         <label for="photo" class="control-label">Foto</label>
-                                        <div>För att lägga till ett foto, bifoga fotot i ett mail och skicka till <a href="mailto:support@meetrd.se">support@meetrd.se</a></div>
+                                        <div>För att lägga till ett foto, klicka <a href="mailto:support@meetrd.se">här!</a></div>
                                         <div class="min-height"></div>
                                     </div>
                                     <div class="col-xs-12 col-md-12">
                                         <label for="description" class="control-label">Beskrivning</label>
                                         <textarea class="form-control" rows="6" name="description" ng-model="newRoom.content" required></textarea>
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.description.$error.required && addNewRoomForm.description.$dirty" class="error">
+                                            <span ng-show="forms.addNewRoomForm.description.$error.required && forms.addNewRoomForm.description.$dirty" class="error">
                                                 Ange beskrivning
                                             </span>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-md-6">
-                                        <label for="startTime" class="control-label">Rummet öppnar (Hel eller halv timme, ex: 9.30)</label>
-                                        <input type="text" class="form-control" name="startTime" ng-model="newRoom.startTime" required>
+                                        <label for="startTime" class="control-label">Rummet öppnar</label>
+                                        <select id="startTime" name="startTime" ng-change="setEndTimeSlots(newRoom)" ng-model="newRoom.startTime" class="form-control" ng-options="slot.slot for slot in newRoom.startTimeSlots track by slot.slotFloat" required>
+                                        </select>
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.startTime.$dirty">
-                                                <span ng-show="addNewRoomForm.startTime.$error.required || addNewRoomForm.startTime.$error.number" class="error">
-                                                    Ange öppningstid, hel eller halv timme. Ex: 10.30 
+                                            <span ng-show="forms.addNewRoomForm.startTime.$dirty">
+                                                <span ng-show="forms.addNewRoomForm.startTime.$error.required" class="error">
+                                                    Ange öppningstid
                                                 </span>
                                             </span>
                                         </div>
                                     </div>
 
                                     <div class="col-xs-12 col-md-6">
-                                        <label for="endTime" class="control-label">Rummet stänger (Hel eller halv timme, ex: 17)</label>
-                                        <input type="text" class="form-control" name="endTime" ng-model="newRoom.endTime" required>
+                                        <label for="endTime" class="control-label">Rummet stänger</label>
+                                        <select id="endTime" name="endTime" ng-model="newRoom.endTime" class="form-control" ng-options="slot.slot for slot in newRoom.endTimeSlots | filter:slot.visible='true' track by slot.slotFloat" required>
+                                        </select>
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.endTime.$dirty">
-                                                <span ng-show="addNewRoomForm.endTime.$error.required || addNewRoomForm.endTime.$error.number || endTimeLessThanStartTime(newRoom)" class="error">
-                                                    Ange stängningstid som är senare än starttiden, hel eller halv timme. Ex: 17.30
+                                            <span ng-show="forms.addNewRoomForm.endTime.$dirty">
+                                                <span ng-show="forms.addNewRoomForm.endTime.$error.required" class="error">
+                                                    Ange stängningstid
                                                 </span>
 
                                             </span>
@@ -96,8 +101,8 @@ get_header();
                                         <label for="price" class="control-label">Pris per timme (exkl. moms)</label>
                                         <input type="number" class="form-control" name="price" ng-model="newRoom.price" required>
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.price.$error.required && addNewRoomForm.price.$dirty" class="error">
-                                                Ange pris per timme
+                                            <span ng-show="(forms.addNewRoomForm.price.$error.required || forms.addNewRoomForm.price.$error.number) && forms.addNewRoomForm.price.$dirty" class="error">
+                                                Ange pris i siffror utan mellanslag
                                             </span>
                                         </div>
                                     </div>
@@ -106,8 +111,8 @@ get_header();
                                         <label for="nrOfPeople" class="control-label">Antal personer</label>
                                         <input type="number" class="form-control" name="nrOfPeople" ng-model="newRoom.nrOfPeople" required>
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.nrOfPeople.$error.required && addNewRoomForm.nrOfPeople.$dirty" class="error">
-                                                Ange antal personer
+                                            <span ng-show="(forms.addNewRoomForm.nrOfPeople.$error.required || forms.addNewRoomForm.price.$error.number) && forms.addNewRoomForm.nrOfPeople.$dirty" class="error">
+                                                Ange antal personer i siffror utan mellanslag
                                             </span>
                                         </div>
                                     </div>
@@ -115,22 +120,26 @@ get_header();
                                         <label for="street" class="control-label">Gatuadress</label>
                                         <input type="text" class="form-control" name="street" ng-model="newRoom.street" ng-blur="getCoordinates(newRoom)" required>
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.street.$error.required && addNewRoomForm.street.$dirty" class="error">
+                                            <span ng-show="forms.addNewRoomForm.street.$error.required && forms.addNewRoomForm.street.$dirty" class="error">
                                                 Ange  gatuadress
                                             </span>
-                                            <span class="error" ng-show="!newRoom.validation.checkingAddress && !newRoom.validation.addressIsValid && addNewRoomForm.street.$dirty">
+                                            <span class="error" ng-show="!newRoom.validation.checkingAddress && !newRoom.validation.addressIsValid && forms.addNewRoomForm.street.$dirty">
                                                 Den angivna adressen kunde inte lokaliseras. Har det smugit sig in ett stavfel? 
                                             </span>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-md-6">
-                                        <label for="city" class="control-label">Stad</label>
-                                        <input type="text" class="form-control" name="city" ng-model="newRoom.city" ng-blur="getCoordinates(newRoom)" required>
+                                        <label for="postalCity" class="control-label">Postort</label>
+                                        <input type="text" class="form-control" name="postalCity" ng-model="newRoom.postalCity" ng-blur="getCoordinates(newRoom)" required>
+                                        <!--
+                                        <select id="city" name="city" ng-model="newRoom.city" class="form-control" ng-options="city for city in meetrdCities" ng-blur="getCoordinates(newRoom)" required>
+                                        </select>
+-->
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.city.$error.required && addNewRoomForm.city.$dirty" class="error">
-                                                Ange stad
+                                            <span ng-show="forms.addNewRoomForm.postalCity.$error.required && forms.addNewRoomForm.postalCity.$dirty" class="error">
+                                                Ange postort
                                             </span>
-                                            <span class="error" ng-show="!newRoom.validation.checkingAddress && !newRoom.validation.addressIsValid  && addNewRoomForm.city.$dirty">
+                                            <span class="error" ng-show="!newRoom.validation.checkingAddress && !newRoom.validation.addressIsValid  && forms.addNewRoomForm.postalCity.$dirty">
                                                 Den angivna adressen kunde inte lokaliseras. Har det smugit sig in ett stavfel? 
                                             </span>
                                         </div>
@@ -139,7 +148,7 @@ get_header();
                                         <label for="area" class="control-label">Stadsdel</label>
                                         <input type="text" class="form-control" name="area" ng-model="newRoom.area" required>
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.area.$error.required && addNewRoomForm.area.$dirty" class="error">
+                                            <span ng-show="forms.addNewRoomForm.area.$error.required && forms.addNewRoomForm.area.$dirty" class="error">
                                                 Ange stadsdel
                                             </span>
                                         </div>
@@ -148,7 +157,7 @@ get_header();
                                         <label for="contactPerson" class="control-label">Kontaktperson</label>
                                         <input type="text" class="form-control" name="contactPerson" ng-model="newRoom.contactPerson" required>
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.contactPerson.$error.required && addNewRoomForm.contactPerson.$dirty" class="error">
+                                            <span ng-show="forms.addNewRoomForm.contactPerson.$error.required && forms.addNewRoomForm.contactPerson.$dirty" class="error">
                                                 Ange kontaktperson
                                             </span>
                                         </div>
@@ -157,11 +166,11 @@ get_header();
                                         <label for="contactEmail" class="control-label">Kontakt-email</label>
                                         <input type="email" class="form-control" name="contactEmail" ng-model="newRoom.contactEmail" required>
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.contactEmail.$dirty">
-                                                <span ng-show="addNewRoomForm.contactEmail.$error.required" class="error">
+                                            <span ng-show="forms.addNewRoomForm.contactEmail.$dirty">
+                                                <span ng-show="forms.addNewRoomForm.contactEmail.$error.required" class="error">
                                                     Ange kontakt-email
                                                 </span>
-                                            <span ng-show="addNewRoomForm.contactEmail.$error.email" class="error">
+                                            <span ng-show="forms.addNewRoomForm.contactEmail.$error.email" class="error">
                                                     Ange en korrekt e-mailadress
                                                 </span>
                                             </span>
@@ -171,7 +180,7 @@ get_header();
                                         <label for="contactPhone" class="control-label">Kontakttelefon</label>
                                         <input type="text" class="form-control" name="contactPhone" ng-model="newRoom.contactPhone" required>
                                         <div class="min-height">
-                                            <span ng-show="addNewRoomForm.contactPhone.$error.required && addNewRoomForm.contactPhone.$dirty" class="error">
+                                            <span ng-show="forms.addNewRoomForm.contactPhone.$error.required && forms.addNewRoomForm.contactPhone.$dirty" class="error">
                                                 Ange kontakttelefon
                                             </span>
                                         </div>
@@ -247,7 +256,7 @@ get_header();
 
 
                                     <div class="col-xs-12">
-                                        <button type="submit" class="btn btn-primary form-control button-margin-top" ng-disabled="addNewRoomForm.$invalid">Spara nytt rum</button>
+                                        <button type="submit" class="btn btn-primary form-control button-margin-top" ng-disabled="forms.addNewRoomForm.$invalid">Spara nytt rum</button>
                                     </div>
                                     <div ng-hide="newRoom.validation.isValid" class="error-big col-xs-12 text-center">
 
@@ -259,149 +268,37 @@ get_header();
                                 <h3 class="edit-room-heading">Redigera dina rum    
                                 </h3>
                             </div>
-                            <div class="room" ng-repeat="room in roomsForUser">
+                            <div class="room" ng-repeat="room in roomsForUser | orderBy: ['showOnMeetrd', 'title']">
 
                                 <div class="col-xs-12 col-md-12">
-                                    <h3><a href="{{room.url}}">{{room.title}}</a>
+                                    <h3>
+                                        <a ng-show="room.showOnMeetrd" href="{{room.url}}">{{room.title}}</a>
+                                        <span ng-hide="room.showOnMeetrd">{{room.title}}</span>
+                                        
 									<button type="button" class="btn btn-primary btn-xs" title="Redigera rum" ng-click="editRoom(room.id)"><i class="fa fa-edit fa-1"></i></button></h3>
+
                                     <div ng-show="room.showOnMeetrd">
                                         Publicerat på Meetrd.se</div>
                                     <div ng-show="!room.showOnMeetrd">
-                                        Väntar på godkännande av Meetrd</div>
+                                        Väntar på godkännande av Meetrd
+                                        <div ng-hide="room.showOnMeetrd"><a href="{{room.url}}">Förhandsgranska rum</a></div>
+                                    </div>
                                 </div>
 
 
                                 <div class="host-admin-photo-container col-xs-12 col-md-4">
                                     <img src="{{room.photo}}">
+                                    <div ng-show="room.validation.wasUpdated" class="text-center">
+                                        <h4>{{updateMessage}}</h4>
+                                    </div>
                                 </div>
 
                                 <div class="room-info">
+                                    <div ng-show="room.validation.isUpdating" class="col-xs-12">
+                                        <meetrd-loader></meetrd-loader>
+                                    </div>
                                     <div class="edit-room" ng-show="room.inEditMode">
-                                        <form name="editRoomForm" ng-submit="updateRoom(room)">
-                                            <!--
-                                            <div class="col-xs-12 col-md-12">
-                                                <label for="title" class="control-label">Namn</label>
-                                                <input type="text" class="form-control" name="title" ng-model="room.title" required>
-                                            </div>
-                                            <div class="col-xs-12 col-md-12">
-                                                <label for="photo" class="control-label">Foto</label>
-                                                <div>För att ändra foto, bifoga fotot i ett mail och skicka till <a href="mailto:support@meetrd.se">support@meetrd.se</a></div>
-                                            </div>
-                                            <div class="col-xs-12 col-md-12">
-                                                <label for="description" class="control-label">Beskrivning</label>
-                                                <textarea class="form-control" rows="6" name="description" ng-model="room.content" required></textarea>
-                                            </div>
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="startTime" class="control-label">Rummet öppnar (Hel eller halv timme, ex: 9.30)</label>
-                                                <input type="text" class="form-control" name="startTime" ng-model="room.startTime" required>
-                                            </div>
-
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="endTime" class="control-label">Rummet stänger (Hel eller halv timme, ex: 9)</label>
-                                                <input type="text" class="form-control" name="endTime" ng-model="room.endTime" required>
-                                            </div>
-
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="price" class="control-label">Pris per timme (exkl. moms)</label>
-                                                <input type="text" class="form-control" name="price" ng-model="room.price" required>
-                                            </div>
-
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="nrOfPeople" class="control-label">Antal personer</label>
-                                                <input type="text" class="form-control" name="nrOfPeople" ng-model="room.nrOfPeople" required>
-                                            </div>
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="street" class="control-label">Gatuadress</label>
-                                                <input type="text" class="form-control" name="street" ng-model="room.street" required>
-                                            </div>
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="city" class="control-label">Stad</label>
-                                                <input type="text" class="form-control" name="city" ng-model="room.city" required>
-                                            </div>
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="area" class="control-label">Stadsdel</label>
-                                                <input type="text" class="form-control" name="area" ng-model="room.area" required>
-                                            </div>
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="contactPerson" class="control-label">Kontaktperson</label>
-                                                <input type="text" class="form-control" name="contactPerson" ng-model="room.contactPerson" required>
-                                            </div>
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="contactEmail" class="control-label">Kontakt-email</label>
-                                                <input type="text" class="form-control" name="contactEmail" ng-model="room.contactEmail" required>
-                                            </div>
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="contactPhone" class="control-label">Kontakttelefon</label>
-                                                <input type="text" class="form-control" name="contactPhone" ng-model="room.contactPhone" required>
-                                            </div>
-
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="setting" class="control-label"><i class="fa fa-home fa-lg"></i>&nbsp;Rumstyp</label>
-                                                <div ng-repeat="setting in roomSettings">
-                                                    <div class="row">
-                                                        <div class="col-xs-2 col-sm-1">
-                                                            <input type="radio" value="{{setting.index}}" ng-model="$parent.room.setting" class="form-control">
-                                                        </div>
-                                                        <div class="col-xs-10 col-sm-11">
-                                                            {{setting.value}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="food" class="control-label"><i class="fa fa-cutlery fa-lg"></i> Kan hyras</label>
-                                                <div ng-repeat="day in room.weekdays.days">
-                                                    <div class="row">
-                                                        <div class="col-xs-2">
-
-                                                            <input type="checkbox" ng-model="day.isChecked" class="form-control">
-                                                        </div>
-                                                        <div class="col-xs-10">
-                                                            {{day.displayName}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="separator"></div>
-
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="equipment" class="control-label"><i class="fa fa-paperclip fa-lg"></i> Utrustning</label>
-                                                <div ng-repeat="eq in room.equipment.equipment">
-                                                    <div class="row">
-                                                        <div class="col-xs-2">
-                                                            <input type="checkbox" ng-model="eq.isChecked" class="form-control">
-                                                        </div>
-                                                        <div class="col-xs-10">
-                                                            {{eq.displayName}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="food" class="control-label"><i class="fa fa-cutlery fa-lg"></i> Mat & dryck</label>
-                                                <div ng-repeat="food in room.food.food">
-                                                    <div class="row">
-                                                        <div class="col-xs-2">
-                                                            <input type="checkbox" ng-model="food.isChecked" class="form-control">
-                                                        </div>
-                                                        <div class="col-xs-10">
-                                                            {{food.displayName}}
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="separator"></div>
-
-
-                                            <div class="col-xs-12 col-md-6">
-
-                                                <button type="button" class="btn btn-primary form-control button-margin-top" ng-disabled="editRoomForm.$invalid && !editRoomForm.$dirty" ng-click="updateRoom(room)">Spara ändringar av {{room.title}}</button>
-                                            </div>
--->
+                                        <form name="editRoomForm" ng-submit="updateRoom(room, false)" ng-hide="room.validation.isUpdating">
                                             <div class="col-xs-12 col-md-12">
                                                 <label for="title" class="control-label">Namn</label>
                                                 <input type="text" class="form-control" name="title" ng-model="room.title" required>
@@ -413,7 +310,7 @@ get_header();
                                             </div>
                                             <div class="col-xs-12 col-md-12">
                                                 <label for="photo" class="control-label">Foto</label>
-                                                <div>För att ändra foto, bifoga fotot i ett mail och skicka till <a href="mailto:support@meetrd.se">support@meetrd.se</a></div>
+                                                <div>För att ändra rumsbilden, klicka <a href="mailto:support@meetrd.se">här!</a></div>
                                                 <div class="min-height"></div>
                                             </div>
                                             <div class="col-xs-12 col-md-12">
@@ -426,26 +323,27 @@ get_header();
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-md-6">
-                                                <label for="startTime" class="control-label">Rummet öppnar (Hel eller halv timme, ex: 9.30)</label>
-                                                <input type="text" class="form-control" name="startTime" ng-model="room.startTime" required>
+                                                <label for="startTime" class="control-label">Rummet öppnar</label>
+                                                <select id="startTime" name="startTime" ng-change="setEndTimeSlots(room)" ng-model="room.startTime" class="form-control" ng-options="slot.slot for slot in room.startTimeSlots track by slot.slotFloat" required>
+                                                </select>
                                                 <div class="min-height">
                                                     <span ng-show="editRoomForm.startTime.$dirty">
-                                                <span ng-show="editRoomForm.startTime.$error.required || editRoomForm.startTime.$error.number" class="error">
-                                                    Ange öppningstid, hel eller halv timme. Ex: 10.30 
+                                                <span ng-show="editRoomForm.startTime.$error.required" class="error">
+                                                    Ange öppningstid
                                                 </span>
                                                     </span>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-md-6">
-                                                <label for="endTime" class="control-label">Rummet stänger (Hel eller halv timme, ex: 17)</label>
-                                                <input type="text" class="form-control" name="endTime" ng-model="room.endTime" required>
+                                                <label for="endTime" class="control-label">Rummet stänger</label>
+                                                <select id="endTime" name="endTime" ng-model="room.endTime" class="form-control" ng-options="slot.slot for slot in room.endTimeSlots | filter:slot.visible='true' track by slot.slotFloat" required>
+                                                </select>
                                                 <div class="min-height">
                                                     <span ng-show="editRoomForm.endTime.$dirty">
-                                                <span ng-show="editRoomForm.endTime.$error.required || editRoomForm.endTime.$error.number" class="error">
-                                                    Ange stängningstid som är senare än starttiden, hel eller halv timme. Ex: 17.30
+                                                <span ng-show="editRoomForm.endTime.$error.required" class="error">
+                                                    Ange stängningstid
                                                 </span>
-
                                                     </span>
                                                 </div>
                                             </div>
@@ -454,8 +352,8 @@ get_header();
                                                 <label for="price" class="control-label">Pris per timme (exkl. moms)</label>
                                                 <input type="number" class="form-control" name="price" ng-model="room.price" required>
                                                 <div class="min-height">
-                                                    <span ng-show="editRoomForm.price.$error.required && editRoomForm.price.$dirty" class="error">
-                                                Ange pris per timme
+                                                    <span ng-show="(editRoomForm.price.$error.required || editRoomForm.price.$error.number) && editRoomForm.price.$dirty" class="error">
+                                                 Ange pris i siffror utan mellanslag
                                             </span>
                                                 </div>
                                             </div>
@@ -464,8 +362,8 @@ get_header();
                                                 <label for="nrOfPeople" class="control-label">Antal personer</label>
                                                 <input type="number" class="form-control" name="nrOfPeople" ng-model="room.nrOfPeople" required>
                                                 <div class="min-height">
-                                                    <span ng-show="editRoomForm.nrOfPeople.$error.required && editRoomForm.nrOfPeople.$dirty" class="error">
-                                                Ange antal personer
+                                                    <span ng-show="(editRoomForm.nrOfPeople.$error.required || editRoomForm.nrOfPeople.$error.number) && editRoomForm.nrOfPeople.$dirty" class="error">
+                                                Ange antal personer i siffror utan mellanslag
                                             </span>
                                                 </div>
                                             </div>
@@ -482,11 +380,11 @@ get_header();
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-md-6">
-                                                <label for="city" class="control-label">Stad</label>
-                                                <input type="text" class="form-control" name="city" ng-model="room.city" ng-blur="getCoordinates(room)" required>
+                                                <label for="postalCity" class="control-label">Postort</label>
+                                                <input type="text" class="form-control" name="postalCity" ng-model="room.postalCity" ng-blur="getCoordinates(room)" required>
                                                 <div class="min-height">
-                                                    <span ng-show="editRoomForm.city.$error.required && editRoomForm.city.$dirty" class="error">
-                                                Ange stad
+                                                    <span ng-show="editRoomForm.postalCity.$error.required && editRoomForm.postalCity.$dirty" class="error">
+                                                Ange postort
                                             </span>
                                                     <span class="error" ng-show="!room.validation.checkingAddress && !room.validation.addressIsValid  && editRoomForm.city.$dirty">
                                                 Den angivna adressen kunde inte lokaliseras. Har det smugit sig in ett stavfel? 
@@ -856,6 +754,15 @@ get_header();
                                         </div>
                                         <div class="col-sm-9 col-xs-12">
                                             <input type="text" class="form-control" name="nickname" ng-model="userInfo.nickname" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 no-padding input-container">
+                                        <div class="col-sm-3 col-xs-12">
+                                            <label for="slogan">Presentationsrubrik</label>
+                                            <div class="user-info-help-text">Visas på er värdsida och alla era rum</div>
+                                        </div>
+                                        <div class="col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" name="slogan" ng-model="userInfo.slogan" required>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 no-padding input-container">

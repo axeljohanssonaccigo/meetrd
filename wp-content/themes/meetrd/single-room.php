@@ -25,6 +25,8 @@ $area = $custom_fields['wpcf-area'][0];
 $hostId = $custom_fields['wpcf-host-id'][0];
 $address = $custom_fields['wpcf-street-address'][0];
 $city = $custom_fields['wpcf-city'][0];
+$postalCity = $custom_fields['wpcf-postal-city'][0];
+
 $lat = $custom_fields['wpcf-lat'][0];
 $long = $custom_fields['wpcf-long'][0];
 
@@ -52,6 +54,8 @@ $all_meta_for_host = get_user_meta($hostId);
         var roomContactPhone = '<?php echo $contactPhone; ?>';
         var roomAddress = '<?php echo $address; ?>';
         var roomCity = '<?php echo $city; ?>';
+        var roomPostalCity = '<?php echo $postalCity; ?>';
+
         var roomLat = '<?php echo $lat; ?>';
         var roomLong = '<?php echo $long; ?>';
         var roomPhoto = '<?php echo $photo_url; ?>';

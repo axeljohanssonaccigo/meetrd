@@ -200,7 +200,8 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                             <h1 ng-show="isHostPage"><a href="{{room.url}}">{{room.title}}</a></h1>
 
                                             <!--                                    <span class="hidden-sm hidden-md">{{room.area}} - {{room.city}}</span>-->
-                                            <span class="block-display">{{room.area}} - {{room.city}}</span>
+                                            <span class="block-display" ng-hide="room.postalCity === room.city">{{room.postalCity}} - {{room.city}}</span>
+                                            <span class="block-display" ng-show="room.postalCity === room.city">{{room.area}} - {{room.city}}</span>
 
                                         </div>
                                         <span class="col-xs-12 ng-hide" ng-click="goToRoom(room.url, query.date)"><a href="">{{room.title}}</a></span>

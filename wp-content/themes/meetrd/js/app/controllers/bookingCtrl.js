@@ -468,7 +468,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             var currentSlotFloat = parseFloat(currentSlot);
             for (var i = 0; i <= nrOfSlots; i++) {
                 if ($scope.isHalfHour(currentSlot)) {
-                    currentSlotHour = currentSlotFloat - 0.3;
+                    currentSlotHour = Math.round(currentSlotFloat - 0.3);
                     var slotObject = {
                         slotString: currentSlot,
                         slotFloat: currentSlotFloat,
@@ -514,7 +514,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 "croppedPhoto": roomCroppedPhoto,
                 "website": roomCompanyUrl,
                 "hostName": nickname,
-                "address": roomAddress + ", " + roomCity,
+                "address": '',
                 "setting": $scope.getRoomSetting(),
                 "hostBiography": "",
                 "hostLogotype": "",
@@ -526,6 +526,7 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 "hostEmail": "",
                 "hostSlogan": "",
                 "city": roomCity,
+                "postalCity": roomPostalCity,
                 "lat": parseFloat(roomLat),
                 "lng": parseFloat(roomLong),
                 "bookingOptions": {
@@ -538,6 +539,11 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
                 }
 
             };
+            if (roomPostalCity === '') {
+                $scope.currentRoom.address = roomAddress + ", " + roomCity;
+            } else {
+                $scope.currentRoom.address = roomAddress + ", " + roomPostalCity;
+            }
             $scope.getDisabledDates();
             $scope.setRoomTimeSlots();
             $scope.mapSettings.center.current.lat = $scope.currentRoom.lat;

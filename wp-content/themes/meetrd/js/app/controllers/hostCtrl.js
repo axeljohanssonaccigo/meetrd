@@ -1,4 +1,4 @@
-var hostApp = angular.module('hostApp', []);
+var hostApp = angular.module('hostApp', ['meetrdLoaderDir']);
 
 
 
@@ -28,8 +28,9 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
 
         $scope.userId = userData.data.ID;
         $scope.triedToUpdateUserInfo = false;
+        $scope.meetrdCities = ['Göteborg', 'Malmö', 'Stockholm'];
 
-
+        $scope.forms = {};
         //Get additional userinfo from API
         hostSvc.getUserInfo($scope.userId).then(function (response) {
             $scope.userInfo = response.data;
@@ -83,7 +84,6 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
             $scope.userInfoIsLoaded = true;
             $scope.getRoomsForUser();
             $scope.getBookingsForUser();
-            console.log($scope.userInfo);
 
         });
 
@@ -102,16 +102,17 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
             });
         };
         $scope.roomsForUser = [];
+
         $scope.tabs = {
             bookingTab: {
                 "id": 1,
                 "name": "Bokningar",
-                "isOpen": false
+                "isOpen": true
             },
             roomTab: {
                 "id": 2,
                 "name": "Rum",
-                "isOpen": true
+                "isOpen": false
             },
             userTab: {
                 "id": 3,
@@ -341,11 +342,11 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
         };
 
         $scope.getCoordinates = function (room) {
-            if (room.city !== '' && !isNullOrUndefined(room.city) && room.street !== '' && !isNullOrUndefined(room.street)) {
+            if (room.postalCity !== '' && !isNullOrUndefined(room.postalCity) && room.street !== '' && !isNullOrUndefined(room.street)) {
                 room.validation.checkingAddress = true;
                 var geocoder = new google.maps.Geocoder();
                 geocoder.geocode({
-                    'address': room.street.concat(', ').concat(room.city)
+                    'address': room.street.concat(', ').concat(room.postalCity)
                 }, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         room.lat = results[0].geometry.location.lat();
@@ -354,7 +355,7 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                         $timeout(function () {
                             room.street = results[0].address_components[1].long_name.concat(' ').concat(results[0].address_components[0].long_name);
                             room.area = results[0].address_components[2].long_name;
-                            room.city = results[0].address_components[3].long_name;
+                            room.postalCity = results[0].address_components[3].long_name;
                             room.validation.addressIsValid = true;
                         });
 
@@ -373,6 +374,67 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                 });
 
             }
+        };
+        $scope.isHalfHour = function (hourString) {
+            return parseFloat(hourString) % 1 > 0;
+        };
+
+        //Returns x.5 for numbers equal to x.3 (converting from time to number)
+        $scope.toHalfNumber = function (floatNr) {
+            if (floatNr % 1 > 0) {
+                return floatNr + 0.2; //to 0.5
+            } else {
+                return floatNr;
+            }
+        };
+
+        $scope.setEndTimeSlots = function (room) {
+            if (room.startTime !== '' && !isNullOrUndefined(room.startTime)) {
+                //Compare selected start time with end times
+                angular.forEach(room.endTimeSlots, function (slot) {
+                    if (room.startTime.slotFloat >= slot.slotFloat) {
+                        slot.visible = false;
+                    } else {
+                        slot.visible = true;
+                    }
+                });
+            }
+        };
+
+        $scope.getRoomTimeSlots = function () {
+            var bookableTimeSlots = [];
+            var startTime = $scope.toHalfNumber(0);
+            var endTime = $scope.toHalfNumber(23.30);
+            var nrOfSlots = (endTime - startTime) * 2;
+            var currentSlot = 0;
+            var currentSlotFloat = parseFloat(currentSlot);
+            for (var i = 0; i <= nrOfSlots; i++) {
+                if ($scope.isHalfHour(currentSlot)) {
+                    currentSlotHour = Math.round(currentSlotFloat - 0.3);
+                    var slotObject = {
+                        slotString: currentSlot,
+                        slotFloat: currentSlotFloat,
+                        slot: currentSlotHour.toString().concat(':30'),
+                        visible: true
+                    };
+                    bookableTimeSlots.push(slotObject);
+                    currentSlotFloat += 0.7
+                    currentSlot = currentSlotFloat.toString();
+
+                } else {
+                    currentSlotHour = currentSlotFloat;
+                    var slotObject = {
+                        slotString: currentSlot,
+                        slotFloat: currentSlotFloat,
+                        slot: currentSlotHour.toString().concat(':00'),
+                        visible: true
+                    };
+                    bookableTimeSlots.push(slotObject);
+                    currentSlotFloat += 0.3;
+                    currentSlot = currentSlotFloat.toString()
+                }
+            }
+            return bookableTimeSlots;
         };
 
         $scope.setRoomValidity = function (room) {
@@ -399,9 +461,14 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
         };
 
         $scope.bookingsForUser = [];
-        $scope.addNewRoomFormIsShown = false;
+        $scope.addNewRoom = false;
         $scope.hostComment = "";
         $scope.bookingStatusIsUpdated = false;
+        $scope.updateMessage = '';
+
+        $scope.showOrHideNewRoom = function () {
+            $scope.addNewRoom = !$scope.addNewRoom;
+        }
 
         $scope.initNewRoom = function () {
             $scope.newRoom = {
@@ -420,13 +487,15 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                 endTime: "",
                 street: "",
                 city: "",
+                postalCity: "",
                 status: 'publish',
                 webPage: $scope.userInfo.url,
                 setting: 0,
                 showOnMeetrd: 0,
                 lat: 0,
                 lng: 0,
-                photo: 'http://www.meetrd.se/wp-content/themes/meetrd/layouts/Images/rumsbild-admin-vard.jpg',
+                photo: 'http://www.meetrd.se/wp-content/themes/meetrd/layouts/Images/exempel-rumsbild.jpg',
+                croppedPhoto: 'http://www.meetrd.se/wp-content/themes/meetrd/layouts/Images/exempel-rumsbild-cropped.jpg',
                 food: {
                     src: "",
                     food: angular.copy($scope.food)
@@ -442,11 +511,15 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                 validation: {
                     checkingAddress: false,
                     addressIsValid: true,
-                    endTimeToLittle: false,
                     roomTypeSelected: true,
-                    isValid: true
-                }
+                    isValid: true,
+                    isUpdating: false,
+                    wasUpdated: false
+                },
+                startTimeSlots: $scope.getRoomTimeSlots(),
+                endTimeSlots: $scope.getRoomTimeSlots()
             };
+            $scope.forms.addNewRoomForm.$setPristine();
         }
 
 
@@ -464,7 +537,12 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                         room['contactPhone'] = room['custom_fields']['wpcf-contact-phone'][0];
                     }
                     if ('wpcf-end-time' in room['custom_fields']) {
-                        room['endTime'] = room['custom_fields']['wpcf-end-time'][0];
+                        room['endTime'] = {
+                            slotString: '',
+                            slotFloat: parseFloat(room['custom_fields']['wpcf-end-time'][0]),
+                            slot: '',
+                            visible: true
+                        };
                     }
                     if ('wpcf-host-id' in room['custom_fields']) {
                         room['hostId'] = room['custom_fields']['wpcf-host-id'][0];
@@ -479,7 +557,12 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                         room['area'] = room['custom_fields']['wpcf-area'][0];
                     }
                     if ('wpcf-start-time' in room['custom_fields']) {
-                        room['startTime'] = room['custom_fields']['wpcf-start-time'][0];
+                        room['startTime'] = {
+                            slotString: '',
+                            slotFloat: parseFloat(room['custom_fields']['wpcf-start-time'][0]),
+                            slot: '',
+                            visible: true
+                        };
                     }
                     if ('wpcf-webpage' in room['custom_fields']) {
                         room['webPage'] = room['custom_fields']['wpcf-webpage'][0];
@@ -489,6 +572,9 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                     }
                     if ('wpcf-city' in room['custom_fields']) {
                         room['city'] = room['custom_fields']['wpcf-city'][0];
+                    }
+                    if ('wpcf-postal-city' in room['custom_fields']) {
+                        room['postalCity'] = room['custom_fields']['wpcf-postal-city'][0];
                     }
                     if ('wpcf-lat' in room['custom_fields']) {
                         room['lat'] = parseFloat(room['custom_fields']['wpcf-lat'][0]);
@@ -538,17 +624,20 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                     room['validation'] = {
                         checkingAddress: false,
                         addressIsValid: false,
-                        endTimeToLittle: false,
                         roomTypeSelected: true,
-                        isValid: true
+                        isValid: true,
+                        isUpdating: false,
+                        wasUpdated: false
                     };
+                    room['startTimeSlots'] = $scope.getRoomTimeSlots();
+                    room['endTimeSlots'] = $scope.getRoomTimeSlots();
+                    $scope.setEndTimeSlots(room);
 
                     $scope.setCheckboxValues(room.weekdays.days, room.weekdays.src);
                     $scope.setCheckboxValues(room.food.food, room.food.src);
                     $scope.setCheckboxValues(room.equipment.equipment, room.equipment.src);
                     room['inEditMode'] = false;
                     $scope.roomsForUser.push(room);
-                    console.log(room);
                 });
             });
         };
@@ -700,8 +789,6 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
             var bookingStart = moment(booking.bookingDate).add(parseInt(booking.startTime), 'hours');
             var bookingEnd = moment(booking.bookingDate).add(parseInt(booking.endTime), 'hours');
             var diff = bookingEnd.diff(now);
-            console.log("has booking passed?")
-            console.log(diff < 0);
             return diff < 0;
         };
 
@@ -732,7 +819,6 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
             var diff = now.diff(bookingCreationMoment);
             var oneDay = 1000 * 60 * 60 * 24; //24 h as timestamp (milliseconds)
             //var twomin = 1000*60*2;
-            console.log("is booking outdated? " + pendingBooking.id)
             return diff > oneDay;
         };
 
@@ -747,16 +833,13 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
         };
 
         $scope.createRoom = function () {
-            //Add predefined variabled
-            //$scope.newRoom.contactPerson = $scope.userInfo['email'];
-            //$scope.newRoom.hostId = $scope.userInfo.id;
             $scope.setRoomValidity($scope.newRoom);
             if ($scope.newRoom.validation.isValid) {
+                $scope.newRoom.validation.isUpdating = true;
                 hostSvc.getCreationNonce().then(function (response) {
                     hostSvc.createRoom(response, $scope.newRoom).then(function (response) {
-                        console.log(response);
                         $scope.newRoom.id = response.data.post.id;
-                        $scope.updateRoom($scope.newRoom);
+                        $scope.updateRoom($scope.newRoom, true);
                     });
 
                 }).catch(function () {
@@ -765,16 +848,42 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
             }
         };
 
-        $scope.updateRoom = function (room) {
-            $scope.setRoomValidity(room);
+        $scope.updateRoom = function (room, isNewRoom) {
+            if (!isNewRoom) {
+                $scope.setRoomValidity(room);
+            }
             if (room.validation.isValid) {
+                room.validation.isUpdating = true;
+                room.validation.wasUpdated = false;
                 hostSvc.getUpdatingNonce().then(function (response) {
                     hostSvc.updateRoom(response, room).then(function (response) {
-                        location.reload();
+                        room.validation.isUpdating = false;
+                        room.validation.wasUpdated = true;
+                        room.inEditMode = false;
+                        $timeout(function () {
+                            room.validation.wasUpdated = false;
+                        }, 3000);
+                        if (isNewRoom) {
+                            $scope.addNewRoom = false;
+                            $scope.updateMessage = room.title.concat(' har skapats!');
+                            $scope.initNewRoom();
+                            $scope.roomsForUser.push(room);
+                            //Send notification mail to admin
+                            hostSvc.sendMail('support@meetrd.se', 'Nytt rum upplagt!', 'Ett nytt rum har lagts upp. Yo! =)<br>Namn: '.concat(room.title)).then(function (response) {
+                                console.log('Mail returned true');
+                            }).catch(function () {
+                                console.log('Error send mail');
+                            });
+
+                        } else {
+                            $scope.updateMessage = room.title.concat(' har uppdaterats!');
+                        }
                     });
 
                 }).catch(function () {
                     console.log('Error in updateRoom!');
+                    room.validation.isUpdating = false;
+                    room.validation.wasUpdated = false;
                 });
             }
         };
