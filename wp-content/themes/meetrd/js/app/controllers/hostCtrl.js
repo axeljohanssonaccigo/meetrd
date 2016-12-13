@@ -475,6 +475,7 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                 id: 0,
                 title: "",
                 content: "",
+                url: '',
                 contactPerson: $scope.userInfo.displayname,
                 contactEmail: $scope.userInfo.email,
                 contactPhone: $scope.userInfo.phone,
@@ -839,6 +840,7 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                 hostSvc.getCreationNonce().then(function (response) {
                     hostSvc.createRoom(response, $scope.newRoom).then(function (response) {
                         $scope.newRoom.id = response.data.post.id;
+                        $scope.newRoom.url = response.data.post.url;
                         $scope.updateRoom($scope.newRoom, true);
                     });
 

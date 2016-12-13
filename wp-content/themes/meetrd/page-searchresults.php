@@ -155,7 +155,9 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                     </div>
 
                                     <div class="text-center search-address-message" ng-show="query.address !== null">
-                                        <span class="">{{searchAddressMessage}}&nbsp;&nbsp;&nbsp;</span><span class="btn btn-sm btn-remove" ng-click="resetQueryAddress()" ng-show="query.companyName === null">Visa alla adresser i {{query.city}}</span>
+                                        <span class="">{{searchAddressMessage}}&nbsp;&nbsp;&nbsp;</span>
+                                        <span class="btn btn-sm btn-remove" ng-click="resetQueryAddress()" ng-show="query.companyName === null">Visa alla adresser i {{query.city}}</span>
+                                        <span class="btn btn-sm btn-remove" ng-click="resetQueryAddress()" ng-show="query.companyName !== null && query.nrOfHits < query.nrOfHitsWithoutAddress">Visa {{query.companyName}}s alla rum</span>
                                     </div>
 
                                 </div>

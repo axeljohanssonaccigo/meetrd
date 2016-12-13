@@ -56,17 +56,22 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	if ( $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) )
 		add_action( 'login_head', 'wp_shake_js', 12 );
 
-	?><!DOCTYPE html>
-	<!--[if IE 8]>
+	?>
+    <!DOCTYPE html>
+    <!--[if IE 8]>
 		<html xmlns="http://www.w3.org/1999/xhtml" class="ie8" <?php language_attributes(); ?>>
 	<![endif]-->
-	<!--[if !(IE 8) ]><!-->
-		<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
-	<!--<![endif]-->
-	<head>
-	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
-	<?php
+    <!--[if !(IE 8) ]><!-->
+    <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
+    <!--<![endif]-->
+
+    <head>
+        <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
+        <title>
+            <?php bloginfo('name'); ?> &rsaquo;
+                <?php echo $title; ?>
+        </title>
+        <?php
 
 	wp_admin_css( 'login', true );
 
@@ -77,8 +82,18 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	 */
 	if ( 'loggedout' == $wp_error->get_error_code() ) {
 		?>
-		<script>if("sessionStorage" in window){try{for(var key in sessionStorage){if(key.indexOf("wp-autosave-")!=-1){sessionStorage.removeItem(key)}}}catch(e){}};</script>
-		<?php
+            <script>
+                if ("sessionStorage" in window) {
+                    try {
+                        for (var key in sessionStorage) {
+                            if (key.indexOf("wp-autosave-") != -1) {
+                                sessionStorage.removeItem(key)
+                            }
+                        }
+                    } catch (e) {}
+                };
+            </script>
+            <?php
 	}
 
 	/**
@@ -127,8 +142,12 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	if ( $interim_login ) {
 		$classes[] = 'interim-login';
 		?>
-		<style type="text/css">html{background-color: transparent;}</style>
-		<?php
+                <style type="text/css">
+                    html {
+                        background-color: transparent;
+                    }
+                </style>
+                <?php
 
 		if ( 'success' ===  $interim_login )
 			$classes[] = 'interim-login-success';
@@ -146,11 +165,12 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	$classes = apply_filters( 'login_body_class', $classes, $action );
 
 	?>
-	</head>
-	<body class="login <?php echo esc_attr( implode( ' ', $classes ) ); ?>">
-	<div id="login">
-		<h1><a href="<?php echo esc_url( $login_header_url ); ?>" title="<?php echo esc_attr( $login_header_title ); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
-	<?php
+    </head>
+
+    <body class="login <?php echo esc_attr( implode( ' ', $classes ) ); ?>">
+        <div id="login">
+            <h1><a href="<?php echo esc_url( $login_header_url ); ?>" title="<?php echo esc_attr( $login_header_title ); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
+            <?php
 
 	unset( $login_header_url, $login_header_title );
 
@@ -216,29 +236,36 @@ function login_footer($input_id = '') {
 
 	// Don't allow interim logins to navigate away from the page.
 	if ( ! $interim_login ): ?>
-	<p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr_e( 'Are you lost?' ); ?>"><?php printf( __( '&larr; Back to %s' ), get_bloginfo( 'title', 'display' ) ); ?></a></p>
-	<?php endif; ?>
+                <p id="backtoblog">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr_e( 'Are you lost?' ); ?>">
+                        <?php printf( __( '&larr; Back to %s' ), get_bloginfo( 'title', 'display' ) ); ?>
+                    </a>
+                </p>
+                <?php endif; ?>
 
-	</div>
+        </div>
 
-	<?php if ( !empty($input_id) ) : ?>
-	<script type="text/javascript">
-	try{document.getElementById('<?php echo $input_id; ?>').focus();}catch(e){}
-	if(typeof wpOnload=='function')wpOnload();
-	</script>
-	<?php endif; ?>
+        <?php if ( !empty($input_id) ) : ?>
+            <script type="text/javascript">
+                try {
+                    document.getElementById('<?php echo $input_id; ?>').focus();
+                } catch (e) {}
+                if (typeof wpOnload == 'function') wpOnload();
+            </script>
+            <?php endif; ?>
 
-	<?php
+                <?php
 	/**
 	 * Fires in the login page footer.
 	 *
 	 * @since 3.1.0
 	 */
 	do_action( 'login_footer' ); ?>
-	<div class="clear"></div>
-	</body>
-	</html>
-	<?php
+                    <div class="clear"></div>
+    </body>
+
+    </html>
+    <?php
 }
 
 /**
@@ -248,14 +275,51 @@ function wp_shake_js() {
 	if ( wp_is_mobile() )
 		return;
 ?>
-<script type="text/javascript">
-addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
-function s(id,pos){g(id).left=pos+'px';}
-function g(id){return document.getElementById(id).style;}
-function shake(id,a,d){c=a.shift();s(id,c);if(a.length>0){setTimeout(function(){shake(id,a,d);},d);}else{try{g(id).position='static';wp_attempt_focus();}catch(e){}}}
-addLoadEvent(function(){ var p=new Array(15,30,15,0,-15,-30,-15,0);p=p.concat(p.concat(p));var i=document.forms[0].id;g(i).position='relative';shake(i,p,20);});
-</script>
-<?php
+        <script type="text/javascript">
+            addLoadEvent = function (func) {
+                if (typeof jQuery != "undefined") jQuery(document).ready(func);
+                else if (typeof wpOnload != 'function') {
+                    wpOnload = func;
+                } else {
+                    var oldonload = wpOnload;
+                    wpOnload = function () {
+                        oldonload();
+                        func();
+                    }
+                }
+            };
+
+            function s(id, pos) {
+                g(id).left = pos + 'px';
+            }
+
+            function g(id) {
+                return document.getElementById(id).style;
+            }
+
+            function shake(id, a, d) {
+                c = a.shift();
+                s(id, c);
+                if (a.length > 0) {
+                    setTimeout(function () {
+                        shake(id, a, d);
+                    }, d);
+                } else {
+                    try {
+                        g(id).position = 'static';
+                        wp_attempt_focus();
+                    } catch (e) {}
+                }
+            }
+            addLoadEvent(function () {
+                var p = new Array(15, 30, 15, 0, -15, -30, -15, 0);
+                p = p.concat(p.concat(p));
+                var i = document.forms[0].id;
+                g(i).position = 'relative';
+                shake(i, p, 20);
+            });
+        </script>
+        <?php
 }
 
 /**
@@ -263,8 +327,8 @@ addLoadEvent(function(){ var p=new Array(15,30,15,0,-15,-30,-15,0);p=p.concat(p.
  */
 function wp_login_viewport_meta() {
 	?>
-	<meta name="viewport" content="width=device-width" />
-	<?php
+            <meta name="viewport" content="width=device-width" />
+            <?php
 }
 
 /**
@@ -524,25 +588,32 @@ case 'retrievepassword' :
 
 ?>
 
-<form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="post">
-	<p>
-		<label for="user_login" ><?php _e('Username or Email:') ?><br />
-		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" /></label>
-	</p>
-	<?php
+                <form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="post">
+                    <p>
+                        <label for="user_login">
+                            <?php _e('Username or Email:') ?>
+                                <br />
+                                <input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" />
+                        </label>
+                    </p>
+                    <?php
 	/**
 	 * Fires inside the lostpassword form tags, before the hidden fields.
 	 *
 	 * @since 2.1.0
 	 */
 	do_action( 'lostpassword_form' ); ?>
-	<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
-	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Get New Password'); ?>" /></p>
-</form>
+                        <input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
+                        <p class="submit">
+                            <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Get New Password'); ?>" />
+                        </p>
+                </form>
 
-<p id="nav">
-<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e('Log in') ?></a>
-<?php
+                <p id="nav">
+                    <a href="<?php echo esc_url( wp_login_url() ); ?>">
+                        <?php _e('Log in') ?>
+                    </a>
+                    <?php
 if ( get_option( 'users_can_register' ) ) :
 	$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
 
@@ -550,9 +621,9 @@ if ( get_option( 'users_can_register' ) ) :
 	echo ' | ' . apply_filters( 'register', $registration_url );
 endif;
 ?>
-</p>
+                </p>
 
-<?php
+                <?php
 login_footer('user_login');
 break;
 
@@ -604,7 +675,7 @@ case 'rp' :
 	if ( ( ! $errors->get_error_code() ) && isset( $_POST['pass1'] ) && !empty( $_POST['pass1'] ) ) {
 		reset_password($user, $_POST['pass1']);
 		setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
-		login_header( __( 'Password Reset' ), '<p class="message reset-pass">' . __( 'Your password has been reset.' ) . ' <a href="' . esc_url( wp_login_url() ) . '">' . __( 'Log in' ) . '</a></p>' );
+		login_header( __( 'Password Reset' ), '<p class="message reset-pass">' . __( 'Your password has been reset.' ) . ' <a href="http://www.meetrd.se/?login=true">' . __( 'Log in' ) . '</a></p>' );
 		login_footer();
 		exit;
 	}
@@ -615,31 +686,40 @@ case 'rp' :
 	login_header(__('Reset Password'), '<p class="message reset-pass">' . __('Enter your new password below.') . '</p>', $errors );
 
 ?>
-<form name="resetpassform" id="resetpassform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=resetpass', 'login_post' ) ); ?>" method="post" autocomplete="off">
-	<input type="hidden" id="user_login" value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off" />
+                    <form name="resetpassform" id="resetpassform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=resetpass', 'login_post' ) ); ?>" method="post" autocomplete="off">
+                        <input type="hidden" id="user_login" value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off" />
 
-	<div class="user-pass1-wrap">
-		<p>
-			<label for="pass1"><?php _e( 'New password' ) ?></label>
-		</p>
+                        <div class="user-pass1-wrap">
+                            <p>
+                                <label for="pass1">
+                                    <?php _e( 'New password' ) ?>
+                                </label>
+                            </p>
 
-		<div class="wp-pwd">
-			<span class="password-input-wrapper">
+                            <div class="wp-pwd">
+                                <span class="password-input-wrapper">
 				<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off" aria-describedby="pass-strength-result" />
 			</span>
-			<div id="pass-strength-result" class="hide-if-no-js" aria-live="polite"><?php _e( 'Strength indicator' ); ?></div>
-		</div>
-	</div>
+                                <div id="pass-strength-result" class="hide-if-no-js" aria-live="polite">
+                                    <?php _e( 'Strength indicator' ); ?>
+                                </div>
+                            </div>
+                        </div>
 
-	<p class="user-pass2-wrap">
-		<label for="pass2"><?php _e( 'Confirm new password' ) ?></label><br />
-		<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off" />
-	</p>
+                        <p class="user-pass2-wrap">
+                            <label for="pass2">
+                                <?php _e( 'Confirm new password' ) ?>
+                            </label>
+                            <br />
+                            <input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off" />
+                        </p>
 
-	<p class="description indicator-hint"><?php echo wp_get_password_hint(); ?></p>
-	<br class="clear" />
+                        <p class="description indicator-hint">
+                            <?php echo wp_get_password_hint(); ?>
+                        </p>
+                        <br class="clear" />
 
-	<?php
+                        <?php
 	/**
 	 * Fires following the 'Strength indicator' meter in the user password reset form.
 	 *
@@ -649,13 +729,17 @@ case 'rp' :
 	 */
 	do_action( 'resetpass_form', $user );
 	?>
-	<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>" />
-	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Reset Password'); ?>" /></p>
-</form>
+                            <input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>" />
+                            <p class="submit">
+                                <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Reset Password'); ?>" />
+                            </p>
+                    </form>
 
-<p id="nav">
-<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Log in' ); ?></a>
-<?php
+                    <p id="nav">
+                        <a href="<?php echo esc_url( wp_login_url() ); ?>">
+                            <?php _e( 'Log in' ); ?>
+                        </a>
+                        <?php
 if ( get_option( 'users_can_register' ) ) :
 	$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
 
@@ -663,9 +747,9 @@ if ( get_option( 'users_can_register' ) ) :
 	echo ' | ' . apply_filters( 'register', $registration_url );
 endif;
 ?>
-</p>
+                    </p>
 
-<?php
+                    <?php
 login_footer('user_pass');
 break;
 
@@ -711,16 +795,22 @@ case 'register' :
 	$redirect_to = apply_filters( 'registration_redirect', $registration_redirect );
 	login_header(__('Registration Form'), '<p class="message register">' . __('Register For This Site') . '</p>', $errors);
 ?>
-<form name="registerform" id="registerform" action="<?php echo esc_url( site_url( 'wp-login.php?action=register', 'login_post' ) ); ?>" method="post" novalidate="novalidate">
-	<p>
-		<label for="user_login"><?php _e('Username') ?><br />
-		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr(wp_unslash($user_login)); ?>" size="20" /></label>
-	</p>
-	<p>
-		<label for="user_email"><?php _e('Email') ?><br />
-		<input type="email" name="user_email" id="user_email" class="input" value="<?php echo esc_attr( wp_unslash( $user_email ) ); ?>" size="25" /></label>
-	</p>
-	<?php
+                        <form name="registerform" id="registerform" action="<?php echo esc_url( site_url( 'wp-login.php?action=register', 'login_post' ) ); ?>" method="post" novalidate="novalidate">
+                            <p>
+                                <label for="user_login">
+                                    <?php _e('Username') ?>
+                                        <br />
+                                        <input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr(wp_unslash($user_login)); ?>" size="20" />
+                                </label>
+                            </p>
+                            <p>
+                                <label for="user_email">
+                                    <?php _e('Email') ?>
+                                        <br />
+                                        <input type="email" name="user_email" id="user_email" class="input" value="<?php echo esc_attr( wp_unslash( $user_email ) ); ?>" size="25" />
+                                </label>
+                            </p>
+                            <?php
 	/**
 	 * Fires following the 'Email' field in the user registration form.
 	 *
@@ -728,18 +818,26 @@ case 'register' :
 	 */
 	do_action( 'register_form' );
 	?>
-	<p id="reg_passmail"><?php _e( 'Registration confirmation will be emailed to you.' ); ?></p>
-	<br class="clear" />
-	<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
-	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Register'); ?>" /></p>
-</form>
+                                <p id="reg_passmail">
+                                    <?php _e( 'Registration confirmation will be emailed to you.' ); ?>
+                                </p>
+                                <br class="clear" />
+                                <input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
+                                <p class="submit">
+                                    <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Register'); ?>" />
+                                </p>
+                        </form>
 
-<p id="nav">
-<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Log in' ); ?></a> |
-<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>" title="<?php esc_attr_e( 'Password Lost and Found' ) ?>"><?php _e( 'Lost your password?' ); ?></a>
-</p>
+                        <p id="nav">
+                            <a href="<?php echo esc_url( wp_login_url() ); ?>">
+                                <?php _e( 'Log in' ); ?>
+                            </a> |
+                            <a href="<?php echo esc_url( wp_lostpassword_url() ); ?>" title="<?php esc_attr_e( 'Password Lost and Found' ) ?>">
+                                <?php _e( 'Lost your password?' ); ?>
+                            </a>
+                        </p>
 
-<?php
+                        <?php
 login_footer('user_login');
 break;
 
@@ -802,15 +900,24 @@ default:
 			$message = '<p class="message">' . __('You have logged in successfully.') . '</p>';
 			$interim_login = 'success';
 			login_header( '', $message ); ?>
-			</div>
-			<?php
+                            </div>
+                            <?php
 			/** This action is documented in wp-login.php */
 			do_action( 'login_footer' ); ?>
-			<?php if ( $customize_login ) : ?>
-				<script type="text/javascript">setTimeout( function(){ new wp.customize.Messenger({ url: '<?php echo wp_customize_url(); ?>', channel: 'login' }).send('login') }, 1000 );</script>
-			<?php endif; ?>
-			</body></html>
-<?php		exit;
+                                <?php if ( $customize_login ) : ?>
+                                    <script type="text/javascript">
+                                        setTimeout(function () {
+                                            new wp.customize.Messenger({
+                                                url: '<?php echo wp_customize_url(); ?>',
+                                                channel: 'login'
+                                            }).send('login')
+                                        }, 1000);
+                                    </script>
+                                    <?php endif; ?>
+                                        </body>
+
+                                        </html>
+                                        <?php		exit;
 		}
 
 		if ( ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) ) {
@@ -877,16 +984,21 @@ default:
 	}
 ?>
 
-<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
-	<p>
-		<label for="user_login"><?php _e('Username') ?><br />
-		<input type="text" name="log" id="user_login"<?php echo $aria_describedby_error; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" /></label>
-	</p>
-	<p>
-		<label for="user_pass"><?php _e('Password') ?><br />
-		<input type="password" name="pwd" id="user_pass"<?php echo $aria_describedby_error; ?> class="input" value="" size="20" /></label>
-	</p>
-	<?php
+                                            <form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
+                                                <p>
+                                                    <label for="user_login">
+                                                        <?php _e('Username') ?>
+                                                            <br />
+                                                            <input type="text" name="log" id="user_login" <?php echo $aria_describedby_error; ?> class="input" value="
+                                                            <?php echo esc_attr( $user_login ); ?>" size="20" /></label>
+                                                </p>
+                                                <p>
+                                                    <label for="user_pass">
+                                                        <?php _e('Password') ?>
+                                                            <br />
+                                                            <input type="password" name="pwd" id="user_pass" <?php echo $aria_describedby_error; ?> class="input" value="" size="20" /></label>
+                                                </p>
+                                                <?php
 	/**
 	 * Fires following the 'Password' field in the login form.
 	 *
@@ -894,24 +1006,29 @@ default:
 	 */
 	do_action( 'login_form' );
 	?>
-	<p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <?php esc_attr_e('Remember Me'); ?></label></p>
-	<p class="submit">
-		<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Log In'); ?>" />
-<?php	if ( $interim_login ) { ?>
-		<input type="hidden" name="interim-login" value="1" />
-<?php	} else { ?>
-		<input type="hidden" name="redirect_to" value="<?php echo esc_attr($redirect_to); ?>" />
-<?php 	} ?>
-<?php   if ( $customize_login ) : ?>
-		<input type="hidden" name="customize-login" value="1" />
-<?php   endif; ?>
-		<input type="hidden" name="testcookie" value="1" />
-	</p>
-</form>
+                                                    <p class="forgetmenot">
+                                                        <label for="rememberme">
+                                                            <input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> />
+                                                            <?php esc_attr_e('Remember Me'); ?>
+                                                        </label>
+                                                    </p>
+                                                    <p class="submit">
+                                                        <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Log In'); ?>" />
+                                                        <?php	if ( $interim_login ) { ?>
+                                                            <input type="hidden" name="interim-login" value="1" />
+                                                            <?php	} else { ?>
+                                                                <input type="hidden" name="redirect_to" value="<?php echo esc_attr($redirect_to); ?>" />
+                                                                <?php 	} ?>
+                                                                    <?php   if ( $customize_login ) : ?>
+                                                                        <input type="hidden" name="customize-login" value="1" />
+                                                                        <?php   endif; ?>
+                                                                            <input type="hidden" name="testcookie" value="1" />
+                                                    </p>
+                                            </form>
 
-<?php if ( ! $interim_login ) { ?>
-<p id="nav">
-<?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( $_GET['checkemail'], array( 'confirm', 'newpass' ) ) ) :
+                                            <?php if ( ! $interim_login ) { ?>
+                                                <p id="nav">
+                                                    <?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( $_GET['checkemail'], array( 'confirm', 'newpass' ) ) ) :
 	if ( get_option( 'users_can_register' ) ) :
 		$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
 
@@ -919,49 +1036,51 @@ default:
 		echo apply_filters( 'register', $registration_url ) . ' | ';
 	endif;
 	?>
-	<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>" title="<?php esc_attr_e( 'Password Lost and Found' ); ?>"><?php _e( 'Lost your password?' ); ?></a>
-<?php endif; ?>
-</p>
-<?php } ?>
+                                                        <a href="<?php echo esc_url( wp_lostpassword_url() ); ?>" title="<?php esc_attr_e( 'Password Lost and Found' ); ?>">
+                                                            <?php _e( 'Lost your password?' ); ?>
+                                                        </a>
+                                                        <?php endif; ?>
+                                                </p>
+                                                <?php } ?>
 
-<script type="text/javascript">
-function wp_attempt_focus(){
-setTimeout( function(){ try{
-<?php if ( $user_login ) { ?>
-d = document.getElementById('user_pass');
-d.value = '';
-<?php } else { ?>
-d = document.getElementById('user_login');
-<?php if ( 'invalid_username' == $errors->get_error_code() ) { ?>
-if( d.value != '' )
-d.value = '';
-<?php
+                                                    <script type="text/javascript">
+                                                        function wp_attempt_focus() {
+                                                            setTimeout(function () {
+                                                                try {
+                                                                    <?php if ( $user_login ) { ?>
+                                                                    d = document.getElementById('user_pass');
+                                                                    d.value = '';
+                                                                    <?php } else { ?>
+                                                                    d = document.getElementById('user_login');
+                                                                    <?php if ( 'invalid_username' == $errors->get_error_code() ) { ?>
+                                                                    if (d.value != '')
+                                                                        d.value = '';
+                                                                    <?php
 }
 }?>
-d.focus();
-d.select();
-} catch(e){}
-}, 200);
-}
+                                                                    d.focus();
+                                                                    d.select();
+                                                                } catch (e) {}
+                                                            }, 200);
+                                                        }
 
-<?php if ( !$error ) { ?>
-wp_attempt_focus();
-<?php } ?>
-if(typeof wpOnload=='function')wpOnload();
-<?php if ( $interim_login ) { ?>
-(function(){
-try {
-	var i, links = document.getElementsByTagName('a');
-	for ( i in links ) {
-		if ( links[i].href )
-			links[i].target = '_blank';
-	}
-} catch(e){}
-}());
-<?php } ?>
-</script>
+                                                        <?php if ( !$error ) { ?>
+                                                        wp_attempt_focus();
+                                                        <?php } ?>
+                                                        if (typeof wpOnload == 'function') wpOnload();
+                                                        <?php if ( $interim_login ) { ?> (function () {
+                                                            try {
+                                                                var i, links = document.getElementsByTagName('a');
+                                                                for (i in links) {
+                                                                    if (links[i].href)
+                                                                        links[i].target = '_blank';
+                                                                }
+                                                            } catch (e) {}
+                                                        }());
+                                                        <?php } ?>
+                                                    </script>
 
-<?php
+                                                    <?php
 login_footer();
 break;
 } // end action switch

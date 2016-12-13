@@ -12,11 +12,12 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
         width: 0,
         bannerUrl: ''
     };
+    $scope.homeUrl = location.origin.concat(location.pathname);
+
     $scope.bannerUrls = {
-        mobile: location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-mobile.jpg',
-        desktop: location.href + '/wp-content/themes/meetrd/layouts/Images/meetrd_banner_desktop_2500x1019.jpg'
+        mobile: $scope.homeUrl + '/wp-content/themes/meetrd/layouts/Images/meetrd-banner-mobile.jpg',
+        desktop: $scope.homeUrl + '/wp-content/themes/meetrd/layouts/Images/meetrd_banner_desktop_2500x1019.jpg'
     };
-    $scope.homeUrl = location.href;
     $scope.meetrdFans = [
         {
             name: 'Assa Abloy',
@@ -74,6 +75,18 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
             website: 'http://www.schibsted.com/'
         }
     ];
+
+    $scope.getQueryParams = function () {
+        jQuery.extend({
+            getQueryParameters: function (str) {
+                return (str || document.location.search).replace(/(^\?)/, '').split("&").map(function (n) {
+                    return n = n.split("="), this[n[0]] = n[1], this
+                }.bind({}))[0];
+            }
+        });
+        return jQuery.getQueryParameters();
+
+    };
 
     $scope.defineHostAttributes = function () {
         $scope.allHosts = allHosts;
@@ -249,10 +262,15 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
             $scope.disableDefaultCarouselImageLinks();
             $scope.getAllRoomCarouselPosts();
             $scope.setViewPort();
+            $scope.params = $scope.getQueryParams();
+            if ('login' in $scope.params && $scope.params.login === 'true' && !userIsLoggedIn) {
+                jQuery("#loginButton")[0].click();
+            }
         }
     });
     jQuery(window).resize(function () {
         $scope.setViewPort();
+
     });
 
 });

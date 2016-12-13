@@ -67,6 +67,7 @@ hostApp.service('hostSvc', function ($http) {
                 post_id: room.id,
                 title: room.title,
                 content: room.content,
+                url: room.url,
                 'custom[wpcf-contact-person]': room.contactPerson,
                 'custom[wpcf-contact-email]': room.contactEmail,
                 'custom[wpcf-contact-phone]': room.contactPhone,

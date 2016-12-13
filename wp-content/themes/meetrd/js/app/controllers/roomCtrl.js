@@ -478,7 +478,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
 
                 //Set messagge if company name is chosen
                 if (!isNullOrUndefined($scope.query.companyName)) {
-                    $scope.searchResultMessage = $scope.query.companyName.concat(' har ').concat($scope.query.nrOfHits).concat(' rum');
+                    $scope.searchResultMessage = $scope.query.companyName.concat(' har ').concat($scope.query.nrOfHitsWithoutAddress).concat(' rum');
                     if ($scope.query.nrOfPeople > 0) {
                         $scope.searchResultMessage = $scope.searchResultMessage.concat(' för ').concat($scope.query.nrOfPeople).concat(' eller fler personer ');
                         //                        if ($scope.query.nrOfPeople === 1) {
@@ -547,9 +547,9 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                         //Keep the chosen city
                     }
                     //Else set the city to null
-                    else {
-                        $scope.query.city = null;
-                    }
+                    //                    else {
+                    //                        $scope.query.city = null;
+                    //                    }
                 }
             });
             // $scope.setMapOptions();
@@ -648,7 +648,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 } else {
                     $scope.showSearchResultMessage = true;
                 }
-                if (oldQuery.city !== null && oldQuery.city !== newQuery.city && oldQuery.companyName === newQuery.companyName && !(jQuery.inArray(newQuery.city, companyCities) > -1)) {
+                if (oldQuery.city !== null && newQuery.city !== null && oldQuery.city !== newQuery.city && oldQuery.companyName === newQuery.companyName && !(jQuery.inArray(newQuery.city, companyCities) > -1)) {
                     $scope.query.companyName = null;
                 }
                 if (oldQuery.companyName !== newQuery.companyName) {
