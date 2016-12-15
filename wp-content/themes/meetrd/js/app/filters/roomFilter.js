@@ -14,11 +14,11 @@ angular.module('roomSearchFilter', []).filter('roomFilter', [function () {
             var nrOfHitsWithoutAddress = 0;
 
             //The logix
-//            if (!hasNrOfPeople && !hasCompany && !hasCity) {
-    //                query.isSearchResult = false;
-    //            } else {
-    //                query.isSearchResult = true;
-    //            }
+            //            if (!hasNrOfPeople && !hasCompany && !hasCity) {
+            //                query.isSearchResult = false;
+            //            } else {
+            //                query.isSearchResult = true;
+            //            }
 
 
             angular.forEach(rooms, function (room) {

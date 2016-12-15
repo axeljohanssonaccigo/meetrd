@@ -225,8 +225,11 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                     angular.forEach(response.data.posts, function (room) {
                         $scope.defineRoomAttributes(room, index);
                         index++;
+                        if (room.showOnMeetrd) {
+                            $scope.allRooms.push(room);
+                        }
+
                     });
-                    $scope.allRooms = response.data.posts;
                     $scope.query.shownRooms = 1000;
                     $scope.allRoomsLoaded = true;
                 });
