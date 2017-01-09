@@ -118,7 +118,7 @@ add_action( 'widgets_init', 'meetrd_widgets_init' );
  */
 function meetrd_scripts() {
 
-$version = 1.60;
+$version = 1.65;
 	//Scripts and styles used on all pages
 	//Scripts
 	//angular

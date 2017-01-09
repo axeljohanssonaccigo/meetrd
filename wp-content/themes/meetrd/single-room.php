@@ -213,9 +213,9 @@ $all_meta_for_host = get_user_meta($hostId);
             </div> -->
                                             <div class="separator"></div>
                                             <div class="col-xs-12">
-                                                <button ng-if="userIsLoggedIn && userIsGuest" id="openBookingModal" type="button" class="btn btn-primary col-xs-12" data-toggle="modal" data-target="#bookingModal" ng-disabled="!currentBookingIsSet">Skicka bokningsförfrågan</button>
+                                                <button ng-if="userIsLoggedIn && userIsGuest" id="openBookingModal" type="button" class="btn btn-primary col-xs-12" data-toggle="modal" data-target="#bookingModal" ng-disabled="!currentBookingIsSet" ng-click="registerAnalyticsEvent('Bokning', 'Förfrågan', '2a-Skicka-bokningsförfrågan(inloggad)', 0)">Skicka bokningsförfrågan</button>
 
-                                                <button ng-if="!userIsLoggedIn || (userIsLoggedIn && !userIsGuest)" type="button" class="btn btn-primary col-xs-12" ng-click="showRegisterUserForm()">Skicka bokningsförfrågan</button>
+                                                <button ng-if="!userIsLoggedIn || (userIsLoggedIn && !userIsGuest)" type="button" class="btn btn-primary col-xs-12" ng-click="showRegisterUserForm();registerAnalyticsEvent('Bokning', 'Förfrågan', '2b-Skicka-bokningsförfrågan(ej inloggad)', 0)">Skicka bokningsförfrågan</button>
                                                 <!--
                                                 <div ng-if="userIsLoggedIn && userIsGuest" class="col-xs-12 btn btn-primary" ng-disabled="currentBooking.duration === 0" data-toggle="modal" data-target="#bookingModal">
                                                     Skicka bokningsförfrågan
@@ -236,11 +236,11 @@ $all_meta_for_host = get_user_meta($hostId);
                                                 </div>
                                             </div>
                                             <div class="col-xs-12">
-                                                <div class="btn btn-primary col-xs-12" id="bookingLoginButton"><a href="/wp-login.php" class="simplemodal-login" ng-click="setBookingUrl()">Logga in</a></div>
+                                                <div class="btn btn-primary col-xs-12" id="bookingLoginButton"><a href="/wp-login.php" class="simplemodal-login" ng-click="setBookingUrl();registerAnalyticsEvent('Bokning', 'Förfrågan', '3a-Logga-in-via-bokning', 0)">Logga in</a></div>
                                                 <center>
                                                     <div class="col-xs-12 vertical-spacing">--- eller ---</div>
                                                 </center>
-                                                <div data-toggle="modal" data-backdrop="" data-target="#registerUserModal" class="btn btn-primary col-xs-12" ng-click="setBookingUrl()">SKAPA KONTO</div>
+                                                <div data-toggle="modal" data-backdrop="" data-target="#registerUserModal" class="btn btn-primary col-xs-12" ng-click="setBookingUrl();registerAnalyticsEvent('Bokning', 'Förfrågan', '3b-Skapa-konto-via-bokning', 0)">SKAPA KONTO</div>
                                             </div>
                                         </div>
                                     </div>
@@ -636,8 +636,8 @@ $all_meta_for_host = get_user_meta($hostId);
                                         <div class="modal-footer clearfix">
                                             <div class="row">
                                                 <div ng-show="!bookingWasConfirmed && !triedToConfirmBooking" class="clearfix col-xs-12">
-                                                    <button type="button" class="btn btn-primary col-sm-8 col-xs-12" style="" ng-disabled="bookingForm.$invalid || !phoneNumberIsValid(currentBooking.phone)" ng-click="createBooking()">Bekräfta bokningsförfrågan</button>
-                                                    <button type="button" class="btn btn-danger col-sm-offset-1 col-sm-3 col-xs-12" data-dismiss="modal">Avbryt</button>
+                                                    <button type="button" class="btn btn-primary col-sm-8 col-xs-12" style="" ng-disabled="bookingForm.$invalid || !phoneNumberIsValid(currentBooking.phone)" ng-click="createBooking();registerAnalyticsEvent('Bokning', 'Förfrågan', '4a-Bekräfta-bokningsförfrågan', 0)">Bekräfta bokningsförfrågan</button>
+                                                    <button type="button" class="btn btn-danger col-sm-offset-1 col-sm-3 col-xs-12" data-dismiss="modal" ng-click="registerAnalyticsEvent('Bokning', 'Förfrågan', '4b-Avbryt-bokningsförfrågan', 0)">Avbryt</button>
                                                 </div>
                                                 <div ng-show="bookingWasConfirmed && mailsAreDone" class="clearfix col-xs-12">
                                                     <button class="btn btn-primary col-xs-12 col-md-5" data-dismiss="modal" ng-click="reloadRoomPage()">OK</button>

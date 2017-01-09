@@ -1117,6 +1117,12 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
         };
     };
 
+    $scope.registerAnalyticsEvent = function (category, action, label, value) {
+        if (location.hostname === 'www.meetrd.se') {
+            ga('send', 'event', category, action, label, value);
+        }
+    };
+
     //Document ready
     jQuery(document).ready(function () {
         OnFirstLoad();

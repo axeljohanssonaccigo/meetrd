@@ -140,11 +140,11 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         $scope.setRoomsOnMap = function () {
             $scope.mapSettings.rooms = [];
             angular.forEach($scope.filteredRooms, function (room) {
-                if (!$scope.roomAddressIsOnMap(room.address)) {
+                if (!$scope.roomAddressIsOnMap(room.address) && room.showOnMeetrd) {
                     $scope.mapSettings.rooms.push(room);
                 }
             });
-            $scope.reDrawMap();
+            // $scope.reDrawMap();
         };
 
         $scope.roomAddressIsOnMap = function (address) {
@@ -251,7 +251,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
 
                         //Push to roomsOnMap if the room address is unique
                         var isOnMap = $scope.roomAddressIsOnMap(room.address);
-                        if (!isOnMap) {
+                        if (!isOnMap && room.showOnMeetrd) {
                             $scope.mapSettings.rooms.push(room);
                         }
                     });
@@ -408,9 +408,9 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 room['showOnMeetrd'] = 1;
             }
             if (room.showOnMeetrd === 1) {
-                room.showOnMeetrd === true;
+                room.showOnMeetrd = true;
             } else {
-                room.showOnMeetrd === false;
+                room.showOnMeetrd = false;
             }
             if ('wpcf-street-address' in room['custom_fields']) {
                 room['street'] = room['custom_fields']['wpcf-street-address'][0];
@@ -443,7 +443,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 $scope.allCompanies.push(companyObject);
             }
             //Push unique cities to array
-            if (!angular.isUndefined(room.city) && jQuery.inArray(room.city, $scope.allCities) === -1) {
+            if (!angular.isUndefined(room.city) && room.city !== '' && jQuery.inArray(room.city, $scope.allCities) === -1) {
                 $scope.allCities.push(room.city);
             }
 
@@ -562,7 +562,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         $scope.getCitiesForCompany = function (companyName) {
             var companyCitites = [];
             angular.forEach($scope.allCompanies, function (company) {
-                if (company.name === companyName) {
+                if (company.name === companyName && company.city !== '') {
                     companyCitites.push(company.city);
                 }
             });
@@ -642,6 +642,7 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         };
 
         $scope.$watch('query', function (newQuery, oldQuery) {
+
             //if (!angular.equals(newQuery, oldQuery)) {
             $timeout(function () {
                 //If the city is changed from one to another and the company in query has only one city - then reset company drop
@@ -664,16 +665,18 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 if (!$scope.queriesAreIdentic(newQuery, oldQuery) || $scope.cityIsSetFromParam) {
                     $scope.setRoomsOnMap();
                     $scope.setMapOptions();
+
+                    $scope.reDrawMap();
+                    //Register the query in analytics
+                    $scope.setAnalyticsEventsForQuery(newQuery, oldQuery);
                     if ($scope.mapSettings.rooms.length > 0) {
                         // make sure the rooms are set once for the city from the url, then disable this to not reset the rooms on map.
                         $scope.cityIsSetFromParam = false;
                     }
                 }
+
                 $scope.setSearchResultMessage();
             }, 250);
-            //}
-
-            // 
         }, true);
         $scope.resetSearchQuery();
         $scope.initPage();
@@ -681,5 +684,24 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
         angular.element(document).ready(function () {
             console.log("ereadyy!!");
         });
-    };
+
+        $scope.setAnalyticsEventsForQuery = function (newQuery, oldQuery) {
+            //Nr of people is set and has changed
+            if ($scope.query.nrOfPeople !== '' && $scope.query.nrOfPeople !== null && newQuery.nrOfPeople !== oldQuery.nrOfPeople) {
+                $scope.registerAnalyticsEvent('Bokning', 'Sök', '1a-Antal', 0);
+            }
+            if ($scope.query.city !== null && newQuery.city !== oldQuery.city) {
+                $scope.registerAnalyticsEvent('Bokning', 'Sök', '1b-Stad', 0);
+            }
+            if ($scope.query.companyName !== null && newQuery.companyName !== oldQuery.companyName) {
+                $scope.registerAnalyticsEvent('Bokning', 'Sök', '1c-Företag', 0);
+            }
+        };
+
+        $scope.registerAnalyticsEvent = function (category, action, label, value) {
+            if (location.hostname === 'www.meetrd.se') {
+                ga('send', 'event', category, action, label, value);
+            }
+        };
+    }
 });
