@@ -256,17 +256,17 @@ angular.module('startApp', ['meetrdLoaderDir']).controller('startCtrl', function
     }
 
     jQuery(document).ready(function () {
-        if (jQuery('.parallax').length > 0) {
-            jQuery('#newsletter-parallax.parallax').parallax();
-            //This is the startpage - get all rooms for carousel
-            $scope.disableDefaultCarouselImageLinks();
-            $scope.getAllRoomCarouselPosts();
-            $scope.setViewPort();
-            $scope.params = $scope.getQueryParams();
-            if ('login' in $scope.params && $scope.params.login === 'true' && !userIsLoggedIn) {
-                jQuery("#loginButton")[0].click();
-            }
+        //        if (jQuery('.parallax').length > 0) {
+        //            jQuery('#newsletter-parallax.parallax').parallax();
+        //This is the startpage - get all rooms for carousel
+        $scope.disableDefaultCarouselImageLinks();
+        $scope.getAllRoomCarouselPosts();
+        $scope.setViewPort();
+        $scope.params = $scope.getQueryParams();
+        if ('login' in $scope.params && $scope.params.login === 'true' && !userIsLoggedIn) {
+            jQuery("#loginButton")[0].click();
         }
+        //        }
     });
     jQuery(window).resize(function () {
         $scope.setViewPort();

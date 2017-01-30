@@ -26,31 +26,41 @@ for ($i=0; $i < count($all_hosts); $i++) {
 
     <div id="primary" class="content-area" ng-app="startApp" ng-controller="startCtrl" ng-cloak>
         <main id="main" class="site-main container-fluid row" role="main">
-            <div class="parallax-container row" id="meetrd-banner-container">
-                <div class="container">
-                    <!--HEADING TEXT-->
-                    <div class="col-xs-12 heading-text">
-                        <h1>Mötesrum för det moderna företaget</h1>
-                        <h2>Hyr personliga och prisvärda mötesrum av andra företag</h2>
+            <div class="container-fluid white-section">
+                <div class="heading-text white-section container no-padding-mobile">
+                    <h1 class="hidden-lg hidden-md hidden-sm visible-xs"><span class="highlight">Mötesrum</span><br> för det <br>moderna <br>företaget</h1>
+                    <h1 class="visible-lg visible-md visible-sm hidden-xs"><span class="highlight">Mötesrum</span> för det <br>moderna företaget</h1>
+                    <h2>Hyr <span class="highlight">personliga</span> och <span class="highlight">prisvärda</span><br>mötesrum av andra företag</h2>
+                    <div class="col-xs-12 text-center btn-container-start">
+                        <a href="<?php  echo get_home_url().'/search'; ?>">
+                            <button type="submit" class="btn btn-meetrd btn-lg">Sök mötesrum</button>
+                        </a>
                     </div>
-                    <!-- Search container -->
-                    <div class=" col-xs-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
-                        <div class="col-xs-12 text-center">
-                            <a href="<?php  echo get_home_url().'/search'; ?>">
-                                <button type="submit" class="btn btn-meetrd">Sök mötesrum</button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="parallax" id="meetrd-banner">
-                    <img ng-src="{{viewPort.bannerUrl}}" />
                 </div>
             </div>
+
+            <!--
+            <div class="parallax-container row" id="meetrd-banner-container">
+                <div class="container">
+            <div class="col-xs-12 heading-text">
+                <h1>Mötesrum för det moderna företaget</h1>
+                <h2>Hyr personliga och prisvärda mötesrum av andra företag</h2>
+            </div>
+            <div class=" col-xs-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+                
+            </div>
+    </div>
+
+    <div class="parallax" id="meetrd-banner">
+        <img ng-src="{{viewPort.bannerUrl}}" />
+    </div>
+
+    </div>-->
 
             <div class="container-fluid off-white-section row no-padding-mobile hidden-xs">
                 <div id="meetrd-fans" class="clearfix">
                     <h3>
-                        VI HAR BOKAT GENOM MEETRD.SE
+                        Vi har bokat genom meetrd.se
                     </h3>
                     <div class="fan-logo" ng-repeat="fan in meetrdFans | orderBy: 'name'">
                         <img ng-src="{{fan.logoUrl}}" />
@@ -62,7 +72,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                 <div class="container first-page">
                     <div id="cities" class="clearfix">
                         <h1 class="popular-hosts">
-                            VAR ÄR DITT NÄSTA MÖTE?
+                            Var är ditt nästa möte?
                         </h1>
                         <a href="<?php  echo get_home_url().'/search?city=stockholm'; ?>">
                             <div class="col-md-4 col-sm-4 col-xs-12 city-container">
@@ -96,7 +106,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                 <div class="container first-page">
                     <div id="step-number-container" class="clearfix">
                         <h1 class="popular-hosts">
-                            SÅ ENKELT ÄR DET ATT BOKA MÖTESRUM
+                            Så enkelt är det att boka mötesrum
                         </h1>
                         <div class="col-md-4 col-sm-4 col-xs-12 ">
                             <div class="step-number">
@@ -136,7 +146,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                 <div class="container first-page">
                     <div id="room-carousel">
                         <h1 class="popular-hosts">
-                            VILKET FÖRETAG VILL DU BOKA MÖTESRUM HOS?
+                            Vilket företag vill du boka mötesrum hos?
                         </h1>
                         <div id="popular-hosts-container">
                             <?php dynamic_sidebar( 'hostwidget' ); ?>
@@ -165,7 +175,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
             <div class="container-fluid white-section row">
                 <div class="container first-page">
                     <h1 class="popular-hosts">
-                        BLOGG
+                        Blogg
                     </h1>
                     <div class="blog-posts-container clearfix">
                         <?php get_sidebar(); ?>
