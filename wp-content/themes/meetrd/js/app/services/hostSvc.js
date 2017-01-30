@@ -142,9 +142,11 @@ hostApp.service('hostSvc', function ($http) {
     this.updateUserInfo = function (cookie, userInfo) {
         //Replace all , by ; The url does not take commas.
         userInfo.biography = userInfo.biography.replace(/,/g, ";");
+        userInfo.defaultDenyResponse = userInfo.defaultDenyResponse.replace(/,/g, ";");
+        userInfo.defaultConfirmResponse = userInfo.defaultConfirmResponse.replace(/,/g, ";");
         return $http({
             method: "POST",
-            url: urlPathNameAddOn + '/api/user/update_user_meta_vars/?cookie=' + cookie + '&description="' + userInfo.biography + '"&first_name=' + userInfo.firstname + '&last_name=' + userInfo.lastname + '&nickname=' + userInfo.nickname + '&wpcf-slogan=' + userInfo.slogan + '&wpcf-phone=' + userInfo.phone + '&wpcf-priomail=' + userInfo.email + '&wpcf-cancel-deadline=' + userInfo.cancelDeadline + '&insecure=cool'
+            url: urlPathNameAddOn + '/api/user/update_user_meta_vars/?cookie=' + cookie + '&description="' + userInfo.biography + '"&first_name=' + userInfo.firstname + '&last_name=' + userInfo.lastname + '&nickname=' + userInfo.nickname + '&wpcf-slogan=' + userInfo.slogan + '&wpcf-phone=' + userInfo.phone + '&wpcf-priomail=' + userInfo.email + '&wpcf-cancel-deadline=' + userInfo.cancelDeadline + '&insecure=cool' + '&wpcf-default-deny-response=' + userInfo.defaultDenyResponse + '&wpcf-default-confirm-response=' + userInfo.defaultConfirmResponse
         });
     };
 

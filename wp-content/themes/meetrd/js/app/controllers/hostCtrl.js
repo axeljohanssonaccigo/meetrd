@@ -72,6 +72,17 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
             } else {
                 $scope.userInfo["cancelDeadline"] = 0;
             }
+            if ('wpcf-default-deny-response' in userMetaData) {
+                $scope.userInfo["defaultDenyResponse"] = userMetaData['wpcf-default-deny-response'][0].replace(/"/g, "").replace(/;/g, ",");
+            } else {
+                $scope.userInfo["defaultDenyResponse"] = '';
+            }
+            if ('wpcf-default-confirm-response' in userMetaData) {
+                $scope.userInfo["defaultConfirmResponse"] = userMetaData['wpcf-default-confirm-response'][0].replace(/"/g, "").replace(/;/g, ",");
+            } else {
+                $scope.userInfo["defaultConfirmResponse"] = '';
+            }
+
             //Prioritized email
             if ('wpcf-priomail' in userMetaData && !isNullOrUndefined(userMetaData['wpcf-priomail'][0])) {
                 $scope.userInfo["email"] = userMetaData['wpcf-priomail'][0];
@@ -900,6 +911,7 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                 $scope.currentBookingPrice = booking.price;
                 $scope.updateBookingModalTitle = "Godkänn bokningsförfrågan";
                 $scope.updateBookingModalBody = "Är du säker på att du vill godkänna denna bokningsförfrågan?";
+                $scope.hostComment = angular.copy($scope.userInfo.defaultConfirmResponse);
 
                 //If the booking is rejected
             } else {
@@ -907,6 +919,7 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                 $scope.updateBookingModalTitle = "Neka bokningsförfrågan";
                 $scope.updateBookingModalBody = "Är du säker på att du vill neka denna bokningsförfrågan?";
                 $scope.showUpdateBookingModal = true;
+                $scope.hostComment = angular.copy($scope.userInfo.defaultDenyResponse);
             }
         };
 

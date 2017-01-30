@@ -579,7 +579,8 @@ bookingApp.controller('bookingCtrl', function ($scope, bookingSvc, $uibPosition)
             }
             if ('wpcf-slogan' in hostMetaData) {
                 $scope.currentRoom.hostSlogan = hostMetaData['wpcf-slogan'][0];
-            };
+            }
+
 
             //Get additional host info
             bookingSvc.getUserInfo(hostId).then(function (response) {

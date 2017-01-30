@@ -53,7 +53,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                         VI HAR BOKAT GENOM MEETRD.SE
                     </h3>
                     <div class="fan-logo" ng-repeat="fan in meetrdFans | orderBy: 'name'">
-                        <a href="{{fan.website}}" target="_blank"><img ng-src="{{fan.logoUrl}}" /></a>
+                        <img ng-src="{{fan.logoUrl}}" />
                         <!--      ng-class="{'push-up flip-up': ($index % 2) > 0, 'push-down flip-down': ($index % 2) === 0}"                   -->
                     </div>
                 </div>

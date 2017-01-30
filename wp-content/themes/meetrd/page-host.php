@@ -783,6 +783,24 @@ get_header();
                                             <input class="form-control" name="cancelDeadline" ng-model="userInfo.cancelDeadline" required />
                                         </div>
                                     </div>
+                                    <div class="col-xs-12 no-padding input-container">
+                                        <div class="col-sm-3 col-xs-12">
+                                            <label for="defaultConfirmResponse">Standardsvar vid bekräftad bokning</label>
+                                            <div class="user-info-help-text">Kan redigeras för varje bokning</div>
+                                        </div>
+                                        <div class="col-sm-9 col-xs-12">
+                                            <input class="form-control" name="defaultConfirmResponse" ng-model="userInfo.defaultConfirmResponse" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 no-padding input-container">
+                                        <div class="col-sm-3 col-xs-12">
+                                            <label for="defaultDenyResponse">Standardsvar vid nekad bokning</label>
+                                            <div class="user-info-help-text">Kan redigeras för varje bokning</div>
+                                        </div>
+                                        <div class="col-sm-9 col-xs-12">
+                                            <input class="form-control" name="defaultDenyResponse" ng-model="userInfo.defaultDenyResponse" />
+                                        </div>
+                                    </div>
                                     <div class="col-xs-12">
                                         <h3>Kontaktuppgifter</h3>
                                     </div>
