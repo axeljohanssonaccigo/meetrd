@@ -281,7 +281,7 @@ get_header();
                                             <div class="user-info-help-text">Visas på dina bokningar (kan också redigeras vid bokningstillfället)</div>
                                         </div>
                                         <div class="col-sm-9 col-xs-12">
-                                            <textarea class="form-control" name="biography" ng-model="userInfo.biography" required></textarea>
+                                            <textarea class="form-control" name="biography" ng-model="userInfo.biography"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-xs-12">

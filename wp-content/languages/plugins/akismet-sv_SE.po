@@ -1,14 +1,59 @@
-# Translation of Development (trunk) in Swedish
-# This file is distributed under the same license as the Development (trunk) package.
+# Translation of Plugins - Akismet - Stable (latest release) in Swedish
+# This file is distributed under the same license as the Plugins - Akismet - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-12-15 01:12:10+0000\n"
+"PO-Revision-Date: 2016-09-06 16:49:51+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/1.0-alpha-1100\n"
-"Project-Id-Version: Development (trunk)\n"
+"X-Generator: GlotPress/2.3.0-alpha\n"
+"Language: sv_SE\n"
+"Project-Id-Version: Plugins - Akismet - Stable (latest release)\n"
+
+#: class.akismet.php:455
+msgid "Comment not found."
+msgstr "Kommentaren kunde inte hittas."
+
+#: class.akismet-cli.php:88
+msgid "%d comment could not be checked."
+msgid_plural "%d comments could not be checked."
+msgstr[0] "%d kommentar kunde inte kontrolleras."
+msgstr[1] "%d kommentarer kunde inte kontrolleras."
+
+#: class.akismet-cli.php:85
+msgid "%d comment moved to Spam."
+msgid_plural "%d comments moved to Spam."
+msgstr[0] "%d kommentar markerades som skräppost."
+msgstr[1] "%d kommentarer markerades som skräppost."
+
+#: class.akismet-cli.php:84
+msgid "Processed %d comment."
+msgid_plural "Processed %d comments."
+msgstr[0] "Bearbetade %d kommentar."
+msgstr[1] "Bearbetade %d kommentarer."
+
+#: class.akismet-cli.php:46
+msgid "Comment #%d could not be checked."
+msgstr "Kommentar #%d kunde inte kontrolleras."
+
+#: class.akismet-cli.php:43
+msgid "Failed to connect to Akismet."
+msgstr "Kunde inte ansluta till Akismet."
+
+#: class.akismet-cli.php:39
+msgid "Comment #%d is not spam."
+msgstr "Kommentar #%d är inte skräppost."
+
+#: class.akismet-cli.php:36
+msgid "Comment #%d is spam."
+msgstr "Kommentar #%d är skräppost."
+
+#: views/config.php:32
+msgid "%s false positive"
+msgid_plural "%s false positives"
+msgstr[0] "%s falsk-positiv"
+msgstr[1] "%s falsk-positiva"
 
 #: views/config.php:30
 msgid "%s missed spam"
@@ -16,11 +61,9 @@ msgid_plural "%s missed spam"
 msgstr[0] "%s missad skräppost"
 msgstr[1] "%s missade skräpposter"
 
-#: views/config.php:32
-msgid "%s false positive"
-msgid_plural "%s false positives"
-msgstr[0] "%s falsk-positiv"
-msgstr[1] "%s falsk-positiva"
+#: views/start.php:80
+msgid "Log in or sign up now."
+msgstr "Logga in eller registrera dig nu."
 
 #: views/start.php:66
 msgid "Already have your key? Enter it here."
@@ -34,13 +77,13 @@ msgstr "Ange en API-nyckel"
 msgid "Sign up with a different email address"
 msgstr "Registrera dig med en annan e-postadress"
 
-#: views/start.php:58
-msgid "Sign up for a plan with a different email address"
-msgstr "Registrera dig för en prenumeration med en annan e-postadress"
-
 #: views/start.php:59
 msgid "Use this option to use Akismet independently of your Jetpack connection."
 msgstr "Använd det här alternativet för att använda Akismet avskilt från din Jetpack-anslutning."
+
+#: views/start.php:58
+msgid "Sign up for a plan with a different email address"
+msgstr "Registrera dig för en prenumeration med en annan e-postadress"
 
 #: views/start.php:52
 msgid "Use this account"
@@ -50,13 +93,13 @@ msgstr "Använd detta konto"
 msgid "Akismet eliminates spam from your site. To set up Akismet, select one of the options below."
 msgstr "Akismet eliminerar skräppost på din webbplats. För att komma igång, välj ett av alternativen nedan."
 
-#: views/start.php:15
-msgid "Register for Akismet"
-msgstr "Registrera dig för Akismet"
-
 #: views/start.php:19 views/start.php:34
 msgid "Akismet eliminates spam from your site."
 msgstr "Akismet eliminerar skräppost på din webbplats."
+
+#: views/start.php:15
+msgid "Register for Akismet"
+msgstr "Registrera dig för Akismet"
 
 #: views/start.php:4
 msgid "Akismet eliminates spam from your site. Register below to get started."
@@ -66,10 +109,6 @@ msgstr "Akismet eliminerar skräppost på din webbplats. Registrera dig nedan f�
 msgid "Akismet is now activated. Happy blogging!"
 msgstr "Akismet är nu aktiverat. Trevlig bloggning!"
 
-#: views/start.php:80
-msgid "Log in or sign up now."
-msgstr "Logga in eller registrera dig nu."
-
 #: views/notice.php:81
 msgid "You don&#8217;t have an Akismet plan."
 msgstr "Du har ingen prenumeration för Akismet."
@@ -77,6 +116,10 @@ msgstr "Du har ingen prenumeration för Akismet."
 #: views/notice.php:66
 msgid "Your Akismet subscription is suspended."
 msgstr "Din prenumeration för Akismet är avstängd."
+
+#: views/notice.php:61
+msgid "Your Akismet plan has been cancelled."
+msgstr "Din Akismet-prenumeration har blivit avbruten."
 
 #: views/notice.php:57
 msgid "We cannot process your payment. Please <a href=\"%s\" target=\"_blank\">update your payment details</a>."
@@ -86,27 +129,23 @@ msgstr "Vi kan inte bearbeta din betalning. Vänligen <a href=\"%s\" target=\"_b
 msgid "Please update your payment information."
 msgstr "Vänligen uppdatera din betalinformation."
 
-#: views/notice.php:61
-msgid "Your Akismet plan has been cancelled."
-msgstr "Din Akismet-prenumeration har blivit avbruten."
-
 #: views/notice.php:11
 msgid "<strong>Almost done</strong> - activate Akismet and say goodbye to spam"
 msgstr "<strong>Nästan klart</strong> - aktivera Akismet och vinka adjö till skräppost"
 
-#: class.akismet-admin.php:895
+#: class.akismet-admin.php:893
 msgid "Akismet has saved you %d minute!"
 msgid_plural "Akismet has saved you %d minutes!"
 msgstr[0] "Akismet har sparat dig %d minut!"
 msgstr[1] "Akismet har sparat dig %d minuter!"
 
-#: class.akismet-admin.php:893
+#: class.akismet-admin.php:891
 msgid "Akismet has saved you %d hour!"
 msgid_plural "Akismet has saved you %d hours!"
 msgstr[0] "Akismet har sparat dig %d timme!"
 msgstr[1] "Akismet har sparat dig %d timmar!"
 
-#: class.akismet-admin.php:891
+#: class.akismet-admin.php:889
 msgid "Akismet has saved you %s day!"
 msgid_plural "Akismet has saved you %s days!"
 msgstr[0] "Akismet har sparat dig %s dag!"
@@ -117,10 +156,6 @@ msgstr[1] "Akismet har sparat dig %s dagar!"
 msgid "Akismet filters out spam, so you can focus on more important things."
 msgstr "Akismet filtrerar bort skräppost så att du kan fokusera på viktigare saker."
 
-#: views/notice.php:98
-msgid "Your API key is no longer valid. Please enter a new key or contact support@akismet.com."
-msgstr "Din API-nyckel är inte längre giltig. Vänligen ange en ny nyckel eller kontakta support@akismet.com"
-
 #: views/notice.php:117
 msgid "To continue your service, <a href=\"%s\" target=\"_blank\">upgrade to an Enterprise subscription</a>, which covers an unlimited number of sites."
 msgstr "För att fortsätta din tjänst, <a href=\"%s\" target=\"_blank\">uppgradera till en Enterprise-prenumeration</a>, vilken tillåter användning på obegränsat antal webbplatser"
@@ -128,6 +163,18 @@ msgstr "För att fortsätta din tjänst, <a href=\"%s\" target=\"_blank\">uppgra
 #: views/notice.php:110
 msgid "Your Pro subscription allows the use of Akismet on only one site. Please <a href=\"%s\" target=\"_blank\">purchase additional Pro subscriptions</a> or upgrade to an Enterprise subscription that allows the use of Akismet on unlimited sites."
 msgstr "Din Pro-prenumeration tillåter endast användning av Akismet på en webbplats. Vänligen <a href=\"%s\" target=\"_blank\">köp fler Pro-prenumerationer</a> eller uppgradera till en Enterprise-prenumeration som tillåter användning av Akismet på obegränsat antal webbplatser."
+
+#: views/notice.php:103
+msgid "The connection to akismet.com could not be established. Please refer to <a href=\"%s\" target=\"_blank\">our guide about firewalls</a> and check your server configuration."
+msgstr "Anslutningen till aksimet.com misslyckades. Se <a href=\"%s\" target=\"_blank\">vår guide om brandväggar </a> och kontrollera din serverkonfiguration."
+
+#: views/notice.php:102
+msgid "The API key you entered could not be verified."
+msgstr "Nyckeln du angav kunde inte verifieras."
+
+#: views/notice.php:98
+msgid "Your API key is no longer valid. Please enter a new key or contact support@akismet.com."
+msgstr "Din API-nyckel är inte längre giltig. Vänligen ange en ny nyckel eller kontakta support@akismet.com"
 
 #: views/notice.php:85 views/notice.php:112 views/notice.php:119
 msgid "Please <a href=\"%s\" target=\"_blank\">contact our support team</a> with any questions."
@@ -137,304 +184,65 @@ msgstr "Vänligen <a href=\"%s\" target=\"_blank\">kontakta vårt supportteam</a
 msgid "In 2012, Akismet began using subscription plans for all accounts (even free ones). A plan has not been assigned to your account, and we&#8217;d appreciate it if you&#8217;d <a href=\"%s\" target=\"_blank\">sign into your account</a> and choose one."
 msgstr "Sedan 2012 har Akismet använt prenumerationer för alla konton (även gratisvarianten). Det verkar inte som någon prenumeration har associerats med ditt konto och vi uppskattar om du <a href=\"%s\" target=\"_blank\">loggar in på ditt konto</a> och väljer typ av prenumeration."
 
-#: class.akismet-admin.php:575
-msgid "Akismet was unable to recheck this comment (response: %s)."
-msgstr "Akismet kunde inte kontrollera denna kommentar igen (svar: %s)."
-
-#: class.akismet-admin.php:589
-msgid "%1$s changed the comment status to %2$s."
-msgstr "%1$s ändrade status för kommentaren till %2$s."
-
-#: class.akismet-admin.php:570
-msgid "Akismet was unable to check this comment (response: %s) but will automatically retry later."
-msgstr "Akismet kunde inte kontrollera denna kommentar (svar: %s) men kommer automatiskt att försök igen senare."
-
-#: class.akismet-admin.php:556
-msgid "%s reported this comment as not spam."
-msgstr "%s rapporterade denna kommentar som 'inte skräppost'."
-
-#: class.akismet-admin.php:559
-msgid "This comment was reported as not spam."
-msgstr "Denna kommentar rapporterades som 'inte skräppost'."
-
-#: class.akismet-admin.php:551
-msgid "This comment was reported as spam."
-msgstr "Denna kommentar rapporterades som skräppost."
-
-#: class.akismet-admin.php:548
-msgid "%s reported this comment as spam."
-msgstr "%s rapporterade denna kommentar som skräppost."
-
-#: class.akismet-admin.php:541
-msgid "Akismet cleared this comment."
-msgstr "Akismet godkände denna kommentar."
-
-#: class.akismet-admin.php:544
-msgid "Comment was caught by wp_blacklist_check."
-msgstr "Kommentaren fångades av wp_blacklist_check."
-
-#: class.akismet-admin.php:532
-msgid "Akismet re-checked and caught this comment as spam."
-msgstr "Akismet kontrollerade denna kommentar igen och markerade den som skräppost."
-
-#: class.akismet-admin.php:535
-msgid "Akismet caught this comment as spam."
-msgstr "Akismet markerade denna kommentar som skräppost."
-
-#: class.akismet-admin.php:538
-msgid "Akismet re-checked and cleared this comment."
-msgstr "Akismet kontrollerade denna kommentar igen och godkände den."
-
-#: views/notice.php:102
-msgid "The API key you entered could not be verified."
-msgstr "Nyckeln du angav kunde inte verifieras."
-
-#: views/notice.php:103
-msgid "The connection to akismet.com could not be established. Please refer to <a href=\"%s\" target=\"_blank\">our guide about firewalls</a> and check your server configuration."
-msgstr "Anslutningen till aksimet.com misslyckades. Se <a href=\"%s\" target=\"_blank\">vår guide om brandväggar </a> och kontrollera din serverkonfiguration."
-
-#: views/config.php:72
-msgid "SSL Status"
-msgstr "SSL-status"
-
-#: views/config.php:79 views/config.php:82
-msgid "Disabled."
-msgstr "Inaktiverat."
-
-#: views/config.php:82
-msgid "Your Web server cannot make SSL requests; contact your Web host and ask them to add support for SSL requests."
-msgstr "Din webbserver kan inte skapa SSL-förfrågningar: kontakta ditt webbhotell och be dom lägga till stöd för SSL-förfrågningar."
-
-#: views/config.php:88
-msgid "Temporarily disabled."
-msgstr "Tillfälligt inaktiverat."
-
-#: views/config.php:88
-msgid "Akismet encountered a problem with a previous SSL request and disabled it temporarily. It will begin using SSL for requests again shortly."
-msgstr "Akismet stötte på ett problem med tidigare SSL-förfrågan och inaktiverade stödet tillfälligt. SSL-förfrågningar kommer att upptas inom kort igen."
+#: views/config.php:91
+msgid "All systems functional."
+msgstr "Alla system funktionella."
 
 #: views/config.php:91
 msgid "Enabled."
 msgstr "Aktiverat."
 
-#: views/config.php:91
-msgid "All systems functional."
-msgstr "Alla system funktionella."
+#: views/config.php:88
+msgid "Akismet encountered a problem with a previous SSL request and disabled it temporarily. It will begin using SSL for requests again shortly."
+msgstr "Akismet stötte på ett problem med tidigare SSL-förfrågan och inaktiverade stödet tillfälligt. SSL-förfrågningar kommer att upptas inom kort igen."
 
-#: views/config.php:123
-msgid "Spam in the <a href=\"%1$s\">spam folder</a> older than 1 day is deleted automatically."
-msgid_plural "Spam in the <a href=\"%1$s\">spam folder</a> older than %2$d days is deleted automatically."
-msgstr[0] "Skräppost i <a href=\"%1$s\">skräppostmappen</a> äldre än 1 dag raderas automatiskt."
-msgstr[1] "Skräppost i <a href=\"%1$s\">skräppostmappen</a> äldre än %2$d dagar raderas automatiskt."
+#: views/config.php:88
+msgid "Temporarily disabled."
+msgstr "Tillfälligt inaktiverat."
 
-#. Plugin URI of the plugin/theme
-msgid "http://akismet.com/"
-msgstr "http://akismet.com/"
+#: views/config.php:82
+msgid "Your Web server cannot make SSL requests; contact your Web host and ask them to add support for SSL requests."
+msgstr "Din webbserver kan inte skapa SSL-förfrågningar: kontakta ditt webbhotell och be dom lägga till stöd för SSL-förfrågningar."
 
-#. Description of the plugin/theme
-msgid "Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. It keeps your site protected even while you sleep. To get started: 1) Click the \"Activate\" link to the left of this description, 2) <a href=\"http://akismet.com/get/\">Sign up for an Akismet plan</a> to get an API key, and 3) Go to your Akismet configuration page, and save your API key."
-msgstr "Används av miljontals, Akismet är förmodligen det bästa sättet i världen att <strong>skydda din blogg från skräppost</strong>. Det håller din webbplats skyddad även när du sover. För att komma igång: 1) Klicka på länken \"Aktivera\" till vänster om denna beskrivning, 2) <a href=\"http://akismet.com/get/\">Registrera dig på Akismet</a>. 3) Gå till din konfigurationssida för Akismet och ange din API-nyckel."
+#: views/config.php:79 views/config.php:82
+msgid "Disabled."
+msgstr "Inaktiverat."
 
-#: class.akismet-admin.php:793
-msgid "Please check your <a href=\"%s\">Akismet configuration</a> and contact your web host if problems persist."
-msgstr "Vänligen kontrollera din <a href=\"%s\">konfiguration av Akismet</a> och kontakta ditt webbhotell om problemen består."
+#: views/config.php:72
+msgid "SSL Status"
+msgstr "SSL-status"
 
-#: views/notice.php:18
-msgid "Some comments have not yet been checked for spam by Akismet. They have been temporarily held for moderation and will automatically be rechecked later."
-msgstr "Vissa kommentarer har inte kontrollerats av Akismet än. Dom har tillfälligt placerats i moderationskön och kommer automatiskt att kontrolleras senare."
+#: class.akismet-admin.php:552
+msgid "This comment was reported as not spam."
+msgstr "Denna kommentar rapporterades som 'inte skräppost'."
 
-#: views/notice.php:47
-msgid "Your web host or server administrator has disabled PHP&#8217;s <code>gethostbynamel</code> function.  <strong>Akismet cannot work correctly until this is fixed.</strong>  Please contact your web host or firewall administrator and give them <a href=\"%s\" target=\"_blank\">this information about Akismet&#8217;s system requirements</a>."
-msgstr "Ditt webbhotell eller serveradministratör har inaktiverat PHPs funktion <code>gethostbynamel</code>. <strong>Akismet kommer inte att fungera korrekt tills att detta är åtgärdat.</strong> Vänligen kontakta ditt webbhotell eller brandväggsadministratör och vidarebefordra <a href=\"%s\" target=\"_blank\">följande information om Akismets</a> systemkrav."
+#: class.akismet-admin.php:544
+msgid "This comment was reported as spam."
+msgstr "Denna kommentar rapporterades som skräppost."
 
-#: views/start.php:79
-msgid "Activate Akismet"
-msgstr "Aktivera Akismet"
-
-#: views/start.php:87
-msgid "If you already know your API key."
-msgstr "Om du redan har din API-nyckel."
-
-#: views/start.php:82
-msgid "Get your API key"
-msgstr "Få din API-nyckel"
-
-#: views/start.php:23
-msgid "Your subscription for %s is cancelled"
-msgstr "Din prenumeration för %s är avslutad"
-
-#: views/start.php:30
-msgid "Reactivate Akismet"
-msgstr "Återaktivera Akismet"
-
-#: views/config.php:178
-msgid "Cancelled"
-msgstr "Avslutad"
-
-#: views/config.php:180
-msgid "Suspended"
-msgstr "Suspenderad"
-
-#: views/config.php:182
-msgid "Missing"
-msgstr "Saknas"
-
-#: views/config.php:184
-msgid "No Subscription Found"
-msgstr "Inga prenumerationer funna"
-
-#: views/config.php:186
-msgid "Active"
-msgstr "Aktiv"
-
-#: views/notice.php:76
-msgid "There is a problem with your API key."
-msgstr "Det är problem med din API-nyckel."
-
-#: class.akismet-admin.php:214 views/config.php:110
-msgid "Strictness"
-msgstr "Strikthet"
-
-#: class.akismet-admin.php:214
-msgid "Choose to either discard the worst spam automatically or to always put all spam in spam folder."
-msgstr "Välj att antingen ignorera den värsta skräpposten automatiskt eller att alltid placera all skräppost i skräppostmappen."
-
-#: views/config.php:114
-msgid "Silently discard the worst and most pervasive spam so I never see it."
-msgstr "Förkasta tyst den mest genomgripande skräpposten så att jag slipper se den."
-
-#: views/config.php:115
-msgid "Always put spam in the Spam folder for review."
-msgstr "Placera alltid skräppost i skräppostmappen för granskning."
-
-#: class.akismet-admin.php:213 views/config.php:101
-msgid "Comments"
-msgstr "Kommentarer"
-
-#: views/notice.php:108
-msgid "You&#8217;re using your Akismet key on more sites than your Pro subscription allows."
-msgstr "Du använder din Akismet-nyckel på fler webbplatser än din Pro-prenumeration tillåter."
-
-#: views/notice.php:115
-msgid "You&#8217;re using Akismet on far too many sites for your Pro subscription."
-msgstr "Du använder Akismet på allt för många webbplatser för din Pro-prenumeration."
-
-#: views/notice.php:17
-msgid "Akismet has detected a problem."
-msgstr "Akismet har upptäckt ett problem."
-
-#: views/notice.php:24
-msgid "Akismet %s requires WordPress 3.0 or higher."
-msgstr "Akismet %s kräver WordPress 3.0 eller senare."
-
-#: views/notice.php:27
-msgid "Akismet Error Code: %s"
-msgstr "Akismet felkod: %s"
-
-#. translators: the placeholder is a clickable URL that leads to more
-#. information regarding an error code.
-#: views/notice.php:32
-msgid "For more information: %s"
-msgstr "För mer information: %s"
-
-#: views/notice.php:46
-msgid "Network functions are disabled."
-msgstr "Nätverksfunktioner inaktiverade."
-
-#: views/notice.php:51
-msgid "Akismet can&#8217;t connect to your site."
-msgstr "Akismet kan inte ansluta till din webbplats."
-
-#: views/notice.php:52
-msgid "Your firewall may be blocking Akismet. Please contact your host and refer to <a href=\"%s\" target=\"_blank\">our guide about firewalls</a>."
-msgstr "Din brandvägg kanske blockerar Akismet. Vänligen kontakta ditt webbhotell/serverleverantör och referera till  <a href=\"%s\" target=\"_blank\">vår guide om brandväggar</a>."
-
-#: views/notice.php:62
-msgid "Please visit your <a href=\"%s\" target=\"_blank\">Akismet account page</a> to reactivate your subscription."
-msgstr "Vänligen besök <a href=\"%s\" target=\"_blank\">Akismets kontosida</a> för att återaktivera din prenumeration."
-
-#: views/notice.php:67 views/notice.php:77
-msgid "Please contact <a href=\"%s\" target=\"_blank\">Akismet support</a> for assistance."
-msgstr "Vänligen kontakta <a href=\"%s\" target=\"_blank\">Akismets support</a> för assistans."
-
-#: views/notice.php:72
-msgid "You can help us fight spam and upgrade your account by <a href=\"%s\" target=\"_blank\">contributing a token amount</a>."
-msgstr "Du kan hjälpa oss bekämpa skräppost genom att uppgradera ditt konto och <a href=\"%s\" target=\"_blank\">bidra med en symbolisk summa</a>."
-
-#: views/notice.php:94
-msgid "The key you entered is invalid. Please double-check it."
-msgstr "Din nyckel verkar inte vara korrekt. Kontrollera den igen."
-
-#: views/start.php:7 views/start.php:22 views/start.php:36 views/start.php:45
-msgid "Connected via Jetpack"
-msgstr "Ansluten via Jetpack"
-
-#: views/start.php:86
-msgid "Manually enter an API key"
-msgstr "Ange en API-nyckel manuellt"
-
-#: views/start.php:72 views/start.php:93
-msgid "Use this key"
-msgstr "Använd denna nyckel"
-
-#: views/start.php:37
-msgid "Your subscription for %s is suspended"
-msgstr "Din prenumeration för %s är suspenderad"
-
-#: views/start.php:38
-msgid "No worries! Get in touch and we&#8217;ll sort this out."
-msgstr "Oroa dig inte! Kontakta oss så hjälper vi dig att ordna detta."
-
-#: views/start.php:39
-msgid "Contact Akismet support"
-msgstr "Kontakta Akismets support"
-
-#: views/config.php:113 views/strict.php:3
-msgid "Akismet anti-spam strictness"
-msgstr "Akismet strikthet för antispam-åtgärder"
-
-#: views/strict.php:8
-msgid "Strict: silently discard the worst and most pervasive spam."
-msgstr "Strikt: Förkasta i tysthet det värsta och den mest utbredda skräpposten."
-
-#: views/strict.php:14
-msgid "Safe: always put spam in the Spam folder for review."
-msgstr "Säker: Placera alltid skräppost i skräppostmappen för granskning."
-
-#. Author of the plugin/theme
-msgid "Automattic"
-msgstr "Automattic"
-
-#. Author URI of the plugin/theme
-msgid "http://automattic.com/wordpress-plugins/"
-msgstr "http://automattic.com/wordpress-plugins/"
-
-#: class.akismet-admin.php:70
-msgid "Comment History"
-msgstr "Kommentarshistorik"
-
-#. #-#-#-#-#  tmp-akismet.pot (Akismet 3.1.8a1)  #-#-#-#-#
-#. Plugin Name of the plugin/theme
-#: class.akismet-admin.php:93 class.akismet-admin.php:95
-#: class.akismet-admin.php:850 views/config.php:3
-msgid "Akismet"
-msgstr "Akismet"
-
-#: class.akismet-admin.php:122
-msgid "Remove this URL"
-msgstr "Ta bort denna URL"
-
-#: class.akismet-admin.php:123
-msgid "Removing..."
-msgstr "Tar bort..."
+#: class.akismet-admin.php:125
+msgid "(undo)"
+msgstr "(ångra)"
 
 #: class.akismet-admin.php:124
 msgid "URL removed"
 msgstr "URL borttagen"
 
-#: class.akismet-admin.php:125
-msgid "(undo)"
-msgstr "(ångra)"
+#: class.akismet-admin.php:123
+msgid "Removing..."
+msgstr "Tar bort..."
+
+#. #-#-#-#-#  tmp-akismet.pot (Akismet 3.2)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: class.akismet-admin.php:93 class.akismet-admin.php:95
+#: class.akismet-admin.php:848 views/config.php:3
+msgid "Akismet"
+msgstr "Akismet"
+
+#: class.akismet-admin.php:86 class.akismet-admin.php:209
+#: class.akismet-admin.php:602 views/config.php:56 views/stats.php:2
+msgid "Settings"
+msgstr "Inställningar"
 
 #: class.akismet-admin.php:126
 msgid "Re-adding..."
@@ -462,13 +270,13 @@ msgstr "Ny på Akismet"
 msgid "You need to enter an API key to activate the Akismet service on your site."
 msgstr "Du måste ange en API-nyckel för att aktivera tjänsten från Akismet på din webbplats."
 
-#: class.akismet-admin.php:162
-msgid "Sign up for an account on %s to get an API Key."
-msgstr "Registrera ett konto på %s för att få en API-nyckel."
-
 #: class.akismet-admin.php:169
 msgid "Enter an API Key"
 msgstr "Ange en API-nyckel"
+
+#: class.akismet-admin.php:162
+msgid "Sign up for an account on %s to get an API Key."
+msgstr "Registrera ett konto på %s för att få en API-nyckel."
 
 #: class.akismet-admin.php:172
 msgid "If you already have an API key"
@@ -499,11 +307,6 @@ msgstr "Konfigurera Akismet"
 msgid "On this page, you are able to enter/remove an API key, view account information and view spam stats."
 msgstr "På den här sidan har du möjlighet att ange/ta bort API-nyckel, se kontoinformation och skräppoststatistik."
 
-#: class.akismet-admin.php:86 class.akismet-admin.php:209
-#: class.akismet-admin.php:609 views/config.php:56 views/stats.php:2
-msgid "Settings"
-msgstr "Inställningar"
-
 #: class.akismet-admin.php:212 views/config.php:63
 msgid "API Key"
 msgstr "API-nyckel"
@@ -512,13 +315,21 @@ msgstr "API-nyckel"
 msgid "Enter/remove an API key."
 msgstr "Ange/ta bort en API-nyckel."
 
-#: views/config.php:105
-msgid "Show the number of approved comments beside each comment author"
-msgstr "Visa antalet godkända kommentarer bredvid varje kommentarsförfattare"
+#: class.akismet-admin.php:213 views/config.php:101
+msgid "Comments"
+msgstr "Kommentarer"
 
 #: class.akismet-admin.php:213
 msgid "Show the number of approved comments beside each comment author in the comments list page."
 msgstr "Visa antalet godkända kommentarer bredvid varje kommentarsförfattare på kommentarslistningssidan."
+
+#: class.akismet-admin.php:214
+msgid "Choose to either discard the worst spam automatically or to always put all spam in spam folder."
+msgstr "Välj att antingen ignorera den värsta skräpposten automatiskt eller att alltid placera all skräppost i skräppostmappen."
+
+#: class.akismet-admin.php:214 views/config.php:110
+msgid "Strictness"
+msgstr "Strikthet"
 
 #: class.akismet-admin.php:221 views/config.php:161
 msgid "Account"
@@ -528,25 +339,25 @@ msgstr "Konto"
 msgid "Subscription Type"
 msgstr "Prenumerationstyp"
 
-#: class.akismet-admin.php:224
-msgid "The Akismet subscription plan"
-msgstr "Akismets prenumerationsplan"
+#: class.akismet-admin.php:225
+msgid "The subscription status - active, cancelled or suspended"
+msgstr "Prenumerationsstatus - aktiv, avslutad eller suspenderad"
 
 #: class.akismet-admin.php:225 views/config.php:173
 msgid "Status"
 msgstr "Status"
 
-#: class.akismet-admin.php:225
-msgid "The subscription status - active, cancelled or suspended"
-msgstr "Prenumerationsstatus - aktiv, avslutad eller suspenderad"
-
-#: class.akismet-admin.php:233
-msgid "For more information:"
-msgstr "För mer information:"
+#: class.akismet-admin.php:224
+msgid "The Akismet subscription plan"
+msgstr "Akismets prenumerationsplan"
 
 #: class.akismet-admin.php:234
 msgid "Akismet FAQ"
 msgstr "Vanliga frågor för Akismet"
+
+#: class.akismet-admin.php:233
+msgid "For more information:"
+msgstr "För mer information:"
 
 #: class.akismet-admin.php:235
 msgid "Akismet Support"
@@ -587,49 +398,65 @@ msgstr[1] "Det finns <a href=\"%2$s\">%1$s kommentarer</a> markerade som skräp 
 msgid "There&#8217;s nothing in your <a href='%s'>spam queue</a> at the moment."
 msgstr "Det finns inga poster markerade som <a href='%s'>skräppost</a> för tillfället."
 
+#: class.akismet-admin.php:531
+msgid "Akismet re-checked and cleared this comment."
+msgstr "Akismet kontrollerade denna kommentar igen och godkände den."
+
+#: class.akismet-admin.php:525
+msgid "Akismet re-checked and caught this comment as spam."
+msgstr "Akismet kontrollerade denna kommentar igen och markerade den som skräppost."
+
 #: class.akismet-admin.php:352
 msgid "Check for Spam"
 msgstr "Kolla efter skräppost"
 
-#: class.akismet-admin.php:463
-msgid "Awaiting spam check"
-msgstr "Inväntar skräppostkontroll"
+#: class.akismet-admin.php:568
+msgid "Akismet was unable to recheck this comment (response: %s)."
+msgstr "Akismet kunde inte kontrollera denna kommentar igen (svar: %s)."
 
-#: class.akismet-admin.php:467
+#: class.akismet-admin.php:460
 msgid "Flagged as spam by Akismet"
 msgstr "Flaggat som skräppost av Akismet"
 
-#: class.akismet-admin.php:469
-msgid "Cleared by Akismet"
-msgstr "Godkänd av Akismet"
+#: class.akismet-admin.php:456
+msgid "Awaiting spam check"
+msgstr "Inväntar skräppostkontroll"
 
-#: class.akismet-admin.php:473
+#: class.akismet-admin.php:466
 msgid "Flagged as spam by %s"
 msgstr "Flaggat som skräppost av %s"
 
-#: class.akismet-admin.php:475
+#: class.akismet-admin.php:462
+msgid "Cleared by Akismet"
+msgstr "Godkänd av Akismet"
+
+#: class.akismet-admin.php:468
 msgid "Un-spammed by %s"
 msgstr "Avmarkerat som skräppost av %s"
 
-#: class.akismet-admin.php:487 class.akismet-admin.php:495
-msgid "View comment history"
-msgstr "Visa kommentarshistorik"
-
-#: class.akismet-admin.php:487
-msgid "History"
-msgstr "Historik"
-
-#: class.akismet-admin.php:503
+#: class.akismet-admin.php:496
 msgid "%s approved"
 msgid_plural "%s approved"
 msgstr[0] "%s godkänd"
 msgstr[1] "%s godkända"
 
-#: class.akismet-admin.php:597
+#: class.akismet-admin.php:480
+msgid "History"
+msgstr "Historik"
+
+#: class.akismet-admin.php:480 class.akismet-admin.php:488
+msgid "View comment history"
+msgstr "Visa kommentarshistorik"
+
+#: class.akismet-admin.php:791
+msgid "Please check your <a href=\"%s\">Akismet configuration</a> and contact your web host if problems persist."
+msgstr "Vänligen kontrollera din <a href=\"%s\">konfiguration av Akismet</a> och kontakta ditt webbhotell om problemen består."
+
+#: class.akismet-admin.php:590
 msgid "%s ago"
 msgstr "%s sedan"
 
-#: class.akismet-admin.php:888
+#: class.akismet-admin.php:886
 msgid "Cleaning up spam takes time."
 msgstr "Att rensa upp skräppost tar tid."
 
@@ -641,53 +468,81 @@ msgstr "Akismet widget"
 msgid "Display the number of spam comments Akismet has caught"
 msgstr "Visa antalet skräpkommentarer som Akismet har fångat"
 
-#: class.akismet-widget.php:69
-msgid "Spam Blocked"
-msgstr "Skräpposter blockerade"
-
 #: class.akismet-widget.php:74
 msgid "Title:"
 msgstr "Titel:"
 
-#: class.akismet-widget.php:98
+#: class.akismet-widget.php:69 class.akismet-widget.php:90
+msgid "Spam Blocked"
+msgstr "Skräpposter blockerade"
+
+#: class.akismet-widget.php:102
 msgid "<strong class=\"count\">%1$s spam</strong> blocked by <strong>Akismet</strong>"
 msgid_plural "<strong class=\"count\">%1$s spam</strong> blocked by <strong>Akismet</strong>"
 msgstr[0] "<strong class=\"count\">%1$s skräppost</strong> blockerad av <strong>Akismet</strong>"
 msgstr[1] "<strong class=\"count\">%1$s skräpposter</strong> blockerade av <strong>Akismet</strong>"
 
-#: class.akismet-admin.php:583
+#: class.akismet-admin.php:528
+msgid "Akismet caught this comment as spam."
+msgstr "Akismet markerade denna kommentar som skräppost."
+
+#: class.akismet-admin.php:576
 msgid "Comment status was changed to %s"
 msgstr "Kommentarsstatus ändrades till %s"
 
+#: class.akismet-admin.php:534
+msgid "Akismet cleared this comment."
+msgstr "Akismet godkände denna kommentar."
+
+#: class.akismet-admin.php:537
+msgid "Comment was caught by wp_blacklist_check."
+msgstr "Kommentaren fångades av wp_blacklist_check."
+
 #: class.akismet-admin.php:563
+msgid "Akismet was unable to check this comment (response: %s) but will automatically retry later."
+msgstr "Akismet kunde inte kontrollera denna kommentar (svar: %s) men kommer automatiskt att försök igen senare."
+
+#: class.akismet-admin.php:582
+msgid "%1$s changed the comment status to %2$s."
+msgstr "%1$s ändrade status för kommentaren till %2$s."
+
+#: class.akismet-admin.php:541
+msgid "%s reported this comment as spam."
+msgstr "%s rapporterade denna kommentar som skräppost."
+
+#: class.akismet-admin.php:549
+msgid "%s reported this comment as not spam."
+msgstr "%s rapporterade denna kommentar som 'inte skräppost'."
+
+#: class.akismet-admin.php:556
 msgid "Akismet caught this comment as spam during an automatic retry."
 msgstr "Akismet fångade den här kommentaren som skräpport under en automatisk körning."
 
-#: class.akismet-admin.php:566
+#: class.akismet-admin.php:559
 msgid "Akismet cleared this comment during an automatic retry."
 msgstr "Akismet godkände den här kommentaren under en automatisk skanning."
 
-#: class.akismet.php:1037
-msgid "Akismet %s requires WordPress %s or higher."
-msgstr "Akismet %s kräver WordPress %s eller senare."
-
-#: class.akismet.php:1037 views/notice.php:24
+#: class.akismet.php:1142 views/notice.php:24
 msgid "Please <a href=\"%1$s\">upgrade WordPress</a> to a current version, or <a href=\"%2$s\">downgrade to version 2.4 of the Akismet plugin</a>."
 msgstr "Vänligen <a href=\"%1$s\">uppdatera WordPress</a> till aktuell version eller <a href=\"%2$s\">använd version 2.4 av tillägget Akismet</a>."
 
-#: views/config.php:12
-msgid "Summaries"
-msgstr "Sammanfattningar"
-
-#: views/config.php:18
-msgid "Past six months"
-msgstr "Senaste sex månaderna"
+#: class.akismet.php:1142
+msgid "Akismet %s requires WordPress %s or higher."
+msgstr "Akismet %s kräver WordPress %s eller senare."
 
 #: views/config.php:20 views/config.php:25
 msgid "Spam blocked"
 msgid_plural "Spam blocked"
 msgstr[0] "Skräppost blockerad"
 msgstr[1] ""
+
+#: views/config.php:18
+msgid "Past six months"
+msgstr "Senaste sex månaderna"
+
+#: views/config.php:12
+msgid "Summaries"
+msgstr "Sammanfattningar"
 
 #: views/config.php:23
 msgid "All time"
@@ -701,21 +556,63 @@ msgstr "Precision"
 msgid "Show approved comments"
 msgstr "Visa godkända kommentarer"
 
+#: views/config.php:105
+msgid "Show the number of approved comments beside each comment author"
+msgstr "Visa antalet godkända kommentarer bredvid varje kommentarsförfattare"
+
+#: views/config.php:113 views/strict.php:3
+msgid "Akismet anti-spam strictness"
+msgstr "Akismet strikthet för antispam-åtgärder"
+
+#: views/config.php:114
+msgid "Silently discard the worst and most pervasive spam so I never see it."
+msgstr "Förkasta tyst den mest genomgripande skräpposten så att jag slipper se den."
+
+#: views/config.php:115
+msgid "Always put spam in the Spam folder for review."
+msgstr "Placera alltid skräppost i skräppostmappen för granskning."
+
+#: views/config.php:123
+msgid "Spam in the <a href=\"%1$s\">spam folder</a> older than 1 day is deleted automatically."
+msgid_plural "Spam in the <a href=\"%1$s\">spam folder</a> older than %2$d days is deleted automatically."
+msgstr[0] "Skräppost i <a href=\"%1$s\">skräppostmappen</a> äldre än 1 dag raderas automatiskt."
+msgstr[1] "Skräppost i <a href=\"%1$s\">skräppostmappen</a> äldre än %2$d dagar raderas automatiskt."
+
 #: views/config.php:117
 msgid "Note:"
 msgstr "Notering:"
 
-#: views/config.php:142
-msgid "Disconnect this account"
-msgstr "Koppla från detta konto"
+#: views/config.php:178
+msgid "Cancelled"
+msgstr "Avslutad"
 
 #: views/config.php:148
 msgid "Save Changes"
 msgstr "Spara ändringar"
 
+#: views/config.php:142
+msgid "Disconnect this account"
+msgstr "Koppla från detta konto"
+
+#: views/config.php:180
+msgid "Suspended"
+msgstr "Suspenderad"
+
+#: views/config.php:184
+msgid "No Subscription Found"
+msgstr "Inga prenumerationer funna"
+
+#: views/config.php:182
+msgid "Missing"
+msgstr "Saknas"
+
 #: views/config.php:192
 msgid "Next Billing Date"
 msgstr "Nästa faktureringsdatum"
+
+#: views/config.php:186
+msgid "Active"
+msgstr "Aktiv"
 
 #: views/config.php:204
 msgid "Upgrade"
@@ -728,3 +625,145 @@ msgstr "Ändra"
 #: views/notice.php:8
 msgid "Activate your Akismet account"
 msgstr "Aktivera ditt konto för Akismet"
+
+#: views/notice.php:17
+msgid "Akismet has detected a problem."
+msgstr "Akismet har upptäckt ett problem."
+
+#: views/notice.php:18
+msgid "Some comments have not yet been checked for spam by Akismet. They have been temporarily held for moderation and will automatically be rechecked later."
+msgstr "Vissa kommentarer har inte kontrollerats av Akismet än. Dom har tillfälligt placerats i moderationskön och kommer automatiskt att kontrolleras senare."
+
+#: views/notice.php:24
+msgid "Akismet %s requires WordPress 3.0 or higher."
+msgstr "Akismet %s kräver WordPress 3.0 eller senare."
+
+#: views/notice.php:27
+msgid "Akismet Error Code: %s"
+msgstr "Akismet felkod: %s"
+
+#. translators: the placeholder is a clickable URL that leads to more
+#. information regarding an error code.
+#: views/notice.php:32
+msgid "For more information: %s"
+msgstr "För mer information: %s"
+
+#: views/notice.php:47
+msgid "Your web host or server administrator has disabled PHP&#8217;s <code>gethostbynamel</code> function.  <strong>Akismet cannot work correctly until this is fixed.</strong>  Please contact your web host or firewall administrator and give them <a href=\"%s\" target=\"_blank\">this information about Akismet&#8217;s system requirements</a>."
+msgstr "Ditt webbhotell eller serveradministratör har inaktiverat PHPs funktion <code>gethostbynamel</code>. <strong>Akismet kommer inte att fungera korrekt tills att detta är åtgärdat.</strong> Vänligen kontakta ditt webbhotell eller brandväggsadministratör och vidarebefordra <a href=\"%s\" target=\"_blank\">följande information om Akismets</a> systemkrav."
+
+#: views/notice.php:46
+msgid "Network functions are disabled."
+msgstr "Nätverksfunktioner inaktiverade."
+
+#: views/notice.php:51
+msgid "Akismet can&#8217;t connect to your site."
+msgstr "Akismet kan inte ansluta till din webbplats."
+
+#: views/notice.php:52
+msgid "Your firewall may be blocking Akismet. Please contact your host and refer to <a href=\"%s\" target=\"_blank\">our guide about firewalls</a>."
+msgstr "Din brandvägg kanske blockerar Akismet. Vänligen kontakta ditt webbhotell/serverleverantör och referera till  <a href=\"%s\" target=\"_blank\">vår guide om brandväggar</a>."
+
+#: views/notice.php:62
+msgid "Please visit your <a href=\"%s\" target=\"_blank\">Akismet account page</a> to reactivate your subscription."
+msgstr "Vänligen besök <a href=\"%s\" target=\"_blank\">Akismets kontosida</a> för att återaktivera din prenumeration."
+
+#: views/notice.php:67 views/notice.php:77
+msgid "Please contact <a href=\"%s\" target=\"_blank\">Akismet support</a> for assistance."
+msgstr "Vänligen kontakta <a href=\"%s\" target=\"_blank\">Akismets support</a> för assistans."
+
+#: views/notice.php:72
+msgid "You can help us fight spam and upgrade your account by <a href=\"%s\" target=\"_blank\">contributing a token amount</a>."
+msgstr "Du kan hjälpa oss bekämpa skräppost genom att uppgradera ditt konto och <a href=\"%s\" target=\"_blank\">bidra med en symbolisk summa</a>."
+
+#: views/notice.php:76
+msgid "There is a problem with your API key."
+msgstr "Det är problem med din API-nyckel."
+
+#: views/notice.php:94
+msgid "The key you entered is invalid. Please double-check it."
+msgstr "Din nyckel verkar inte vara korrekt. Kontrollera den igen."
+
+#: views/notice.php:108
+msgid "You&#8217;re using your Akismet key on more sites than your Pro subscription allows."
+msgstr "Du använder din Akismet-nyckel på fler webbplatser än din Pro-prenumeration tillåter."
+
+#: views/notice.php:115
+msgid "You&#8217;re using Akismet on far too many sites for your Pro subscription."
+msgstr "Du använder Akismet på allt för många webbplatser för din Pro-prenumeration."
+
+#: views/start.php:7 views/start.php:22 views/start.php:36 views/start.php:45
+msgid "Connected via Jetpack"
+msgstr "Ansluten via Jetpack"
+
+#: views/start.php:30
+msgid "Reactivate Akismet"
+msgstr "Återaktivera Akismet"
+
+#: views/start.php:23
+msgid "Your subscription for %s is cancelled"
+msgstr "Din prenumeration för %s är avslutad"
+
+#: views/start.php:37
+msgid "Your subscription for %s is suspended"
+msgstr "Din prenumeration för %s är suspenderad"
+
+#: views/start.php:38
+msgid "No worries! Get in touch and we&#8217;ll sort this out."
+msgstr "Oroa dig inte! Kontakta oss så hjälper vi dig att ordna detta."
+
+#: views/start.php:39
+msgid "Contact Akismet support"
+msgstr "Kontakta Akismets support"
+
+#: views/start.php:79
+msgid "Activate Akismet"
+msgstr "Aktivera Akismet"
+
+#: views/start.php:72 views/start.php:93
+msgid "Use this key"
+msgstr "Använd denna nyckel"
+
+#: views/start.php:87
+msgid "If you already know your API key."
+msgstr "Om du redan har din API-nyckel."
+
+#: views/start.php:86
+msgid "Manually enter an API key"
+msgstr "Ange en API-nyckel manuellt"
+
+#: views/strict.php:8
+msgid "Strict: silently discard the worst and most pervasive spam."
+msgstr "Strikt: Förkasta i tysthet det värsta och den mest utbredda skräpposten."
+
+#: views/start.php:82
+msgid "Get your API key"
+msgstr "Få din API-nyckel"
+
+#. Plugin URI of the plugin/theme
+msgid "https://akismet.com/"
+msgstr "https://akismet.com/"
+
+#: views/strict.php:14
+msgid "Safe: always put spam in the Spam folder for review."
+msgstr "Säker: Placera alltid skräppost i skräppostmappen för granskning."
+
+#. Description of the plugin/theme
+msgid "Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. It keeps your site protected even while you sleep. To get started: 1) Click the \"Activate\" link to the left of this description, 2) <a href=\"https://akismet.com/get/\">Sign up for an Akismet plan</a> to get an API key, and 3) Go to your Akismet configuration page, and save your API key."
+msgstr "Används av miljontals, Akismet är förmodligen det bästa sättet i världen att <strong>skydda din blogg från skräppost</strong>. Det håller din webbplats skyddad även när du sover. För att komma igång: 1) Klicka på länken \"Aktivera\" till vänster om denna beskrivning, 2) <a href=\"https://akismet.com/get/\">Registrera dig på Akismet</a>. 3) Gå till din konfigurationssida för Akismet och ange din API-nyckel."
+
+#. Author URI of the plugin/theme
+msgid "https://automattic.com/wordpress-plugins/"
+msgstr "https://automattic.com/wordpress-plugins/"
+
+#. Author of the plugin/theme
+msgid "Automattic"
+msgstr "Automattic"
+
+#: class.akismet-admin.php:122
+msgid "Remove this URL"
+msgstr "Ta bort denna URL"
+
+#: class.akismet-admin.php:70
+msgid "Comment History"
+msgstr "Kommentarshistorik"
