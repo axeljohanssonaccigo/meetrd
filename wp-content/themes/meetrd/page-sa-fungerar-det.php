@@ -92,8 +92,8 @@ get_header(); ?>
                                                         Ange ett företagsnamn
                                                     </div>
 
-                                                    <label for="biography" class="col-xs-12 no-padding">Presentera ditt företag *</label>
-                                                    <textarea class="col-xs-12 form-control" name="biography" ng-model="newUser.biography" required></textarea>
+                                                    <label for="biography" class="col-xs-12 no-padding">Presentera ditt företag</label>
+                                                    <textarea class="col-xs-12 form-control" name="biography" ng-model="newUser.biography"></textarea>
                                                     <div class="error" ng-show="registerUserForm.biography.$dirty && registerUserForm.biography.$invalid">
                                                         Presentera ditt företag
                                                     </div>

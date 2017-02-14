@@ -618,6 +618,15 @@ roomApp.controller('roomCtrl', function ($scope, roomSvc, $timeout) {
                 case 'goteborg':
                     $scope.query.city = 'Göteborg';
                     break;
+                case 'norrkoping':
+                    $scope.query.city = 'Norrköping';
+                    break;
+                case 'boras':
+                    $scope.query.city = 'Borås';
+                    break;
+                case 'linkoping':
+                    $scope.query.city = 'Linköping';
+                    break;
                 default:
                     $scope.query.city = null;
                     break;

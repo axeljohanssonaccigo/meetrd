@@ -427,8 +427,8 @@ $all_meta_for_host = get_user_meta($hostId);
                                                     Ange ett företagsnamn
                                                 </div>
 
-                                                <label for="biography" class="col-xs-12 no-padding">Presentera ditt företag *</label>
-                                                <textarea class="col-xs-12 form-control" name="biography" ng-model="newUser.biography" required></textarea>
+                                                <label for="biography" class="col-xs-12 no-padding">Presentera ditt företag</label>
+                                                <textarea class="col-xs-12 form-control" name="biography" ng-model="newUser.biography"></textarea>
                                                 <div class="error" ng-show="registerUserForm.biography.$dirty && registerUserForm.biography.$invalid">
                                                     Presentera ditt företag
                                                 </div>
@@ -589,7 +589,7 @@ $all_meta_for_host = get_user_meta($hostId);
 
                                                                     <div class="col-xs-12 booking-details">
                                                                         <label for="guestBiography" class="bold">Presentera ditt företag för värden</label>
-                                                                        <textarea class="col-xs-12 form-control" name="guestBiography" ng-model="currentBooking.guestBiography" required></textarea>
+                                                                        <textarea class="col-xs-12 form-control" name="guestBiography" ng-model="currentBooking.guestBiography"></textarea>
                                                                         <div class="error" ng-show="bookingForm.guestBiography.$invalid">
                                                                             Presentera ditt företag för värden
                                                                         </div>

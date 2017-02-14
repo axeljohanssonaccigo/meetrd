@@ -28,8 +28,8 @@ for ($i=0; $i < count($all_hosts); $i++) {
         <main id="main" class="site-main container-fluid row" role="main">
             <div class="container-fluid white-section">
                 <div class="heading-text white-section container no-padding-mobile">
-                    <h1 class="hidden-lg hidden-md hidden-sm visible-xs"><span class="highlight">Mötesrum</span><br> för det <br>moderna <br>företaget</h1>
-                    <h1 class="visible-lg visible-md visible-sm hidden-xs"><span class="highlight">Mötesrum</span> för det <br>moderna företaget</h1>
+                    <!--                    <h1 class="hidden-lg hidden-md hidden-sm hidden-xs"><span class="highlight">Mötesrum</span><br> för det <br>moderna <br>företaget</h1>-->
+                    <h1><span class="highlight">Mötesrum</span> för<br>moderna företag</h1>
                     <h2>Hyr <span class="highlight">personliga</span> och <span class="highlight">prisvärda</span><br>mötesrum av andra företag</h2>
                     <div class="col-xs-12 text-center btn-container-start">
                         <a href="<?php  echo get_home_url().'/search'; ?>">
@@ -98,6 +98,32 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                 <img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/startpage_goteborg_800.jpg'; ?>" />
                             </div>
                         </a>
+                        <a href="<?php  echo get_home_url().'/search?city=boras'; ?>">
+                            <div class="col-md-offset-2 col-md-4 col-sm-4 col-sm-offset-2 col-xs-12 city-container">
+                                <div class="city-name">
+                                    borås
+                                </div>
+                                <img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/startpage_boras_800.jpg'; ?>" />
+                            </div>
+                        </a>
+                        <a href="<?php  echo get_home_url().'/search?city=norrkoping'; ?>">
+                            <div class="col-md-4 col-sm-4 col-xs-12 city-container">
+                                <div class="city-name">
+                                    norrköping
+                                </div>
+                                <img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/startpage_norrkoping_800.jpg'; ?>" />
+                            </div>
+                        </a>
+                        <!--
+                        <a href="<?php  echo get_home_url().'/search?city=linkoping'; ?>">
+                            <div class="col-md-4 col-sm-4 col-xs-12 city-container">
+                                <div class="city-name">
+                                    linköping
+                                </div>
+                                <img src="<?php echo get_home_url().'/wp-content/themes/meetrd/layouts/Images/startpage_linkoping_800.jpg'; ?>" />
+                            </div>
+                        </a>
+-->
                     </div>
                 </div>
             </div>

@@ -2077,6 +2077,14 @@ h3.edit-room-heading {}
     #cities .city-container .city-name {
         font-size: 20px;
     }
+    
+    .nav-tabs li a:link {
+        padding: 22px 3px 10px 3px !important;
+    }
+    
+    .nav-tabs li a:hover {
+        padding: 18px 3px 10px 3px !important;
+    }
 }
 @media(min-width: 1200px) {
     .host-banner-slogan {
