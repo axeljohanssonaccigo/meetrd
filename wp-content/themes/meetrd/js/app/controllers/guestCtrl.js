@@ -291,10 +291,22 @@ guestApp.controller('guestCtrl', function ($scope, guestSvc) {
             angular.forEach($scope.bookingHosts, function (host) {
                 if (hostId === host.id) {
                     returnHost = host;
+                    returnHost['email'] = $scope.getHostEmail(hostId);
                 };
             });
             return returnHost;
         };
+
+        $scope.getHostEmail = function (hostId) {
+            var returnEmail = '';
+            for (var i = 0; i < allHosts.length; i++) {
+                if (parseInt(allHosts[i].data.ID) == hostId) {
+                    returnEmail = allHosts[i].data.user_email;
+                }
+            }
+            return returnEmail;
+        };
+
         //Returns a room with a given id
         $scope.getRoomByRoomId = function (roomId) {
             roomId = parseInt(roomId);

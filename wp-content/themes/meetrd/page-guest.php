@@ -6,9 +6,19 @@
 $custom_fields = get_post_custom();
 $page_id = get_the_id();
 get_header(); 
-
+$args = array(
+	'role' => 'meetrdhost',
+	);
+$all_hosts = get_users($args);
+for ($i=0; $i < count($all_hosts); $i++) {
+	#($all_hosts[$i]['ID']);
+	$temp = (array)$all_hosts[$i];
+	$host_meta = get_user_meta($temp['ID']);
+	$all_hosts[$i] = array_merge($temp, $host_meta);
+}
 ?>
     <script type="text/javascript">
+        var allHosts = <?php echo json_encode($all_hosts); ?>;
         var userIsLoggedIn = <?php echo json_encode( is_user_logged_in() ); ?>;
         console.log(userIsLoggedIn);
         if (userIsLoggedIn) {
