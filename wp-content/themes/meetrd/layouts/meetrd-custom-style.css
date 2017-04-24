@@ -759,6 +759,11 @@ input .form-control .ng-pristine .ng-valid .ng-valid-min .ng-touched {
     font-size: 18px;
     text-transform: uppercase;
 }
+img.host-logo{
+    max-width: 250px;
+    height: auto;
+    max-height: 120px;
+}
 .blog-post-container {
     margin: 10px 0;
     opacity: 0.95;

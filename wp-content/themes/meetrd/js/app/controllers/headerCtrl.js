@@ -82,7 +82,8 @@ headerApp.controller('headerCtrl', function ($scope, headerSvc) {
             });
         });
     };
-    $scope.getAllMailTemplates();
+
+    //$scope.getAllMailTemplates();
 
     $scope.getMailTemplateBySlug = function (mailTemplateSlug) {
         var returnTpl = null;

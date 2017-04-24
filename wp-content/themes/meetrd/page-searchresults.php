@@ -116,7 +116,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                     <div class="host-info-container clearfix" id="host-info-container">
                         <div class="host-logo-container clearfix">
                             <div class="col-xs-12 align-center">
-                                <a href="{{currentHost.data.user_url}}" target="_blank"><img src="{{currentHost.logotype}}" /></a>
+                                <a href="{{currentHost.data.user_url}}" target="_blank"><img ng-src="{{currentHost.logotype}}" /></a>
                             </div>
                         </div>
                         <div class="col-xs-12 no-padding" ng-show="isHostPage">
@@ -186,7 +186,7 @@ for ($i=0; $i < count($all_hosts); $i++) {
                                 <div>
                                     <div class="search-result-room-photo-container">
                                         <a href="{{room.url}}">
-                                            <img src="{{room.photo}}">
+                                            <img ng-src="{{room.photo}}">
                                             <div class="search-result-price-tag">
                                                 <i class="fa fa-users"></i>{{" " + room.nrOfPeople}} personer
                                                 <br>

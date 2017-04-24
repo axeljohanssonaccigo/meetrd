@@ -362,7 +362,7 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         room.lat = results[0].geometry.location.lat();
                         room.lng = results[0].geometry.location.lng();
-                        // set address variables from response 
+                        // set address variables from response
                         $timeout(function () {
                             room.street = results[0].address_components[1].long_name.concat(' ').concat(results[0].address_components[0].long_name);
                             room.area = results[0].address_components[2].long_name;
@@ -1022,6 +1022,9 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
             hostSvc.generateUserCookie($scope.userInfo.userLogin, password).then(function (response) {
                 hostSvc.updateUserInfo(response.data.cookie, $scope.userInfo).then(function (response) {
                     //Update the cancel deadline prop for all the host's rooms
+                    if ($scope.roomsForUser.length === 0) {
+                      $scope.userInfoUpdated = true;
+                    } else {
                     var roomCount = 1;
                     angular.forEach($scope.roomsForUser, function (room) {
                         hostSvc.getUpdatingNonce().then(function (response) {
@@ -1037,8 +1040,8 @@ hostApp.controller('hostCtrl', function ($scope, hostSvc, $timeout) {
                         }).catch(function () {
                             console.log('Error in updateRoom!');
                         });
-
                     });
+                    }
 
                 }).catch(function () {
                     console.log("Error in updateUserInfo!");

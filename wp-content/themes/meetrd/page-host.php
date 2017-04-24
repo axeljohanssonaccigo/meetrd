@@ -744,7 +744,7 @@ get_header();
                                             <div class="user-info-help-text">Ändras av Meetrd</div>
                                         </div>
                                         <div class="col-sm-9 col-xs-12" ng-if="userInfoIsLoaded">
-                                            <img src="{{userInfo.logotype}}">
+                                            <img src="{{userInfo.logotype}}" class="host-logo">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 no-padding input-container">
